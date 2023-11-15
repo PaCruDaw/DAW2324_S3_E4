@@ -1,0 +1,26 @@
+{
+    "database_config": {
+        "host": "mariadb",
+        "user": "super",
+        "password": "super",
+        "database": "testdatabase2"
+    },
+
+    "parametres_seguretat": {
+        "apy_keys": [
+            "my_api_key",
+            "my_api_key_2"],
+        
+            "info_picanova":{
+            "user": "iesmontsia",
+            "pass": "61ff361db31270a88ccf36de2fe87947"
+        },
+            "info_upscale":{
+                "user": "user_upscale",
+                "pass": "pass_upscale"
+            }
+            
+        
+        
+    }
+}
