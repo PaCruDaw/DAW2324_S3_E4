@@ -9,7 +9,7 @@ class Cms {
         $this->pdo = $connection->connect();
     }
 
-    public function mostrarCMS() {      
+    public function mostrarCMS() {
         try {
             $query = "SELECT * FROM `cms`";
             $stmt = $this->pdo->prepare($query);
@@ -40,13 +40,13 @@ class Cms {
 
     // }
 
-    public function actualizarCms($id, $alor_politica) {        
+    public function actualizarCms($id, $alor_politica) {
         try {        
             $query = "UPDATE `cms` 
             SET valor_politica = :valorpolitica
-            WHERE id = :idcms ";    
+            WHERE id = :idcms ";
             $stmt = $this->pdo->prepare($query);
-            $stmt->bindParam(':idcms', $id, PDO::PARAM_STR);                
+            $stmt->bindParam(':idcms', $id, PDO::PARAM_STR);
             $stmt->bindParam(':valorpolitica', $valor_politica, PDO::PARAM_STR);                
             $stmt->execute();        
         } catch (PDOException $e) {
@@ -68,5 +68,5 @@ class Cms {
         }
     }
 }
-
+$modelCms = new Cms();
 ?>
