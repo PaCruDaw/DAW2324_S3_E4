@@ -1,1 +1,10 @@
+*log*
+*pyc*
+ib_buffer*
+ibdata*
+ibtmp*
+*.info
+database
+database/*
 database/mariadb/
+*.json
