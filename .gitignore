@@ -7,3 +7,4 @@ ibtmp*
 database
 database/*
 database/mariadb/
+*.json
