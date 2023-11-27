@@ -5,3 +5,5 @@ ibdata*
 ibtmp*
 *.info
 database
+database/*
+database/mariadb/

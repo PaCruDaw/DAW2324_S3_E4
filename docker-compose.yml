@@ -1,29 +1,28 @@
 version: '3.8'
-
 services:
    php-httpd:
       container_name: php
-      build:
+      build: 
          context: ./DocumentRoot/app
          dockerfile: Dockerfilephp
       image: php:8.1-apache
+      expose:
+         - 80
       ports:
-         - 88:80
+         - 80:80
       volumes:
          - "./DocumentRoot/app/:/var/www/html"
          
    mariadb:
       container_name: mariadb
-      image: mariadb:10.5.2
+      image: mariadb:latest
       ports:
          - "3306:3306"
       volumes:
-         - "./database:/var/lib/mysql"
-      restart: always
+         - "./database/mariadb:/var/lib/mysql"
       environment:
-         TZ: "Europe/Madrid"
          MYSQL_ROOT_HOST: "%"
-         MYSQL_ROOT_PASSWORD: "super"
+         MYSQL_ROOT_PASSWORD: "admin"
          MYSQL_ALLOW_EMPTY_PASSWORD: "no"
          MYSQL_DATABASE: 'testdatabase'
          MYSQL_USER: 'super'
@@ -32,23 +31,19 @@ services:
    phpmyadmin:
       container_name: phpmyadmin
       image: phpmyadmin/phpmyadmin
-      links: 
-         - mariadb:db
       ports:
          - 8080:80
       environment:
-         PMA_ARBITRARY: 1
+         PMA_HOST: mariadb
          PMA_USER: super
          PMA_PASSWORD: super
          
    api:
-    build:
-      context: ./DocumentRoot/api
-      dockerfile: Dockerfileapi
-    container_name: fastapi
-    ports:
-      - '8000:8000'
-    volumes:
-      - ./DocumentRoot/api:/app
-         
-  
+      container_name: fastapi
+      build:
+         context: ./DocumentRoot/api
+         dockerfile: Dockerfileapi
+      ports:
+         - '8000:8000'
+      volumes:
+         - ./DocumentRoot/api:/app
