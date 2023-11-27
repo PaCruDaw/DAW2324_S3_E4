@@ -1,23 +1,18 @@
-<!DOCTYPE html>
-<html lang="es">
+<?php
+    session_start();
+    include('../includes/sidebar.php');
+
+?>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" initial-scale="1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
     <script src="../js/validacioncms.js"></script>
-    <?php include('../includes/sidebar.php'); ?>
-    <title>Document</title>
-</head>
-<style>
-        body {
-            background-color: #f8f9fa; /* Set your desired background color */
-        }
-    </style>
+</head>    
+
 <body>
     <div class="cms" style="width:80%; margin-left:20%; display:flex; flex-direction:column;">
         <h1>Lista de CMS</h1>
         
-        <table class="table" style="margin-top:3%;">
+        <table id="cmsTable" class="display"">
             <thead>
                 <tr>
                     <th>ID</th>
