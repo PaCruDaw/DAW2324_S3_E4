@@ -2,7 +2,9 @@ version: '3.8'
 services:
    php-httpd:
       container_name: php
-      build: "./"
+      build: 
+         context: ./DocumentRoot/app
+         dockerfile: Dockerfilephp
       image: php:8.1-apache
       expose:
          - 80
