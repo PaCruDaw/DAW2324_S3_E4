@@ -1,5 +1,6 @@
 <?php
     session_start();
+    include('../controladores/controladorcms.php');
     include('../includes/sidebar.php');
 
 ?>
@@ -15,7 +16,6 @@
         <table id="cmsTable" class="display"">
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Página</th>
                     <th>Contenido página</th>
                     <th>Actualizar valores</th>
@@ -27,11 +27,10 @@
                 if(isset($cms)){
                     foreach ($cms as $cms) {
                         echo "<tr>";
-                        echo "<td>{$cms['id']}</td>";
                         echo "<td>{$cms['politica']}</td>";
                         echo "<td>{$cms['valor_politica']}</td>";
                         echo "<td>
-                                <form id='formulariocms' name='formulario_cms' method='POST' action='../controladores/controladorcms.php'>
+                                <form id='formulariocms' name='formulario_cms' method='POST' action='../vistas/vistacms.php'>
                                     <textarea class='form-control' id='nuevocms' name='nuevo_cms' placeholder='Nueva traducción'></textarea>
                                     <input type='hidden' name='cms_id' value='{$cms['id']}'><br>
                                     <span style='color: red' id='errorcms_id' class='error-message'>";

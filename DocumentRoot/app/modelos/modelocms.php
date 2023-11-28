@@ -1,5 +1,6 @@
 <?php
 require_once "../modelos/database.php";
+
 class Cms {
     private $pdo;
  
@@ -11,7 +12,7 @@ class Cms {
 
     public function mostrarCMS() {
         try {
-            $query = "SELECT * FROM `cms`";
+            $query = "SELECT * FROM `vistaCms`";
             $stmt = $this->pdo->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll();
@@ -40,7 +41,7 @@ class Cms {
 
     // }
 
-    public function actualizarCms($id, $alor_politica) {
+    public function actualizarCms($id, $valor_politica) {
         try {        
             $query = "UPDATE `cms` 
             SET valor_politica = :valorpolitica
@@ -68,5 +69,6 @@ class Cms {
         }
     }
 }
+
 $modelCms = new Cms();
 ?>
