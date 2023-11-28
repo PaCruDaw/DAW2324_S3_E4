@@ -3,6 +3,7 @@
 session_start();
 
 include '../modelos/modelocms.php';
+$cms = new Cms;
 
 function contieneScript($texto) {
     $textoEnMinusculas = strtolower($texto);
@@ -41,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-$cms = Cms::mostrarCMS();
+$cms->mostrarCMS();
 
 
 
