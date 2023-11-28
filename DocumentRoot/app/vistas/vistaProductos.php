@@ -31,7 +31,6 @@ session_start();
             <tbody>
                 <?php
                 include('../modelos/modeloProducto.php');
-                $product = new Product();
                 $products = $product->getProducts();
 
                 if ($products) {

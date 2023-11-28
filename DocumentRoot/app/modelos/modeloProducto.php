@@ -12,10 +12,8 @@
         public function __construct() {
             $pdo= new Database();
             $this->pdo = $pdo->connect();
-            
         }
         
-        //getters
         public function getId() {
             return $this->id;
         }
@@ -35,7 +33,6 @@
         public function getMargenPorcentaje() {
             return $this->margen_porcentaje;
         }
-
 
         public function getProducts() {
             try {
@@ -105,5 +102,6 @@
             }
         }
     }
-    
+    $product = new Product();
+
 ?>

@@ -54,7 +54,7 @@ def get_credentials():
 
     # Codificar las credenciales en base64
     credentials = base64.b64encode(f"{username}:{password}".encode()).decode()
-    return credentials    
+    return credentials
     
 @app.get("/protected")
 def protected_route(api_key: str = Security(get_api_key)):
@@ -165,6 +165,44 @@ async def hacer_peticion(api_key: str = Security(get_api_key)):
         return {"error": f"Error de MySQL: {e}"}
     except Exception as e:
         return {"error": f"Error no manejado: {e}"}
+
+@app.get("/deapiaproductes")
+async def hacer_peticion(api_key: str = Security(get_api_key)):
+    # URL de la API externa a la que deseas hacer la solicitud
+    try:
+        url = "https://api.picanova.com/api/beta/products"
+
+        async with httpx.AsyncClient() as client:
+            auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
+            response = httpx.get(url, headers=auth_header)        
+
+            if response.status_code == 200:
+                # La solicitud se realizó con éxito, puedes manejar los datos de la respuesta aquí.
+                data = response.json()
+                data_list = data["data"]
+                dictionary = {}
+                connection = mysql.connector.connect(**get_db_info())
+                cursor = connection.cursor()
+
+                for item in data_list:
+                    id = item["id"]
+                    name = item["name"]
+                    nuevoselementos = {id}
+                    dictionary.update(nuevoselementos)
+                    queryinsert = "UPDATE `producte` SET `idProducte`= %s,`nom`= %s WHERE idProducte = %s"
+                    cursor.execute(queryinsert,(id,name,id))
+                    
+                    return dictionary
+                for id in dictionary.items():
+                    id = id["id"]
+                    
+                              
+    except mysql.connector.Error as e:
+        return {"error": f"Error de MySQL: {e}"}
+    except Exception as e:
+        return {"error": f"Error no manejado: {e}"}
+    
+
 
 def tarea_medianoche():
     try:

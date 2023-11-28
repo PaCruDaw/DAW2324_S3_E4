@@ -4,10 +4,6 @@ session_start();
 // Incluir el modelo de productos
 include('../modelos/modeloProducto.php');
 
-// Crear una instancia de la clase Product
-$product = new Product();
-
-
 // Manejar la actualización de productos
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update']) && isset($_POST['id_producto'])) {
     $id_producto = $_POST['id_producto'];
@@ -29,8 +25,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update']) && isset($_
         echo "Error al actualizar el producto.";
     }
 }
-
-
-
-
 ?>
