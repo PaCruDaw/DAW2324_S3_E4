@@ -1,4 +1,6 @@
 <?php
+require_once 'database.php';
+
 class Traducciones {
    
     private $pdo;
@@ -13,13 +15,14 @@ class Traducciones {
         //método para un futuro añadir nuevos campos que traducir
         try {
 
-            $query = "UPDATE TraduccionIdiomas SET Traduccion = :traduccion WHERE traduccion_id = :idtextooriginal AND idiomas_id = :ididioma";
+            $query = "UPDATE TraduccionIdiomas SET Traduccion = :traduccion 
+                        WHERE traduccion_id = :idtextooriginal AND idiomas_id = :ididioma";
             $stmt = $this->pdo->prepare($query);
         
             // Enlazar los parámetros
             $stmt->bindParam(':idtextooriginal', $idtextooriginal, PDO::PARAM_STR);
             $stmt->bindParam(':traduccion', $traduccion, PDO::PARAM_STR);
-            $stmt->bindParam(':ididioma', $ididioma, PDO::PARAM_STR);           
+            $stmt->bindParam(':ididioma', $ididioma, PDO::PARAM_STR);
             $stmt->execute();
         } catch (PDOException $e) {
             // Manejar errores de conexión o consulta
@@ -40,11 +43,11 @@ class Traducciones {
     }
 
     public function mostrarTraduccionesPorIdioma($idioma) {
-        try {        
-            $query = "SELECT * FROM vistaTraducciones       
+        try {
+            $query = "SELECT * FROM vistaTraducciones
                      WHERE Idioma = :idioma"; 
             $stmt = $this->pdo->prepare($query);
-            $stmt->bindParam(':idioma', $idioma, PDO::PARAM_STR);                
+            $stmt->bindParam(':idioma', $idioma, PDO::PARAM_STR);
             $stmt->execute();
             return $stmt->fetchAll();
         } catch (PDOException $e) {
@@ -67,5 +70,6 @@ class Traducciones {
         }
     }
 }
-
+//create instansce
+$traductor = new Traducciones();
 ?>

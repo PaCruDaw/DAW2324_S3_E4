@@ -1,18 +1,16 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" initial-scale="1.0">
-    <script src="../js/validaciontraducciones.js" rel="script"></script>
-    <?php include('../includes/sidebar.php'); ?>
-    <title>Document</title>
-</head>
-<style>
+<?php
+session_start();
+require_once 'head.html';
+?>
+
+    <style>
         body {
             background-color: #f8f9fa; /* Set your desired background color */
         }
     </style>
 <body>
+    <?php include('../includes/sidebar.php'); ?>
+
     <div class="traducciones" style="width:80%; margin-left:20%; display:flex; flex-direction:column;">
         <h1>Lista de Traducciones</h1>
         
@@ -30,7 +28,7 @@
             <button type="submit" class="btn btn-primary">Filtrar</button>
         </form>
         
-        <table class="table">
+        <table class="table" id = "table_translate">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -41,32 +39,14 @@
                 </tr>
             </thead>
             <tbody>
-                <?php
-                if(isset($traducciones)){
-                    foreach ($traducciones as $traduccion) {
-                        echo "<tr>";
-                        echo "<td>{$traduccion['TraduccionIdiomaID']}</td>";
-                        echo "<td>{$traduccion['Traduccion']}</td>";
-                        echo "<td>{$traduccion['TextoOriginal']}</td>";
-                        echo "<td>{$traduccion['Idioma']}</td>";
-                        echo "<td>
-                                <form method='POST' name='form_traducciones' action='../controladores/controladortraducciones.php'>
-                                    <div class='mb-3'>
-                                        <input type='text' class='form-control' id='nuevatraduccion' name='nueva_traduccion' placeholder='Nueva traducción'>
-                                        <input type='hidden' name='traduccion_id' value='{$traduccion['TraduccionIdiomaID']}'>
-                                    </div>
-                                    <span style='color: red' id='voidError' class='error-message'></span><br>
-                                    <button type='submit' class='btn btn-primary'>Actualizar</button>
-                                </form>
-                            </td>";
-                        echo "</tr>";
-                    }
-                }
-                ?>
+                
+
             </tbody>
         </table>
     </div>
 
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="../js/validaciontraducciones.js" rel="script"></script>
+    <script src="../js/table_translate.js" rel="script"></script>
 </body>
 </html>

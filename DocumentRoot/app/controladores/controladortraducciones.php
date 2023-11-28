@@ -2,45 +2,34 @@
 
 session_start();
 
-include '../modelos/modelotraducciones.php';
+require_once '../modelos/modelotraducciones.php';
 
 if (($_SERVER['REQUEST_METHOD'] === 'POST')) {
     
     if(isset($_POST['idioma'])){
         if (!$_POST['idioma'] == null){
-        
-        $idioma = $_POST['idioma'];
-
-        $traducciones = Traducciones::mostrarTraduccionesPorIdioma($idioma);
-
+            $idioma = $_POST['idioma'];
+            $traduccion = $traductor->mostrarTraduccionesPorIdioma($idioma);
         }else{
-            
-            $traducciones=Traducciones::mostrarTraducciones();
-
+            $traduccion = $traductor->mostrarTraducciones();
         }
-}
-
+    }
 }else{
-
-
-    $traducciones=Traducciones::mostrarTraducciones();
-    
+    $traduccion = $traductor->mostrarTraducciones();
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if(isset($_POST['traduccion_id'])){
-    $idtraduccion = $_POST['traduccion_id'];
-    $nuevatraduccion = $_POST['nueva_traduccion'];
-    $instanciatraduccion = new Traducciones($idtraduccion,null,null,$nuevatraduccion);
-    $instanciatraduccion->actualizarTraducciones();
-    $traducciones=Traducciones::mostrarTraducciones();
+    if (isset($_POST['traduccion_id'])){
+        $idtraduccion = $_POST['traduccion_id'];
+        $nuevatraduccion = $_POST['nueva_traduccion'];
+        $instanciatraduccion->actualizarTraducciones($nuevatraduccion, $idtraduccion);
+        $traduccion = $traducciones->mostrarTraducciones();
+    }
 
 }
-
-}
-
-include '../vistas/vistatraducciones.php';
-
-
+$traduccion = $traductor->mostrarTraducciones();
+header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *");
+echo json_encode($traduccion);
 
 ?>
