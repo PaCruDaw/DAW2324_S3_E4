@@ -30,10 +30,7 @@ session_start();
             </thead>
             <tbody>
                 <?php
-                include('../modelos/modeloProducto.php');
-                $product = new Product();
-                $products = $product->getProducts();
-
+                include('../controladores/controladorProductos.php');
                 if ($products) {
                     foreach ($products as $product) {
                         echo "<tr>";
@@ -44,8 +41,7 @@ session_start();
                         echo "<td>" . $product['margen_porcentaje'] . "</td>";
 
                         echo "<td> 
-                            <form method='post' action='./controladores/controladorProductos.php' class='form-inline'>
-                                <input type='hidden' name='action' value='update'>
+                            <form method='post' action='vistaProductos.php' class='form-inline'>
                                 <input type='hidden' name='id' value=" . $product['id'] .">
                                 <label for='nuevoMargen' class='sr-only'>Nuevo Margen:</label>
                                 <input type='number' name='nuevoMargen' id='nuevoMargen' class='form-control mr-2' required>
