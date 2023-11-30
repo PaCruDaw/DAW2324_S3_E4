@@ -1,0 +1,57 @@
+<div>
+    <canvas id="myChart"></canvas>
+  </div>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+  
+  <script>
+
+  fetch("http://localhost:8000/protected", {
+  method: "GET",
+  headers: {
+    "X-API-Key": "my_api_key"
+  }
+})
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("Error en la solicitud");
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log(Object.values(data));
+  })
+  .catch(error => {
+    console.error("Error:", error);
+  });
+
+
+    const ctx = document.getElementById('myChart');
+  
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+          label: '# of Votes',
+          data: [12, 19, 3, 5, 2, 3],
+          borderWidth: 1
+
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+
+
+  </script>
+  
