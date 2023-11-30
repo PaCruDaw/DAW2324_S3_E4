@@ -120,6 +120,32 @@ async def consultar_bd(api_key: str = Security(get_api_key)):
         return results
     except Exception as e:
         return {"error": str(e)}
+   
+@app.get("/dbventes")
+async def consultar_bd(api_key: str = Security(get_api_key)):
+        
+    try:
+        # Conecta a la base de datos
+        connection = mysql.connector.connect(**get_db_info())
+        
+        # Crea un cursor para ejecutar consultas SQL
+        cursor = connection.cursor(dictionary=True)
+        
+        # Ejecuta una consulta
+        query = "SELECT * FROM `vistaPedidosGrafica`"
+        cursor.execute(query)
+        
+        # Obtiene los resultados
+        results = cursor.fetchall()
+        
+        # Cierra el cursor y la conexión
+        cursor.close()
+        connection.close()
+        
+        return results
+    except Exception as e:
+        return {"error": str(e)} 
+
         
 @app.get("/test")
 def read_test():

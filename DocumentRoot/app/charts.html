@@ -9,7 +9,10 @@
   
   <script>
 
-  fetch("http://localhost:8000/protected", {
+var dates = [];
+var ventes = [];
+
+fetch("http://localhost:8000/dbventes", {
   method: "GET",
   headers: {
     "X-API-Key": "my_api_key"
@@ -22,24 +25,23 @@
     return response.json();
   })
   .then(data => {
-    console.log(Object.values(data));
-  })
-  .catch(error => {
-    console.error("Error:", error);
-  });
+    // Llenar las variables con los datos obtenidos
+    for (var i = 0; i < data.length; i++) {
+      dates.push(data[i].fecha);
+      ventes.push(data[i].total_precio);
+    }
 
-
+    // Ahora, puedes utilizar las variables dates y ventes para crear el gráfico
     const ctx = document.getElementById('myChart');
-  
+
     new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: dates,
         datasets: [{
-          label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
+          label: 'Ventes',
+          data: ventes, // Usamos las ventas obtenidas
           borderWidth: 1
-
         }]
       },
       options: {
@@ -50,6 +52,10 @@
         }
       }
     });
+  })
+  .catch(error => {
+    console.error("Error:", error);
+  });
 
 
 
