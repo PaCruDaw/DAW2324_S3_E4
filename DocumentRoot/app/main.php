@@ -30,8 +30,8 @@ include("./modelos/LoginManager.php");
                
             </div>
             <div class="col-md-6">
-                <h2>Ventas mensuales </h2>
-                <img class="img-fluid" src="https://mktefa.ditrendia.es/hubfs/Imagen7.png" alt="imagen2">
+                <h2>Ventas mensuales</h2>
+                <canvas id="chart1"></canvas>
             </div>
         </div>
         
@@ -47,5 +47,8 @@ include("./modelos/LoginManager.php");
     </div>
 </div>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/js/grafiques.js"></script>
 </body>
 </html> 
