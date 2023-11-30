@@ -3,7 +3,7 @@
         "host": "mariadb",
         "user": "super",
         "password": "super",
-        "database": "testdatabase2"
+        "database": "testdatabase"
     },
 
     "parametres_seguretat": {
