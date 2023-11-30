@@ -26,23 +26,23 @@ include("./modelos/LoginManager.php");
             <div class="col-md-6">
                 
                 <h2 class="mb-3">Productos Populares</h2>
-                <img class="img-fluid" src="http://2.bp.blogspot.com/_QiCa_HtqEag/TBenazjFF0I/AAAAAAAAAAM/Hvp5sAJwcwE/s1600/1.jpg" alt="imagen">
+                <canvas id="chart1"></canvas>
                
             </div>
             <div class="col-md-6">
                 <h2>Ventas mensuales</h2>
-                <canvas id="chart1"></canvas>
+                <canvas id="chart2"></canvas>
             </div>
         </div>
         
         <div class="row mb-4">
             <div class="col-md-6">
                 <h2 class="mb-3">Ventas Anuales </h2>
-                <img class="img-fluid" src="/img/estadisticas1.jpg" alt="">
+                <canvas id="chart3"></canvas>
             </div>
             <div class="col-md-6">
                 <h2 class="mb-3">Ventas por países </h2>
-                <img class="img-fluid" src="/img/estadisticas2.jpg" alt="">
+                <canvas id="chart4"></canvas>
             </div>
     </div>
 </div>

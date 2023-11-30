@@ -21,16 +21,29 @@ fetch("http://localhost:8000/dbventes", {
     }
 
     // Ahora, puedes utilizar las variables dates y ventes para crear el gráfico
-const ctx = document.getElementById('chart1');
+const chartCercle = document.getElementById('chart1');
 
-new Chart(ctx, {
-    type: 'bar',
+new Chart(chartCercle, {
+    type: 'doughnut',
     data: {
     labels: dates,
     datasets: [{
         label: 'Ventes',
         data: ventes, // Usamos las ventas obtenidas
-        borderWidth: 1
+        borderWidth: 1,
+        backgroundColor: '#9BD0F5'
+    },
+    {
+        label: 'Ventes',
+        data: ventes, // Usamos las ventas obtenidas
+        borderWidth: 1,
+        backgroundColor: '#9BD0F5'
+    },
+    {
+        label: 'Ventes',
+        data: ventes, // Usamos las ventas obtenidas
+        borderWidth: 1,
+        backgroundColor: '#9BD0F5'
     }]
     },
     options: {
@@ -41,7 +54,111 @@ new Chart(ctx, {
     }
     }
 });
+
+const chartBarres = document.getElementById('chart2');
+
+new Chart(chartBarres, {
+    type: 'bar',
+    data: {
+    labels: dates,
+    datasets: [{
+        label: 'Ventes',
+        data: ventes, // Usamos las ventas obtenidas
+        borderWidth: 1,
+        backgroundColor: '#9BD0F5'
+    },
+    {
+        label: 'Ventes',
+        data: ventes, // Usamos las ventas obtenidas
+        borderWidth: 1,
+        backgroundColor: '#9BD0F5'
+    },
+    {
+        label: 'Ventes',
+        data: ventes, // Usamos las ventas obtenidas
+        borderWidth: 1,
+        backgroundColor: '#9BD0F5'
+    }]
+    },
+    options: {
+    scales: {
+        y: {
+        beginAtZero: true
+        }
+    }
+    }
+});
+
+const chartLineal = document.getElementById('chart3');
+new Chart(chartLineal, {
+    type: 'bar',
+    data: {
+    labels: dates,
+    datasets: [{
+        label: 'Ventes',
+        data: ventes, // Usamos las ventas obtenidas
+        borderWidth: 1,
+        backgroundColor: '#9BD0F5'
+    },
+    {
+        label: 'Ventes',
+        data: ventes, // Usamos las ventas obtenidas
+        borderWidth: 1,
+        backgroundColor: '#9BD0F5'
+    },
+    {
+        label: 'Ventes',
+        data: ventes, // Usamos las ventas obtenidas
+        borderWidth: 1,
+        backgroundColor: '#9BD0F5'
+    }]
+    },
+    options: {
+    scales: {
+        y: {
+        beginAtZero: true
+        }
+    }
+    }
+});
+
+const chartFormatge = document.getElementById('chart4');
+new Chart(chartFormatge, {
+    type: 'pie',
+    data: {
+    labels: dates,
+    datasets: [{
+        label: 'Ventes',
+        data: ventes, // Usamos las ventas obtenidas
+        borderWidth: 1,
+        backgroundColor: '#9BD0F5'
+    },
+    {
+        label: 'Ventes',
+        data: ventes, // Usamos las ventas obtenidas
+        borderWidth: 1,
+        backgroundColor: '#9BD0F5'
+    },
+    {
+        label: 'Ventes',
+        data: ventes, // Usamos las ventas obtenidas
+        borderWidth: 1,
+        backgroundColor: '#9BD0F5'
+    }]
+    },
+    options: {
+    scales: {
+        y: {
+        beginAtZero: true
+        }
+    }
+    }
+});
+
+
 })
 .catch(error => {
 console.error("Error en la creación de la gráfica:", error);
 });
+
+
