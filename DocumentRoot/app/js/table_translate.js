@@ -52,4 +52,13 @@ $(document).ready(function() {
 
         return formulario;
     }
+
+    $('#idioma').on('change', function() {
+        // Obtiene el valor seleccionado en el desplegable
+        var valorSeleccionado = $(this).val();
+    
+        // Aplica el filtro global
+        table.search(valorSeleccionado).draw();
+    });
 });
+

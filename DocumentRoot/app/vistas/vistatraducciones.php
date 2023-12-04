@@ -14,19 +14,15 @@ require_once 'head.html';
     <div class="traducciones" style="width:80%; margin-left:20%; display:flex; flex-direction:column;">
         <h1>Lista de Traducciones</h1>
         
-        <form method="POST"  class = "my-3 mx-5">
-            <div class="mb-3" style="margin-top:3%;">
-                <label for="idioma" class="form-label">Filtrar por Idioma:</label>
-                <select class="form-select" name="idioma" id="idioma">
-                    <option value="">Todos los idiomas</option>
-                    <option value="ESP">Español</option>
-                    <option value="ENG">Inglés</option>
-                    <option value="CAT">Català</option>
-                    <!-- Agrega más opciones para otros idiomas según tu base de datos -->
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary">Filtrar</button>
-        </form>
+      
+            <select class="form-select my-5 container" name="idioma" id="idioma">
+                <option value="">Todos los idiomas</option>
+                <option value="ESP">Español</option>
+                <option value="ENG">Inglés</option>
+                <option value="CAT">Català</option>
+                <!-- Agrega más opciones para otros idiomas según tu base de datos -->
+            </select>
+          
         
         <table class="table" id = "table_translate">
             <thead>
