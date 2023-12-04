@@ -1,12 +1,12 @@
 <?php
-class PreferenceManager {
+class modeloPreferencias {
     private $pdo;
 
     public function __construct($pdo) {
         $this->pdo = $pdo;
     }
 
-    public function getPreferences() {
+    public function getPreferencias() {
         $query = "SELECT * FROM preferencias";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
@@ -14,7 +14,7 @@ class PreferenceManager {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function updatePreferenceValueByName($nombre, $nuevoValor) {
+    public function updatePreferenciasValueByName($nombre, $nuevoValor) {
         $query = "UPDATE preferencias SET valor = :nuevoValor WHERE preferencia = :nombre";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
@@ -22,6 +22,6 @@ class PreferenceManager {
     
         return $stmt->execute();
     }
-    
 }
+$manager = new modeloPreferencias($pdo);
 ?>
