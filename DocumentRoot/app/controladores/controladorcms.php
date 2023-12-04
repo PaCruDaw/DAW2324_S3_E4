@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $cmsformatado = pashtml($nuevocms);
             $errorcms[$idcms] = null;
-            $modelCms->actualizarCms($idcms,$nuevocms);
+            $modelCms->actualizarCms($idcms,$cmsformatado);
         }       
 
     }   
