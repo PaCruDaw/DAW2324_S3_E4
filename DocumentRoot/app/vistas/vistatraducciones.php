@@ -14,7 +14,7 @@ require_once 'head.html';
     <div class="traducciones" style="width:80%; margin-left:20%; display:flex; flex-direction:column;">
         <h1>Lista de Traducciones</h1>
         
-        <form method="POST" action="../controladores/controladortraducciones.php">
+        <form method="POST"  class = "my-3 mx-5">
             <div class="mb-3" style="margin-top:3%;">
                 <label for="idioma" class="form-label">Filtrar por Idioma:</label>
                 <select class="form-select" name="idioma" id="idioma">
