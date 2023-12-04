@@ -2,44 +2,36 @@
 
 session_start();
 
-include '../modelos/modelotraducciones.php';
+require_once '../modelos/modelotraducciones.php';
 
-if (($_SERVER['REQUEST_METHOD'] === 'POST')) {
+class ControladorTradu {
+
+    private $traducir;
+
+    public function __construct($traduct) {
+        $this->traducir = $traduct;
+    }
     
-    if(isset($_POST['idioma'])){
-        if (!$_POST['idioma'] == null){
-        
-        $idioma = $_POST['idioma'];
-
-        $traducciones = Traducciones::mostrarTraduccionesPorIdioma($idioma);
-
-        }else{
-            
-            $traducciones=Traducciones::mostrarTraducciones();
-
-        }
-}
-
-}else{
-
-
-    $traducciones=Traducciones::mostrarTraducciones();
-    
+    public function actualitzarTraduc($nuevatraduccion, $idtraduccion) {
+        $this->traducir->actualizarTraducciones($nuevatraduccion, $idtraduccion);
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if(isset($_POST['traduccion_id'])){
-    $idtraduccion = $_POST['traduccion_id'];
-    $nuevatraduccion = $_POST['nueva_traduccion'];
-    $instanciatraduccion = new Traducciones($idtraduccion,null,null,$nuevatraduccion);
-    $instanciatraduccion->actualizarTraducciones();
-    $traducciones=Traducciones::mostrarTraducciones();
-
+    if (isset($_POST['traduccion_id'])){
+        $idtraduccion = $_POST['traduccion_id'];
+        $nuevatraduccion = $_POST['nueva_traduccion'];
+        $traductor->actualizarTraducciones($nuevatraduccion, $idtraduccion);
+?>
+    <meta http-equiv="refresh" content="0;url=../vistas/vistatraducciones.php">
+<?php
+    }
+} else {
+    $traduccion = $traductor->mostrarTraducciones();
+    header('Content-Type: application/json');
+    header("Access-Control-Allow-Origin: *");
+    echo json_encode($traduccion);
 }
-
-}
-
-include '../vistas/vistatraducciones.php';
 
 
 
