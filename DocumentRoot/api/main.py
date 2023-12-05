@@ -166,6 +166,95 @@ async def hacer_peticion(api_key: str = Security(get_api_key)):
     except Exception as e:
         return {"error": f"Error no manejado: {e}"}
 
+@app.get("/deapiaproductes")
+async def hacer_peticion(api_key: str = Security(get_api_key)):
+    # URL de la API externa a la que deseas hacer la solicitud
+    try:
+        url = "https://api.picanova.com/api/beta/products"
+
+        async with httpx.AsyncClient() as client:
+            auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
+            response = httpx.get(url, headers=auth_header)        
+
+            if response.status_code == 200:
+                # La solicitud se realizó con éxito, puedes manejar los datos de la respuesta aquí.
+                data = response.json()
+                data_list = data["data"]                
+                connection = mysql.connector.connect(**get_db_info())
+                # Crea un cursor para ejecutar consultas SQL
+                cursor = connection.cursor()
+                queryinsert = "INSERT INTO `producte`(`idProducte`,`nom`) VALUES (%s,%s);"  
+              
+                dictionary = {}
+              
+                for item in data_list:
+                    idProducte = item["id"]
+                    nom = item["name"]
+                    nuevoselementos={idProducte:nom}
+                    dictionary.update(nuevoselementos)
+                    cursor.execute(queryinsert, (idProducte, nom))   
+                        
+               
+                connection.commit()
+                cursor.close()
+                connection.close()
+                return "La BD ha sido actualizada"
+                
+            else:
+                # Maneja los errores si la solicitud no fue exitosa
+                return {"error": "No se pudo realizar la solicitud a la API externa"}
+    
+    except mysql.connector.Error as e:
+        return {"error": f"Error de MySQL: {e}"}
+    except Exception as e:
+        return {"error": f"Error no manejado: {e}"}
+    
+@app.get("/deapiavariants")
+async def hacer_peticion(api_key: str = Security(get_api_key)):
+    # URL de la API externa a la que deseas hacer la solicitud
+    try:
+        url = "https://api.picanova.com/api/beta/products"
+        async with httpx.AsyncClient() as client:
+            auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
+            response = httpx.get(url, headers=auth_header)        
+
+            if response.status_code == 200:
+                data = response.json()
+                data_list = data["data"]              
+                for item in data_list:
+                    url2 = "https://api.picanova.com/api/beta/variants/"
+                    id = str(item["id"])
+                    url2 += id
+                    async with httpx.AsyncClient() as client:
+                        auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
+                        response = httpx.get(url2, headers=auth_header)
+                        if response.status_code == 200:
+                            data = response.json()
+                            data_list2 = data["data"]
+                            idV = data_list2.get("variant_id")
+                            idP = data_list2.get("id")
+                            name = data_list2.get("name")
+                            connection = mysql.connector.connect(**get_db_info())
+                            cursor = connection.cursor()
+                            queryinsert = "INSERT INTO `variant`(`idVariant`, `idProducte`,`nom`) VALUES (%s,%s,%s);"
+                            cursor.execute(queryinsert, (idV, idP, name))
+                            connection.commit()
+                            cursor.close()
+                            connection.close()
+
+                
+                return "La BD ha sido actualizada"
+                
+            else:
+                # Maneja los errores si la solicitud no fue exitosa
+                return {"error": "No se pudo realizar la solicitud a la API externa"}
+    
+    except mysql.connector.Error as e:
+        return {"error": f"Error de MySQL: {e}"}
+    except Exception as e:
+        return {"error": f"Error no manejado: {e}"}
+    
+
 def tarea_medianoche():
     try:
         url = "https://api.picanova.com/api/beta/countries"
