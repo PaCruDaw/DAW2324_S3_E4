@@ -9,7 +9,7 @@ require_once '../includes/head.php';
         }
     </style>
 <body>
-    <div class="traducciones" style="width:80%; margin-left:20%; display:flex; flex-direction:column;">
+    <div class="traducciones" style="width:80%; margin-left:15%; display:flex; flex-direction:column;">
         <h1>Lista de Traducciones</h1>
         
       

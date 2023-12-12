@@ -138,25 +138,22 @@ class Traducciones {
     public function translatePage ($text, $site) {
         try {
             $exist = $this->searchTextOriginal($text, $site); //return assosiative array with one row
-            if (isset($exist[0]['TextoOriginal'])) {
+            if (isset($exist[0]['TextoOriginal'])) { //if the search finds the original text
                 return $exist[0]['TextoOriginal'];
-            } else {
-                $id_trans = $this->insertOriginalText($text,$site);
-                $n_lang = $this->countLanguages();
-                var_dump($n_lang);
-                for ($i =1; $i <= $n_lang; $i++) {
-                    $this->insertTranslate ($text, $id_trans, $i);
-                } 
-                
-
-            }         
-        
+            } else { 
+                $id_trans = $this->insertOriginalText($text,$site); //will enter the text in the list of translations
+                $n_lang = $this->countLanguages(); //will search for the languages that are available there
+                for ($i =1; $i <= $n_lang; $i++) { //for all languages
+                    $this->insertTranslate ($text, $id_trans, $i); //insert translation
+                }
+            return $this->translatePage ($text, $site);
+            }
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
+            return false;
         }
     }
 }
 //create instansce
 $traductor = new Traducciones();
-$traductor->translatePage('Traduccions',"sidebar");
 ?>

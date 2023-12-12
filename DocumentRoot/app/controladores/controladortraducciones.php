@@ -4,19 +4,6 @@ session_start();
 
 require_once '../modelos/modelotraducciones.php';
 
-class ControladorTradu {
-
-    private $traducir;
-
-    public function __construct($traduct) {
-        $this->traducir = $traduct;
-    }
-    
-    public function actualitzarTraduc($nuevatraduccion, $idtraduccion) {
-        $this->traducir->actualizarTraducciones($nuevatraduccion, $idtraduccion);
-    }
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['traduccion_id'])){
         $idtraduccion = $_POST['traduccion_id'];

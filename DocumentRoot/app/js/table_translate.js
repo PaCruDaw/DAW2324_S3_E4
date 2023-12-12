@@ -8,8 +8,8 @@ $(document).ready(function() {
                 data: data,
                 columns: [
                     { data: "TraduccionIdiomaID" },
-                    { data: "Traduccion" },
                     { data: "TextoOriginal" },
+                    { data: "Traduccion" },
                     { data: "Idioma" },
                     {
                         data: null,
