@@ -1,18 +1,10 @@
 <?php
 session_start();
-include("./modelos/LoginManager.php");
+require_once ("./modelos/LoginManager.php");
+require_once "./includes/head.php";
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <?php 
-    include ('./includes/sidebar.php');
-    ?>
-</head>
-<body>  
+
+<body>
 
 <div class="content" style="margin-left: 20%;">
     <div class="grid-container">

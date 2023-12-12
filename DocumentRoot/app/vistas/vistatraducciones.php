@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'head.html';
+require_once '../includes/head.php';
 ?>
 
     <style>
@@ -9,8 +9,6 @@ require_once 'head.html';
         }
     </style>
 <body>
-    <?php include('../includes/sidebar.php'); ?>
-
     <div class="traducciones" style="width:80%; margin-left:20%; display:flex; flex-direction:column;">
         <h1>Lista de Traducciones</h1>
         
