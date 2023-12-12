@@ -71,37 +71,56 @@ class Traducciones {
     }
 
     //this function is for create in a DB a new text for translate
-    public function insertOriginalText ($text) {
+    public function insertOriginalText($text, $site) {
         try {
-            $query = "INSERT INTO  Traduccion (TextoOriginal)
-                        VALUES $text";
+            $this->pdo->beginTransaction();  // Iniciar la transacción
+
+            $query = "INSERT INTO Traduccion (TextoOriginal, site) VALUES (:text, :site)";
             $stmt = $this->pdo->prepare($query);
+            $stmt->bindParam(':text', $text);
+            $stmt->bindParam(':site', $site);
             $stmt->execute();
+    
+            // Obtener el último ID insertado directamente
+            $lastInsertId = $this->pdo->lastInsertId();
+    
+            $this->pdo->commit();  // Confirmar la transacción
+    
+            return $lastInsertId;  // Devolver el ID del último registro insertado
         } catch (PDOException $e) {
+            // Revertir la transacción en caso de error
+            $this->pdo->rollBack();
             echo "Error: " . $e->getMessage();
+            return false;
         }
     }
 
+    //Search and count all languages present in a DB
     public function countLanguages () {
-
+        $query = "SELECT COUNT(*) FROM Idiomas;";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        $resultat = $stmt->fetchColumn();
+        return (int) $resultat;
     }
 
     //This function is for create in DB a new translate, the translate is create automaticaly and use 
     //the same value of text for insert
-    public function insertTranslate ($text, $site) {
+    public function insertTranslate ($text, $id_translate, $id_lang) {
         try {
-            $query = "START TRANSACTION;
-                        INSERT INTO  Traduccion (TextoOriginal, site) VALUES '$text', '$site';
-                        SELECT LAST_INSERT_ID();
-                      COMMIT;";
+            $query = "INSERT INTO TraduccionIdiomas (Traduccion, traduccion_id , idiomas_id )
+                       VALUES (:text, :id_translate, :id_lang)";
             $stmt = $this->pdo->prepare($query);
+            $stmt->bindParam(':text', $text);
+            $stmt->bindParam(':id_translate', $id_translate);
+            $stmt->bindParam(':id_lang', $id_lang);
             $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
     }
 
+    //Search a test in a site(Page view), this is use to make translate
     public function searchTextOriginal ($text, $site) {
         $query = "SELECT TextoOriginal
                     FROM Traduccion
@@ -115,12 +134,22 @@ class Traducciones {
     }
 
     //This function is for translate a page, site is the site where is generate the text to translate, 
-    // and text is new text for translate 
+    // and text is new text for translate
     public function translatePage ($text, $site) {
         try {
-            $exist = $this->searchTextOriginal($text, $site);
-            $exist[0]['TextoOriginal'];
-            
+            $exist = $this->searchTextOriginal($text, $site); //return assosiative array with one row
+            if (isset($exist[0]['TextoOriginal'])) {
+                return $exist[0]['TextoOriginal'];
+            } else {
+                $id_trans = $this->insertOriginalText($text,$site);
+                $n_lang = $this->countLanguages();
+                var_dump($n_lang);
+                for ($i =1; $i <= $n_lang; $i++) {
+                    $this->insertTranslate ($text, $id_trans, $i);
+                } 
+                
+
+            }         
         
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
@@ -129,5 +158,5 @@ class Traducciones {
 }
 //create instansce
 $traductor = new Traducciones();
-$traductor->translatePage('Hola','');
+$traductor->translatePage('Traduccions',"sidebar");
 ?>
