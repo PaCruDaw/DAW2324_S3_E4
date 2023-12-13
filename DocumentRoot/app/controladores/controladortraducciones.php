@@ -2,7 +2,7 @@
 
 session_start();
 
-require_once '../modelos/modelotraducciones.php';
+require_once '/var/www/html/modelos/modelotraducciones.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['traduccion_id'])){

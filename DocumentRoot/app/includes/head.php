@@ -26,7 +26,7 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 </head>
 <?php
-    require_once 'sidebar.php';
+    require_once '/var/www/html/includes/sidebar.php';
 
 ?>
 

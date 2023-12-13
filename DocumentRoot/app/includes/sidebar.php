@@ -1,5 +1,5 @@
 <?php
-    require_once "../controladores/traductor.php";
+    require_once "/var/www/html/controladores/traductor.php";
 ?>
 
 <body>

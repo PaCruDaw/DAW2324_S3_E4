@@ -1,5 +1,5 @@
 <?php
-require_once '../modelos/modelotraducciones.php';
+require_once '/var/www/html/modelos/modelotraducciones.php';
 
 
 //static class for translate

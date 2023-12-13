@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once ("./modelos/LoginManager.php");
+require_once "./modelos/LoginManager.php";
 require_once "./includes/head.php";
 ?>
 
