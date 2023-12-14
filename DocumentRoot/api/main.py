@@ -88,7 +88,7 @@ async def consultar_bd(api_key: str = Security(get_api_key)):
         cursor = connection.cursor(dictionary=True)
 
         # Ejecuta una consulta
-        query = "SELECT * FROM usuario"
+        query = "SELECT * FROM clients"
         cursor.execute(query)
 
         # Obtiene los resultados
@@ -128,8 +128,8 @@ async def hacer_peticion(api_key: str = Security(get_api_key)):
                 # Crea un cursor para ejecutar consultas SQL
                 cursor = connection.cursor()
 
-                query = "TRUNCATE TABLE `testdatabase2`.`pais`"
-                queryinsert = "INSERT INTO `pais`(`nombre_pais`,`codigo_pais`) VALUES (%s,%s);"
+                query = "TRUNCATE TABLE `project`.`country`"
+                queryinsert = "INSERT INTO `country`(`countryName`,`countryCode`) VALUES (%s,%s);"
 
                 cursor.execute(query)
 
@@ -169,7 +169,7 @@ async def hacer_peticion(api_key: str = Security(get_api_key)):
                 connection = mysql.connector.connect(**get_db_info())
                 # Crea un cursor para ejecutar consultas SQL
                 cursor = connection.cursor()
-                queryinsert = "INSERT INTO `producte`(`idProducte`,`nom`) VALUES (%s,%s);" 
+                queryinsert = "INSERT INTO `products`(`idProduct`,`productName`) VALUES (%s,%s);" 
 
                 dictionary = {}
 
@@ -226,7 +226,7 @@ async def hacer_peticion(api_key: str = Security(get_api_key)):
                             name = data_list.get("name")
                             connection = mysql.connector.connect(**get_db_info())
                             cursor = connection.cursor()
-                            queryinsert = "INSERT INTO `variant`(`idVariant`, `idProducte`,`nom`) VALUES (%s,%s,%s);"
+                            queryinsert = "INSERT INTO `productVariant`(`idVariant`, `idProduct`,`variantName`) VALUES (%s,%s,%s);"
                             cursor.execute(queryinsert, (idV, idP, name))
                             connection.commit()
                             cursor.close()
@@ -278,11 +278,49 @@ async def hacer_peticion(api_key: str = Security(get_api_key)):
                                     is_required = option_data.get("is_required", False)
                                     connection = mysql.connector.connect(**get_db_info())
                                     cursor = connection.cursor()
-                                    queryinsert = "INSERT INTO `opcio`(`idOption`, `idVariant`, `is_required`) VALUES (%s,%s,%s);"
+                                    queryinsert = "INSERT INTO `options`(`idOption`, `idVariant`, `is_required`) VALUES (%s,%s,%s);"
                                     cursor.execute(queryinsert, (option_id, id2, is_required))
                                     connection.commit()
                                     cursor.close()
                                     connection.close()
+
+                return "La BD ha sido actualizada"
+
+            else:
+                # Maneja los errores si la solicitud no fue exitosa
+                return {"error": "No se pudo realizar la solicitud a la API externa"}
+
+    except mysql.connector.Error as e:
+        return {"error": f"Error de MySQL: {e}"}
+    except Exception as e:
+        return {"error": f"Error no manejado: {e}"}
+
+@app.get("/deapiavalues")
+async def hacer_peticion(api_key: str = Security(get_api_key)):
+    # URL de la API externa a la que deseas hacer la solicitud
+    try:
+
+        url = "https://api.picanova.com/api/beta/variants/2"
+
+        async with httpx.AsyncClient() as client:
+            auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
+            response = httpx.get(url, headers=auth_header)
+
+            if response.status_code == 200:
+                data = response.json()
+                data_list = data["data"]["options"]
+                for option_id, option_data in data_list.items():
+                    values = option_data.get("values", [])
+                    for value in values:
+                        idValue = value["id"]
+                        name = value["name"]
+                        connection = mysql.connector.connect(**get_db_info())
+                        cursor = connection.cursor()
+                        queryinsert = "INSERT INTO `values`(`idValue`, `idOption`, `name`) VALUES (%s,%s,%s);"
+                        cursor.execute(queryinsert, (idValue, option_id, name))
+                        connection.commit()
+                        cursor.close()
+                        connection.close()
 
                 return "La BD ha sido actualizada"
 
