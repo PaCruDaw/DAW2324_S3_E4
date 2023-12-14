@@ -32,7 +32,7 @@
             <li><a href="#"><i class="fas fa-cog"></i> Paises</a></li>
             <li><a href="../vistas/vistaProductos.php"><i class="fas fa-cog"></i> Productos/Margen</a></li>
             <li><a href="../vistas/vistaPreferencias.php"><i class="fas fa-cog"></i> Preferencias</a></li>
-            <li><a href="../vistas/vistaUsuarios.php"><i class="fas fa-cog"></i> Usuarios</a></li>
+            <li><a href="../vistas/vistaUsuarios.php"><i class="fas fa-cog"></i><?php echo TranslateTextPage::pageTranslate('Usuarios', 'sidebar', $lang);?></a></li>
         </ul>
         <section class="logout">
             <a href="../index.php"><i class="fas fa-cog"></i> LOG OUT</a>

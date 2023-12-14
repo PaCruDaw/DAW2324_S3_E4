@@ -10,6 +10,7 @@ $(document).ready(function() {
                     { data: "TraduccionIdiomaID" },
                     { data: "TextoOriginal" },
                     { data: "Traduccion" },
+                    { data: "site" },
                     { data: "Idioma" },
                     {
                         data: null,

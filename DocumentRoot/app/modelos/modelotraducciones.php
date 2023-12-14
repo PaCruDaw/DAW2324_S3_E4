@@ -32,7 +32,7 @@ class Traducciones {
 
     public function mostrarTraducciones() {
         try {
-            $query = "SELECT * FROM vistaTraducciones";
+            $query = "SELECT * FROM vistaTraducciones2";
             $stmt = $this->pdo->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll();
@@ -135,7 +135,7 @@ class Traducciones {
 
     public function searchTranslate ($text, $site, $lang) {
         $query = "SELECT Traduccion
-                    FROM vistaTraducciones
+                    FROM vistaTraducciones2
                     WHERE  Idioma=:lang AND TextoOriginal = :text AND  site = :site";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':text',$text, PDO::PARAM_STR);
@@ -170,6 +170,6 @@ class Traducciones {
 //create instansce
 $traductor = new Traducciones();
 $trans = $traductor->searchTranslate('Inicio','sidebar','ENG');
-echo $trans[0]['Traduccion'];
+//echo $trans[0]['Traduccion'];
 
 ?>

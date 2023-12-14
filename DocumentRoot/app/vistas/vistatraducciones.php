@@ -26,8 +26,9 @@ require_once '../includes/head.php';
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Traducción</th>
                     <th>Original</th>
+                    <th>Traducción</th>
+                    <th>Lugar</th>
                     <th>Idioma</th>
                     <th>Actualizar</th>
                 </tr>
