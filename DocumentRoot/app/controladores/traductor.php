@@ -7,16 +7,12 @@ if (isset($_GET['lang'])) {
     setcookie('lang', $_GET['lang'], time() + 86400, "/"); // Utiliza $lang en lugar de $nuevoIdioma
     $response['success'] = true;
     $response['message'] = 'Idioma cambiado exitosamente.';
-} else {
-    $response['success'] = false;
-    $response['message'] = 'No se proporcionó un idioma válido.';
+    // Enviar la respuesta como JSON
+    header('Content-Type: application/json');
+    echo json_encode($response);
 }
 
-// Enviar la respuesta como JSON
-header('Content-Type: application/json');
-echo json_encode($response);
 $lang = $_COOKIE['lang'];
-
 //////////////////////////////////////////////
 //static class for translate
 class TranslateTextPage {
@@ -38,6 +34,4 @@ class TranslateTextPage {
 }
 //init static
 TranslateTextPage::initTranslator();
-
 ?>
-

@@ -169,7 +169,4 @@ class Traducciones {
 }
 //create instansce
 $traductor = new Traducciones();
-$trans = $traductor->searchTranslate('Inicio','sidebar','ENG');
-//echo $trans[0]['Traduccion'];
-
 ?>

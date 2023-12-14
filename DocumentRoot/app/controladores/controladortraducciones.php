@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 require_once '/var/www/html/modelos/modelotraducciones.php';
@@ -19,5 +18,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Access-Control-Allow-Origin: *");
     echo json_encode($traduccion);
 }
-
 ?>
