@@ -8,7 +8,7 @@ if (isset($_GET['lang'])) {
 $lang = $_COOKIE['lang'];
 
 //static class for translate
-class TranslatePage {
+class TranslateTextPage {
     private static $translate;
 
     public static function initTranslator() {
@@ -20,13 +20,12 @@ class TranslatePage {
         if (self::$translate === null) {
             self::initTranslator();
         }
-
-        // Usar la propiedad estática
-        echo self::$translate->translatePage($text, $site);
+        $trans = self::$translate->searchTranslate ($text, $site, $lang);
+        return $trans[0]['Traduccion'];
     }
 }
 //init static
-TranslatePage::initTranslator();
+TranslateTextPage::initTranslator();
 
 ?>
 

@@ -11,7 +11,7 @@ class Traducciones {
         $this->pdo = $connection->connect();
     }
 
-    function agregarTraduccion($idtextooriginal,$traduccion,$ididioma) {
+    public function agregarTraduccion($idtextooriginal,$traduccion,$ididioma) {
         //método para un futuro añadir nuevos campos que traducir
         try {
 
@@ -133,9 +133,22 @@ class Traducciones {
         return $result;
     }
 
+    public function searchTranslate ($text, $site, $lang) {
+        $query = "SELECT Traduccion
+                    FROM vistaTraducciones
+                    WHERE  Idioma=:lang AND TextoOriginal = :text AND  site = :site";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':text',$text, PDO::PARAM_STR);
+        $stmt->bindParam(':lang',$lang, PDO::PARAM_STR);
+        $stmt->bindParam(':site',$site, PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
     //This function is for translate a page, site is the site where is generate the text to translate, 
     // and text is new text for translate
-    public function translatePage ($text, $site) {
+    public function translateTextPage ($text, $site) {
         try {
             $exist = $this->searchTextOriginal($text, $site); //return assosiative array with one row
             if (isset($exist[0]['TextoOriginal'])) { //if the search finds the original text
@@ -146,7 +159,7 @@ class Traducciones {
                 for ($i =1; $i <= $n_lang; $i++) { //for all languages
                     $this->insertTranslate ($text, $id_trans, $i); //insert translation
                 }
-            return $this->translatePage ($text, $site);
+            return $this->translateTextPage ($text, $site);
             }
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
@@ -156,4 +169,7 @@ class Traducciones {
 }
 //create instansce
 $traductor = new Traducciones();
+$trans = $traductor->searchTranslate('Inicio','sidebar','ENG');
+echo $trans[0]['Traduccion'];
+
 ?>
