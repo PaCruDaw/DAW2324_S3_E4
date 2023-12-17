@@ -148,18 +148,18 @@ class Traducciones {
 
     //This function is for translate a page, site is the site where is generate the text to translate, 
     // and text is new text for translate
-    public function translateTextPage ($text, $site) {
+    public function translateTextPage ($text, $site,$lang) {
         try {
             $exist = $this->searchTextOriginal($text, $site); //return assosiative array with one row
             if (isset($exist[0]['TextoOriginal'])) { //if the search finds the original text
-                return $exist[0]['TextoOriginal'];
+                return $this->searchTranslate ($text, $site, $lang);
             } else { 
                 $id_trans = $this->insertOriginalText($text,$site); //will enter the text in the list of translations
                 $n_lang = $this->countLanguages(); //will search for the languages that are available there
                 for ($i =1; $i <= $n_lang; $i++) { //for all languages
                     $this->insertTranslate ($text, $id_trans, $i); //insert translation
                 }
-            return $this->translateTextPage ($text, $site);
+            return $this->translateTextPage ($text, $site,$lang);
             }
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();

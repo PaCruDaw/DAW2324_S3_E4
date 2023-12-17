@@ -27,8 +27,7 @@ class TranslateTextPage {
         if (self::$translate === null) {
             self::initTranslator();
         }
-        self::$translate->translateTextPage ($text, $site);
-        $trans = self::$translate->searchTranslate ($text, $site, $lang);
+        $trans = self::$translate->translateTextPage ($text, $site, $lang);
         return $trans[0]['Traduccion'];
     }
 }
