@@ -82,55 +82,55 @@ include('../controladores/controladorusuaris.php');
         var_dump($item);
     } ?> -->
 
-<a class="button" href="#popup1">Let me Pop up</a>
+<a id="editform" href="#popup1">Let me Pop up</a>
 
 
 <div id="popup1" class="overlay">
 	<div class="popup">
 		<a class="close" href="#">&times;</a>
 		<div class="content">
-    <form method="post" action="#">
+    <form id="formpop" method="post" action="#">
                 <input type="hidden" id="accionpop" name="accionpop" value="">
                 <input type="hidden" id="idUsuariopop" name="idUsuariopop" value="">
 
                 <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre:</label>
+                <label for="nombrepop" class="form-label">Nombre:</label>
                 <input type="text" class="form-control" id="nombrepop" name="nombrepop">
                 <!-- Mensaje de error para el nombre -->
                 <div class="error-message" id="error-nombre"></div>
             </div>
 
             <div class="mb-3">
-                <label for="apellido" class="form-label">Apellido:</label>
-                <input type="text" class="form-control" id="apellido" name="apellido">
+                <label for="apellidopop" class="form-label">Apellido:</label>
+                <input type="text" class="form-control" id="apellidopop" name="apellidopop">
                 <!-- Mensaje de error para el apellido -->
                 <div class="error-message" id="error-apellido"></div>
             </div>
 
             <div class="mb-3">
-                <label for="email" class="form-label">Email:</label>
-                <input type="email" class="form-control" id="email" name="email">
+                <label for="emailpop" class="form-label">Email:</label>
+                <input type="email" class="form-control" id="emailpop" name="emailpop">
                 <!-- Mensaje de error para el correo electrónico -->
                 <div class="error-message" id="error-email"></div>
             </div>
 
             <div class="mb-3">
-                <label for="contrasena" class="form-label">Contraseña:</label>
-                <input type="password" class="form-control" id="contrasena" name="contrasena">
+                <label for="contrasenapop" class="form-label">Contraseña:</label>
+                <input type="password" class="form-control" id="contrasenapop" name="contrasenapop">
                 <!-- Mensaje de error para la contraseña -->
                 <div class="error-message" id="error-contrasena"></div>
             </div>
 
             <div class="mb-3">
-                <label for="username" class="form-label">Nombre de usuario:</label>
-                <input type="text" class="form-control" id="username" name="username">
+                <label for="usernamepop" class="form-label">Nombre de usuario:</label>
+                <input type="text" class="form-control" id="usernamepop" name="usernamepop">
                 <!-- Mensaje de error para el nombre de usuario -->
                 <div class="error-message" id="error-username"></div>
             </div>
 
             <div class="mb-3">
-                <label for="es_admin" class="form-label">¿Es administrador?</label>
-                <select class="form-select" id="es_admin" name="es_admin">
+                <label for="es_adminpop" class="form-label">¿Es administrador?</label>
+                <select class="form-select" id="es_adminpop" name="es_adminpop">
                     <option value="1">Sí</option>
                     <option value="0">No</option>
                 </select>
@@ -138,7 +138,7 @@ include('../controladores/controladorusuaris.php');
                 <div class="error-message" id="error-es_admin"></div>
             </div>
 
-            <button type="submit" class="btn btn-primary" name="accion" value="agregar">Guardar Usuario</button>
+            <button type="submit" class="btn btn-primary" name="accionpop" value="agregarpop">Editar Usuario</button>
         </form>
 		</div>
 	</div>
@@ -175,7 +175,7 @@ include('../controladores/controladorusuaris.php');
   position: absolute;
   top: 10px;
   right: 30px;
-  transition: all 200ms;
+  transition: all 2s;
   font-size: 30px;
   font-weight: bold;
   text-decoration: none;
@@ -199,8 +199,14 @@ include('../controladores/controladorusuaris.php');
 }
 </style>
 <script>
+    // Agrega un event listener al enlace
+    document.getElementById('editform').addEventListener('click', function(event) {
+        var formulario = document.getElementById('formpop');
+        
 
-
+        // Cambia el valor del campo 'nombre' al hacer clic en el enlace
+        formulario.elements.nombrepop.value = "Nuevo Nombre";
+    });
 </script>
 
 </body>
