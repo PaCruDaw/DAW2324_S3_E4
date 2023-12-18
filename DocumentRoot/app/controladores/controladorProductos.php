@@ -1,5 +1,4 @@
 <?php
-// Incluir el modelo de productos
 include('../modelos/modeloProducto.php');
 
 // Manejar la actualización de productos

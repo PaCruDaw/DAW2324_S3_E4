@@ -23,6 +23,21 @@ class Login{
         $_SESSION['email'] = $this->user->getEmail();
         $_SESSION['es_admin'] = $this->user->getEsAdmin();
         $_SESSION['username'] = $this->user->getUsername();
+        //languages cookie create
+        if (!isset($_COOKIE['lang'])) {
+            $userLanguages = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+            $configLangUser = explode(',', $userLanguages);
+            $userLang = $configLangUser[0];
+            if ($userLang == "es-ES") {
+                setcookie('lang', 'ESP', time() + 86400, "/");
+            } elseif ($userLang == "ca-CA") {
+                setcookie('lang', 'CAT', time() + 86400, "/");
+            } elseif ($userLang == "it-IT") {
+                setcookie('lang', 'ITA', time() + 86400, "/");
+            } else {
+                setcookie('lang', 'ENG', time() + 86400, "/");
+            }
+        }    
     }
 
     private function redirectUser() {

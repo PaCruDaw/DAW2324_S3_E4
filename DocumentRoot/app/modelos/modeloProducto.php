@@ -3,11 +3,7 @@
     class Product {
         private $pdo;
         private $id;
-        private $nombre_producto;
-        private $descripcion_producto;
-        private $precio;
         private $margen_porcentaje;
-        private $table_name="producto";
     
         public function __construct() {
             $pdo= new Database();
@@ -31,15 +27,13 @@
             }
         }
 
-        public function updateProduct($id, $margen_porcentaje
-        ){
+        public function updateProduct($id, $margen_porcentaje){
             try {
-            $query = "UPDATE producto SET `margen_porcentaje` = (:margen_porcentaje) WHERE id = :id";
+            $query = "UPDATE producto SET `margen_porcentaje` = :margen_porcentaje WHERE id = :id";
                 $stmt = $this->pdo->prepare($query);
                 $stmt->bindParam(':id', $id, PDO::PARAM_STR);
                 $stmt->bindParam(':margen_porcentaje', $margen_porcentaje, PDO::PARAM_STR);
                 $stmt->execute();
-                return $stmt->fetchAll(PDO::FETCH_ASSOC);
             } catch (PDOException $e) {
                 // Manejar errores de conexión o consulta
                 echo "Error: " . $e->getMessage();

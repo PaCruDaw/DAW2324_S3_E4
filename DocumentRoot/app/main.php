@@ -1,18 +1,10 @@
 <?php
 session_start();
-include("./modelos/LoginManager.php");
+require_once "./modelos/LoginManager.php";
+require_once "./includes/head.php";
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <?php 
-    include ('./includes/sidebar.php');
-    ?>
-</head>
-<body>  
+
+<body>
 
 <div class="content" style="margin-left: 20%;">
     <div class="grid-container">
@@ -26,26 +18,29 @@ include("./modelos/LoginManager.php");
             <div class="col-md-6">
                 
                 <h2 class="mb-3">Productos Populares</h2>
-                <img class="img-fluid" src="http://2.bp.blogspot.com/_QiCa_HtqEag/TBenazjFF0I/AAAAAAAAAAM/Hvp5sAJwcwE/s1600/1.jpg" alt="imagen">
+                <canvas id="chart1"></canvas>
                
             </div>
             <div class="col-md-6">
-                <h2>Ventas mensuales </h2>
-                <img class="img-fluid" src="https://mktefa.ditrendia.es/hubfs/Imagen7.png" alt="imagen2">
+                <h2>Ventas mensuales</h2>
+                <canvas id="chart2"></canvas>
             </div>
         </div>
         
         <div class="row mb-4">
             <div class="col-md-6">
                 <h2 class="mb-3">Ventas Anuales </h2>
-                <img class="img-fluid" src="/img/estadisticas1.jpg" alt="">
+                <canvas id="chart3"></canvas>
             </div>
             <div class="col-md-6">
                 <h2 class="mb-3">Ventas por países </h2>
-                <img class="img-fluid" src="/img/estadisticas2.jpg" alt="">
+                <canvas id="chart4"></canvas>
             </div>
     </div>
 </div>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/js/grafiques.js"></script>
 </body>
 </html> 

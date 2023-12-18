@@ -15,14 +15,7 @@ class AdministradorUsuarios {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function obtenerUsuarioPorId($idUsuario) {
-        $query = "SELECT * FROM usuario WHERE id = :idUsuario";
-        $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
-        $stmt->execute();
-
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+   
 
     public function agregarUsuario($datosUsuario) {
         $query = "INSERT INTO usuario (nombre, apellido, email, contrasena, username, es_admin, fecha_alta, estado_id) 
@@ -39,6 +32,10 @@ class AdministradorUsuarios {
                       contrasena = :contrasena, username = :username, es_admin = :es_admin 
                   WHERE id = :idUsuario";
         $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
+        $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_STR);
+        $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_STR);
+        $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_STR);
         return $stmt->execute($datosUsuario);
     }
 

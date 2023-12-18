@@ -1,9 +1,9 @@
 {
     "database_config": {
         "host": "mariadb",
-        "user": "root",
-        "password": "admin",
-        "database": "test"
+        "user": "super",
+        "password": "super",
+        "database": "testdatabase"
     },
 
     "parametres_seguretat": {
