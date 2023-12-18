@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, Security
 from fastapi.security import APIKeyHeader
+from fastapi.middleware.cors import CORSMiddleware
 import httpx
 import base64
 from httpx import Headers
@@ -16,6 +17,18 @@ app = FastAPI()
 # variable per guardar servei apikeys
 
 api_key_header = APIKeyHeader(name="X-API-Key")
+
+origins = [
+    "http://localhost" 
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],  # Puedes restringir a métodos específicos (e.g., ["GET", "POST"])
+    allow_headers=["*"],  # Puedes restringir a encabezados específicos si es necesario
+)
 
 def get_db_info():
     with open("config.json", "r") as config_file:
@@ -45,7 +58,6 @@ def get_api_key(api_key_header: str = Security(api_key_header)) -> str:
     )
 
 def get_credentials():
-    # Debes proporcionar un nombre de usuario y una contraseña para la autenticación básica.
     username = get_info_picanova()[0]
     password = get_info_picanova()[1]
 
@@ -101,6 +113,32 @@ async def consultar_bd(api_key: str = Security(get_api_key)):
         return results
     except Exception as e:
         return {"error": str(e)}
+
+@app.get("/dbventes")
+async def consultar_bd(api_key: str = Security(get_api_key)):
+
+    try:
+        # Conecta a la base de datos
+        connection = mysql.connector.connect(**get_db_info())
+
+        # Crea un cursor para ejecutar consultas SQL
+        cursor = connection.cursor(dictionary=True)
+
+        # Ejecuta una consulta
+        query = "SELECT * FROM `vistaPedidosGrafica`"
+        cursor.execute(query)
+
+        # Obtiene los resultados
+        results = cursor.fetchall()
+
+        # Cierra el cursor y la conexión
+        cursor.close()
+        connection.close()
+
+        return results
+    except Exception as e:
+        return {"error": str(e)} 
+
 
 @app.get("/test")
 def read_test():
@@ -332,54 +370,3 @@ async def hacer_peticion(api_key: str = Security(get_api_key)):
         return {"error": f"Error de MySQL: {e}"}
     except Exception as e:
         return {"error": f"Error no manejado: {e}"}
-
-def tarea_medianoche():
-    try:
-        url = "https://api.picanova.com/api/beta/countries"
-
-        with httpx.Client() as client:
-            auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
-            response = client.get(url, headers=auth_header)
-
-            if response.status_code == 200:
-                data = response.json()
-                data_list = data["data"]
-
-                info_list = [
-                    {"country": item["name"], "countrycode": item.get("country_code", None)}
-                    for item in data_list
-                ]
-
-                connection = mysql.connector.connect(**get_db_info())
-                cursor = connection.cursor()
-
-                query = "TRUNCATE TABLE `testdatabase2`.`pais`"
-                queryinsert = "INSERT INTO `pais`(`nombre_pais`,`codigo_pais`) VALUES (%s,%s);"
-
-                cursor.execute(query)
-
-                for item in info_list:
-                    country = item["country"]
-                    countrycode = item["countrycode"]
-                    cursor.execute(queryinsert, (country, countrycode))
-
-                connection.commit()
-                cursor.close()
-                connection.close()
-                print("La BD ha sido actualizada")
-
-            else:
-                print("No se pudo realizar la solicitud a la API externa")
-
-    except mysql.connector.Error as e:
-        print(f"Error de MySQL: {e}")
-    except Exception as e:
-        print(f"Error no manejado: {e}")
-
-# Agrega la tarea_medianoche a schedule
-schedule.every(1).minute.do(tarea_medianoche)
-
-if __name__ == "__main__":
-    while True:
-        schedule.run_pending()
-        time.sleep(60)
