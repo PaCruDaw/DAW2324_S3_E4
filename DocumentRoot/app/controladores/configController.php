@@ -1,6 +1,6 @@
 <?php
 include('../db.php');
-include('../modelos/modeloPreferencias.php');
+include('../modelos/configModel.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $preferencia = isset($_POST['preferencia']) ? $_POST['preferencia'] : null;
@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 
                     // Actualiza la base de datos con la nueva ruta
                     if ($manager->updatePreferenciasValueByName('logoApp', $rutaArchivo)) {
-                        header("Location: ../vistas/vistaPreferencias.php");
+                        header("Location: ../vistas/configView.php");
                         echo "Imagen subida y ruta guardada en la base de datos correctamente.";
                     } else {
                         echo "Error al actualizar la ruta en la base de datos.";
@@ -44,13 +44,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Para las preferencias que no son "logoApp," verifica si se proporcionó un nuevo valor numérico para actualizar
         $nuevoValor = $_POST['nuevo_valor'];
         if ($preferencia != 'logoApp' && empty($nuevoValor)) {
-            header("Location: ../vistas/vistaPreferencias.php");
+            header("Location: ../vistas/configView.php");
             // or redirect back to the form with an error message
             exit();
         }        
         if (is_numeric($nuevoValor)) {
             if ($manager->updatePreferenciasValueByName($preferencia, $nuevoValor)) {
-                header("Location: ../vistas/vistaPreferencias.php");
+                header("Location: ../vistas/configView.php");
             } else {
                 echo "Error al actualizar el registro.";
             }

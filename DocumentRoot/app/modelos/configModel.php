@@ -7,7 +7,7 @@ class modeloPreferencias {
     }
 
     public function getPreferencias() {
-        $query = "SELECT * FROM preferencias";
+        $query = "SELECT idConfig, config, value FROM configurations";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
 
@@ -15,7 +15,7 @@ class modeloPreferencias {
     }
 
     public function updatePreferenciasValueByName($nombre, $nuevoValor) {
-        $query = "UPDATE preferencias SET valor = :nuevoValor WHERE preferencia = :nombre";
+        $query = "UPDATE configurations SET value = :nuevoValor WHERE config = :nombre";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
         $stmt->bindParam(':nuevoValor', $nuevoValor, PDO::PARAM_STR);
