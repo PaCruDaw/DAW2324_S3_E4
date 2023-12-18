@@ -11,7 +11,7 @@ session_start();
 </head>
 <style>
         body {
-            background-color: #f8f9fa; /* Set your desired background color */
+            background-color: #f8f9fa;
         }
     </style>
 <body class="container-fluid" style="width:80%; margin-left:20%; display:flex; flex-direction:column;">
@@ -30,7 +30,7 @@ session_start();
             </thead>
             <tbody>
                 <?php
-                include('../controladores/controladorProductos.php');
+                include('../controladores/productController.php');
                 if ($products) {
                     foreach ($products as $product) {
                         echo "<tr>";
