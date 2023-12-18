@@ -12,7 +12,7 @@
 
         public function getProducts() {
             try {
-                $query = "SELECT * FROM producto";
+                $query = "SELECT P.idProduct, P.productName, PV.idVariant, PV.variantName, PV.size, PV.marginPercentage, PV.showProduct FROM products AS P, productVariant AS PV WHERE P.idProduct = PV.idProduct";
                 $stmt = $this->pdo->prepare($query);
                 $stmt->execute();
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -25,7 +25,7 @@
 
         public function updateProduct($id, $margen_porcentaje){
             try {
-            $query = "UPDATE producto SET `margen_porcentaje` = :margen_porcentaje WHERE id = :id";
+            $query = "UPDATE productVariant SET `marginPercentage` = :margen_porcentaje WHERE idVariant = :id";
                 $stmt = $this->pdo->prepare($query);
                 $stmt->bindParam(':id', $id, PDO::PARAM_STR);
                 $stmt->bindParam(':margen_porcentaje', $margen_porcentaje, PDO::PARAM_STR);

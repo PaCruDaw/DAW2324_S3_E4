@@ -1,5 +1,5 @@
 <?php
-include('../modelos/modeloProducto.php');
+include('../modelos/productModel.php');
 
 // Manejar la actualización de productos
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuevoMargen'])) {
