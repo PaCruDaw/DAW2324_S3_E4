@@ -1,5 +1,6 @@
 <?php
 
+require_once 'head.html';
 
 ?>
 <!DOCTYPE html>
@@ -8,7 +9,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrador de Usuarios</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <?php include('../includes/sidebar.php'); ?>
 </head>
 <style>
@@ -145,7 +145,7 @@
 	</div>
   
 </div>
-<table class="table" id ="tableUsuaris">
+<table class="table" id="tableUsuaris">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -232,6 +232,7 @@
         formulario.elements.usernamepop.value = "Nuevo Nombre";
         formulario.elements.es_adminpop.value = 0;
     });
+    $(document).ready( function () {
     var table;
     $.ajax({
                 url: 'http://localhost/controladores/controladorusuaris.php',
@@ -264,6 +265,8 @@
                     console.error('Error en la petición:', error);
                 }
             });
+
+          } );
 </script>
 
 </body>
