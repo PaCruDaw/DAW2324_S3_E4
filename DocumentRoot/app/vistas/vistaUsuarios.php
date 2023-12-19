@@ -141,8 +141,30 @@
             <button type="submit" class="btn btn-primary" name="accionpop" value="agregarpop">Editar Usuario</button>
         </form>
 		</div>
+    
 	</div>
+  
 </div>
+<table class="table" id ="tableUsuaris">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Traducción</th>
+                    <th>Original</th>
+                    <th>Idioma</th>
+                    <th>Actualizar</th>
+                    <th>Actualizar</th>
+                    <th>Actualizar</th>
+                    <th>Actualizar</th>
+                    <th>Actualizar</th>
+                    <th>Actualizar</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+
+            </tbody>
+        </table>
 
 <style>
 .overlay {
@@ -202,13 +224,22 @@
         document.getElementById('editform').addEventListener('click', function(event) {
         var formulario = document.getElementById('formpop');
         
-        $.ajax({
+        // Cambia el valor del campo 'nombre' al hacer clic en el enlace
+        formulario.elements.nombrepop.value = "Nuevo Nombre";
+        formulario.elements.apellidopop.value = "Nuevo Nombre";
+        formulario.elements.emailpop.value = "Nuevo Nombre";
+        formulario.elements.contrasenapop.value = "Nuevo Nombre";
+        formulario.elements.usernamepop.value = "Nuevo Nombre";
+        formulario.elements.es_adminpop.value = 0;
+    });
+    var table;
+    $.ajax({
                 url: 'http://localhost/controladores/controladorusuaris.php',
                 method: 'GET',
                 dataType: 'json',
                 success: function(datos) {
                 table = $('#tableUsuaris').DataTable({
-                data: data,
+                data: datos,
                 columns: [
                     { data: "id" },
                     { data: "nombre" },
@@ -233,15 +264,6 @@
                     console.error('Error en la petición:', error);
                 }
             });
-
-        // Cambia el valor del campo 'nombre' al hacer clic en el enlace
-        formulario.elements.nombrepop.value = "Nuevo Nombre";
-        formulario.elements.apellidopop.value = "Nuevo Nombre";
-        formulario.elements.emailpop.value = "Nuevo Nombre";
-        formulario.elements.contrasenapop.value = "Nuevo Nombre";
-        formulario.elements.usernamepop.value = "Nuevo Nombre";
-        formulario.elements.es_adminpop.value = 0;
-    });
 </script>
 
 </body>
