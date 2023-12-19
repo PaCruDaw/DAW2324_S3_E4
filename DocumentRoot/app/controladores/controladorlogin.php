@@ -35,7 +35,7 @@ class Login{
             } else {
                 setcookie('lang', 'ENG', time() + 86400, "/");
             }
-        }    
+        }
     }
 
     private function redirectUser() {
