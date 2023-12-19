@@ -11,8 +11,8 @@
         </button>
         <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#" onclick="cambiarIdioma(event,'esp')"><i class="fas fa-flag"></i> <?php echo TranslateTextPage::pageTranslate('Español', 'sidebar', $lang);?></a></li>
-            <li><a class="dropdown-item" href="#" onclick="cambiarIdioma(event,'eng')"><i class="fas fa-flag"></i><?php echo TranslateTextPage::pageTranslate('Inglés', 'sidebar', $lang);?></a></li>
-            <li><a class="dropdown-item" href="#" onclick="cambiarIdioma(event,'cat')"><i class="fas fa-flag"></i><?php echo TranslateTextPage::pageTranslate('Catalán', 'sidebar', $lang);?></a></li>
+            <li><a class="dropdown-item" href="#" onclick="cambiarIdioma(event,'eng')"><i class="fas fa-flag"></i> <?php echo TranslateTextPage::pageTranslate('Inglés', 'sidebar', $lang);?></a></li>
+            <li><a class="dropdown-item" href="#" onclick="cambiarIdioma(event,'cat')"><i class="fas fa-flag"></i> <?php echo TranslateTextPage::pageTranslate('Catalán', 'sidebar', $lang);?></a></li>
         </ul>
     </div>
 </div>
