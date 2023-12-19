@@ -1,6 +1,7 @@
 <?php
 
 require_once 'head.html';
+include '../controladores/controladorusuaris.php'
 
 ?>
 <!DOCTYPE html>
@@ -82,69 +83,6 @@ require_once 'head.html';
         var_dump($item);
     } ?> -->
 
-<a id="editform" href="#popup1">Let me Pop up</a>
-
-
-<div id="popup1" class="overlay">
-	<div class="popup">
-		<a class="close" href="#">&times;</a>
-		<div class="content">
-    <form id="formpop" method="post" action="#">
-                <input type="hidden" id="accionpop" name="accionpop" value="">
-                <input type="hidden" id="idUsuariopop" name="idUsuariopop" value="">
-
-                <div class="mb-3">
-                <label for="nombrepop" class="form-label">Nombre:</label>
-                <input type="text" class="form-control" id="nombrepop" name="nombrepop">
-                <!-- Mensaje de error para el nombre -->
-                <div class="error-message" id="error-nombre"></div>
-            </div>
-
-            <div class="mb-3">
-                <label for="apellidopop" class="form-label">Apellido:</label>
-                <input type="text" class="form-control" id="apellidopop" name="apellidopop">
-                <!-- Mensaje de error para el apellido -->
-                <div class="error-message" id="error-apellido"></div>
-            </div>
-
-            <div class="mb-3">
-                <label for="emailpop" class="form-label">Email:</label>
-                <input type="email" class="form-control" id="emailpop" name="emailpop">
-                <!-- Mensaje de error para el correo electrónico -->
-                <div class="error-message" id="error-email"></div>
-            </div>
-
-            <div class="mb-3">
-                <label for="contrasenapop" class="form-label">Contraseña:</label>
-                <input type="password" class="form-control" id="contrasenapop" name="contrasenapop">
-                <!-- Mensaje de error para la contraseña -->
-                <div class="error-message" id="error-contrasena"></div>
-            </div>
-
-            <div class="mb-3">
-                <label for="usernamepop" class="form-label">Nombre de usuario:</label>
-                <input type="text" class="form-control" id="usernamepop" name="usernamepop">
-                <!-- Mensaje de error para el nombre de usuario -->
-                <div class="error-message" id="error-username"></div>
-            </div>
-
-            <div class="mb-3">
-                <label for="es_adminpop" class="form-label">¿Es administrador?</label>
-                <select class="form-select" id="es_adminpop" name="es_adminpop">
-                    <option value="1">Sí</option>
-                    <option value="0">No</option>
-                </select>
-                <!-- Mensaje de error para la selección de administrador -->
-                <div class="error-message" id="error-es_admin"></div>
-            </div>
-
-            <button type="submit" class="btn btn-primary" name="accionpop" value="agregarpop">Editar Usuario</button>
-        </form>
-		</div>
-    
-	</div>
-  
-</div>
 <table class="table" id="tableUsuaris">
             <thead>
                 <tr>
@@ -152,8 +90,6 @@ require_once 'head.html';
                     <th>Traducción</th>
                     <th>Original</th>
                     <th>Idioma</th>
-                    <th>Actualizar</th>
-                    <th>Actualizar</th>
                     <th>Actualizar</th>
                     <th>Actualizar</th>
                     <th>Actualizar</th>
@@ -166,73 +102,22 @@ require_once 'head.html';
             </tbody>
         </table>
 
-<style>
-.overlay {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.7);
-  transition: opacity 500ms;
-  visibility: hidden;
-  opacity: 0;
-}
-.overlay:target {
-  visibility: visible;
-  opacity: 1;
-}
+        <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="infoModalLabel">Detalles del Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <!-- Aquí se mostrará la información del usuario -->
+                <div id="userInfo"></div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-.popup {
-  margin: 2.5% auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 5px;
-  width: 30%;
-  position: sticky;
-  transition: all 5s ease-in-out;
-}
-
-.popup .close {
-  position: absolute;
-  top: 10px;
-  right: 30px;
-  transition: all 2s;
-  font-size: 30px;
-  font-weight: bold;
-  text-decoration: none;
-  color: #333;
-}
-.popup .close:hover {
-  color: #06D85F;
-}
-.popup .content {
-  max-height: 30%;
-  overflow: auto;
-}
-
-@media screen and (max-width: 700px){
-  .box{
-    width: 70%;
-  }
-  .popup{
-    width: 70%;
-  }
-}
-</style>
 <script>
-        document.getElementById('editform').addEventListener('click', function(event) {
-        var formulario = document.getElementById('formpop');
-        
-        // Cambia el valor del campo 'nombre' al hacer clic en el enlace
-        formulario.elements.nombrepop.value = "Nuevo Nombre";
-        formulario.elements.apellidopop.value = "Nuevo Nombre";
-        formulario.elements.emailpop.value = "Nuevo Nombre";
-        formulario.elements.contrasenapop.value = "Nuevo Nombre";
-        formulario.elements.usernamepop.value = "Nuevo Nombre";
-        formulario.elements.es_adminpop.value = 0;
-    });
-    $(document).ready( function () {
     var table;
     $.ajax({
                 url: 'http://localhost/controladores/controladorusuaris.php',
@@ -249,14 +134,13 @@ require_once 'head.html';
                     { data: "contrasena" },
                     { data: "username" },
                     { data: "es_admin" },
-                    { data: "fecha_alta" },
-                    { data: "estado_id" },
                     {
                       data: null,
                       render: function(data, type, row) {
                           return '<button class="btn btn-warning btn-editar">Editar</button>';
                       }
                     }
+
                         ],
                     keys: true
                 });
@@ -266,7 +150,71 @@ require_once 'head.html';
                 }
             });
 
-          } );
+            $('#tableUsuaris tbody').on('click', '.btn-editar', function () {
+              var tr = $(this).closest('tr');
+              var rowData = table.row(tr).data();
+
+              var modalContent = `
+                <form method="post" action="#" style="margin-top:3%;">
+                <input type="hidden" id="accion" name="accion" value="">
+                <input type="hidden" id="idUsuario" name="idUsuario" value="${rowData.id}">
+
+                <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre:</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" value="${rowData.nombre}">
+                <!-- Mensaje de error para el nombre -->
+                <div class="error-message" id="error-nombre"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="apellido" class="form-label">Apellido:</label>
+                <input type="text" class="form-control" id="apellido" name="apellido" value="${rowData.apellido}">
+                <!-- Mensaje de error para el apellido -->
+                <div class="error-message" id="error-apellido"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" value="${rowData.email}">
+                <!-- Mensaje de error para el correo electrónico -->
+                <div class="error-message" id="error-email"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="contrasena" class="form-label">Contraseña:</label>
+                <input type="password" class="form-control" id="contrasena" name="contrasena" value="${rowData.contrasena}">
+                <!-- Mensaje de error para la contraseña -->
+                <div class="error-message" id="error-contrasena"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="username" class="form-label">Nombre de usuario:</label>
+                <input type="text" class="form-control" id="username" name="username" value="${rowData.username}">
+                <!-- Mensaje de error para el nombre de usuario -->
+                <div class="error-message" id="error-username"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="es_admin" class="form-label">¿Es administrador?</label>
+                <select class="form-select" id="es_admin" name="es_admin" value="${rowData.es_admin}">
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
+                </select>
+                <!-- Mensaje de error para la selección de administrador -->
+                <div class="error-message" id="error-es_admin"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" name="accion" value="agregar">Guardar Usuario</button>
+        </form>`
+
+        $('#userInfo').empty();
+
+        $('#userInfo').html(modalContent);
+              
+        var infoModal = new bootstrap.Modal(document.getElementById('infoModal'));
+        infoModal.show();
+        });
+
 </script>
 
 </body>
