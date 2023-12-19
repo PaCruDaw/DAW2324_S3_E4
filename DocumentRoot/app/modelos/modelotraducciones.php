@@ -15,8 +15,8 @@ class Traducciones {
         //método para un futuro añadir nuevos campos que traducir
         try {
 
-            $query = "UPDATE TraduccionIdiomas SET Traduccion = :traduccion 
-                        WHERE traduccion_id = :idtextooriginal AND idiomas_id = :ididioma";
+            $query = "UPDATE translations SET translation = :traduccion 
+                        WHERE idTranslation = :idtextooriginal AND idLanguages = :ididioma";
             $stmt = $this->pdo->prepare($query);
         
             // Enlazar los parámetros
@@ -32,10 +32,10 @@ class Traducciones {
 
     public function mostrarTraducciones() {
         try {
-            $query = "SELECT * FROM vistaTraducciones2";
+            $query = "SELECT * FROM viewTranslations";
             $stmt = $this->pdo->prepare($query);
             $stmt->execute();
-            return $stmt->fetchAll();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             // Manejar errores de conexión o consulta
             echo "Error: " . $e->getMessage();
@@ -44,8 +44,8 @@ class Traducciones {
 
     public function mostrarTraduccionesPorIdioma($idioma) {
         try {
-            $query = "SELECT * FROM vistaTraducciones
-                     WHERE Idioma = :idioma"; 
+            $query = "SELECT * FROM viewTranslations
+                     WHERE language = :idioma"; 
             $stmt = $this->pdo->prepare($query);
             $stmt->bindParam(':idioma', $idioma, PDO::PARAM_STR);
             $stmt->execute();
@@ -57,9 +57,9 @@ class Traducciones {
 
     public function actualizarTraducciones($traduccion,$idtraduccion) {
         try {
-            $query = "UPDATE TraduccionIdiomas 
-                        SET `Traduccion`= :traduccion 
-                        WHERE ID = :idtraduccion";
+            $query = "UPDATE translations
+                        SET `translation`= :traduccion 
+                        WHERE idTranslation = :idtraduccion";
             $stmt = $this->pdo->prepare($query);
             $stmt->bindParam(':traduccion',$traduccion, PDO::PARAM_STR);
             $stmt->bindParam(':idtraduccion', $idtraduccion, PDO::PARAM_STR);
@@ -75,7 +75,7 @@ class Traducciones {
         try {
             $this->pdo->beginTransaction();  // Iniciar la transacción
 
-            $query = "INSERT INTO Traduccion (TextoOriginal, site) VALUES (:text, :site)";
+            $query = "INSERT INTO originals (originalText, site) VALUES (:text, :site)";
             $stmt = $this->pdo->prepare($query);
             $stmt->bindParam(':text', $text);
             $stmt->bindParam(':site', $site);
@@ -97,7 +97,7 @@ class Traducciones {
 
     //Search and count all languages present in a DB
     public function countLanguages () {
-        $query = "SELECT COUNT(*) FROM Idiomas;";
+        $query = "SELECT COUNT(*) FROM languages;";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
         $resultat = $stmt->fetchColumn();
@@ -108,7 +108,7 @@ class Traducciones {
     //the same value of text for insert
     public function insertTranslate ($text, $id_translate, $id_lang) {
         try {
-            $query = "INSERT INTO TraduccionIdiomas (Traduccion, traduccion_id , idiomas_id )
+            $query = "INSERT INTO translations (translation, idOriginal, idLanguage)
                        VALUES (:text, :id_translate, :id_lang)";
             $stmt = $this->pdo->prepare($query);
             $stmt->bindParam(':text', $text);
@@ -122,9 +122,9 @@ class Traducciones {
 
     //Search a test in a site(Page view), this is use to make translate
     public function searchTextOriginal ($text, $site) {
-        $query = "SELECT TextoOriginal
-                    FROM Traduccion
-                    WHERE site = :site AND TextoOriginal = :text";
+        $query = "SELECT originalText
+                    FROM originals
+                    WHERE site = :site AND originalText = :text";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':text',$text, PDO::PARAM_STR);
         $stmt->bindParam(':site',$site, PDO::PARAM_STR);
@@ -134,9 +134,9 @@ class Traducciones {
     }
 
     public function searchTranslate ($text, $site, $lang) {
-        $query = "SELECT Traduccion
-                    FROM vistaTraducciones2
-                    WHERE  Idioma=:lang AND TextoOriginal = :text AND  site = :site";
+        $query = "SELECT translation
+                    FROM viewTranslations
+                    WHERE  language =:lang AND originalText = :text AND  site = :site";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':text',$text, PDO::PARAM_STR);
         $stmt->bindParam(':lang',$lang, PDO::PARAM_STR);
@@ -151,7 +151,7 @@ class Traducciones {
     public function translateTextPage ($text, $site,$lang) {
         try {
             $exist = $this->searchTextOriginal($text, $site); //return assosiative array with one row
-            if (isset($exist[0]['TextoOriginal'])) { //if the search finds the original text
+            if (isset($exist[0]['originalText'])) { //if the search finds the original text
                 return $this->searchTranslate ($text, $site, $lang);
             } else { 
                 $id_trans = $this->insertOriginalText($text,$site); //will enter the text in the list of translations
@@ -169,4 +169,5 @@ class Traducciones {
 }
 //create instansce
 $traductor = new Traducciones();
+
 ?>

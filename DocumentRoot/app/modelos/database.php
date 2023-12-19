@@ -4,7 +4,7 @@ class Database{
     private $db_host = 'mariadb';
     private $db_user = 'super';
     private $db_pass = 'super';
-    private $db_name = 'testdatabase';
+    private $db_name = 'project';
 
 
     public function connect() {

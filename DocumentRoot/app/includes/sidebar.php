@@ -26,7 +26,7 @@
         </div>
         <ul>
             <li><a href="../main.php"><i class="fas fa-home"></i><?php echo TranslateTextPage::pageTranslate('Inicio', 'sidebar', $lang);?></a></li>
-            <li><a href="../vistas/vistatraducciones.php"><i class="fas fa-chart-bar"></i> Traducciones</a></li>
+            <li><a href="../vistas/vistatraducciones.php"><i class="fas fa-chart-bar"></i><?php echo TranslateTextPage::pageTranslate('Traducciones', 'sidebar', $lang);?></a></li>
             <li><a href="../controladores/controladorcms.php"><i class="fas fa-users"></i> CMS</a></li>
             <li><a href="../vistas/vistaEstadisticas.php"><i class="fas fa-cog"></i> Estadisticas</a></li>
             <li><a href="#"><i class="fas fa-cog"></i> Paises</a></li>
