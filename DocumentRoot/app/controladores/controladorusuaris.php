@@ -26,4 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
 }
 
+$usuarios = $modelUsuaris->obtenerTodosLosUsuarios();
+header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *");
+echo json_encode($usuarios);
+
+
 ?>

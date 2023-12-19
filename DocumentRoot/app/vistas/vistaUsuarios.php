@@ -1,6 +1,5 @@
 <?php
 
-include('../controladores/controladorusuaris.php');
 
 ?>
 <!DOCTYPE html>
@@ -9,6 +8,7 @@ include('../controladores/controladorusuaris.php');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrador de Usuarios</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <?php include('../includes/sidebar.php'); ?>
 </head>
 <style>
@@ -199,13 +199,48 @@ include('../controladores/controladorusuaris.php');
 }
 </style>
 <script>
-    // Agrega un event listener al enlace
-    document.getElementById('editform').addEventListener('click', function(event) {
+        document.getElementById('editform').addEventListener('click', function(event) {
         var formulario = document.getElementById('formpop');
         
+        $.ajax({
+                url: 'http://localhost/controladores/controladorusuaris.php',
+                method: 'GET',
+                dataType: 'json',
+                success: function(datos) {
+                table = $('#tableUsuaris').DataTable({
+                data: data,
+                columns: [
+                    { data: "id" },
+                    { data: "nombre" },
+                    { data: "apellido" },
+                    { data: "email" },
+                    { data: "contrasena" },
+                    { data: "username" },
+                    { data: "es_admin" },
+                    { data: "fecha_alta" },
+                    { data: "estado_id" },
+                    {
+                      data: null,
+                      render: function(data, type, row) {
+                          return '<button class="btn btn-warning btn-editar">Editar</button>';
+                      }
+                    }
+                        ],
+                    keys: true
+                });
+                },
+                error: function(error) {
+                    console.error('Error en la petición:', error);
+                }
+            });
 
         // Cambia el valor del campo 'nombre' al hacer clic en el enlace
         formulario.elements.nombrepop.value = "Nuevo Nombre";
+        formulario.elements.apellidopop.value = "Nuevo Nombre";
+        formulario.elements.emailpop.value = "Nuevo Nombre";
+        formulario.elements.contrasenapop.value = "Nuevo Nombre";
+        formulario.elements.usernamepop.value = "Nuevo Nombre";
+        formulario.elements.es_adminpop.value = 0;
     });
 </script>
 
