@@ -35,9 +35,8 @@ services:
          - 8080:80
       environment:
          PMA_HOST: mariadb
-         PMA_USER: super
-         PMA_PASSWORD: super
-         
+         PMA_USER: root
+         PMA_PASSWORD: admin
    api:
       container_name: fastapi
       build:

@@ -1,7 +1,8 @@
 <?php
 
+session_start();
+
 include '../modelos/modelocms.php';
-$cms = new Cms;
 
 function contieneScript($texto) {
     $textoEnMinusculas = strtolower($texto);
@@ -31,7 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $cmsformatado = pashtml($nuevocms);
             $errorcms[$idcms] = null;
-            $modelCms->actualizarCms($idcms,$nuevocms);
+            $instanciacms = new Cms($idcms,null,$cmsformatado);
+            $instanciacms->actualizarCms();
         }       
 
     }   
@@ -39,9 +41,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-$cms = $modelCms->mostrarCMS();
+$cms = Cms::mostrarCMS();
 
 
+
+//include 'vistatraducciones.php';
+
+include '../vistas/vistacms.php';
 
 
 

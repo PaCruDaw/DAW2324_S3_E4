@@ -11,7 +11,7 @@ session_start();
 </head>
 <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #f8f9fa; /* Set your desired background color */
         }
     </style>
 <body class="container-fluid" style="width:80%; margin-left:20%; display:flex; flex-direction:column;">
@@ -30,7 +30,10 @@ session_start();
             </thead>
             <tbody>
                 <?php
-                include('../controladores/productController.php');
+                include('../modelos/modeloProducto.php');
+                $product = new Product();
+                $products = $product->getProducts();
+
                 if ($products) {
                     foreach ($products as $product) {
                         echo "<tr>";
@@ -41,7 +44,8 @@ session_start();
                         echo "<td>" . $product['margen_porcentaje'] . "</td>";
 
                         echo "<td> 
-                            <form method='post' action='vistaProductos.php' class='form-inline'>
+                            <form method='post' action='./controladores/controladorProductos.php' class='form-inline'>
+                                <input type='hidden' name='action' value='update'>
                                 <input type='hidden' name='id' value=" . $product['id'] .">
                                 <label for='nuevoMargen' class='sr-only'>Nuevo Margen:</label>
                                 <input type='number' name='nuevoMargen' id='nuevoMargen' class='form-control mr-2' required>

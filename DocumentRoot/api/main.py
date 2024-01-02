@@ -70,7 +70,6 @@ def protected_route(api_key: str = Security(get_api_key)):
     # Process the request for authenticated usersresponse = httpx.get(url, headers=custom_headers)
     return {"message": "Access granted!"}
 
-
 @app.get("/peticionotraapi")
 async def hacer_peticion(api_key: str = Security(get_api_key)):
     # URL de la API externa a la que deseas hacer la solicitud
@@ -78,14 +77,11 @@ async def hacer_peticion(api_key: str = Security(get_api_key)):
 
     async with httpx.AsyncClient() as client:
         auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
-        response = httpx.get(url, headers=auth_header)        
+        response = httpx.get(url, headers=auth_header)
 
         if response.status_code == 200:
             # La solicitud se realizó con éxito, puedes manejar los datos de la respuesta aquí.
             data = response.json()
-            # names = []
-            # for item in data:
-            #     names.append(item["data"])
             names = [item["name"] for item in data["data"]]
             return(names)
 
@@ -104,7 +100,7 @@ async def consultar_bd(api_key: str = Security(get_api_key)):
         cursor = connection.cursor(dictionary=True)
 
         # Ejecuta una consulta
-        query = "SELECT * FROM usuario"
+        query = "SELECT * FROM clients"
         cursor.execute(query)
 
         # Obtiene los resultados
@@ -156,14 +152,11 @@ async def hacer_peticion(api_key: str = Security(get_api_key)):
 
         async with httpx.AsyncClient() as client:
             auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
-            response = httpx.get(url, headers=auth_header)        
+            response = httpx.get(url, headers=auth_header)
 
             if response.status_code == 200:
                 # La solicitud se realizó con éxito, puedes manejar los datos de la respuesta aquí.
                 data = response.json()
-                # names = []
-                # for item in data:
-                #     names.append(item["data"])
                 data_list = data["data"]
 
                 # Ahora, crearemos una lista de diccionarios con ambas claves
@@ -173,10 +166,11 @@ async def hacer_peticion(api_key: str = Security(get_api_key)):
                 # Crea un cursor para ejecutar consultas SQL
                 cursor = connection.cursor()
 
-                query = "TRUNCATE TABLE `testdatabase2`.`pais`"
-                queryinsert = "INSERT INTO `pais`(`nombre_pais`,`codigo_pais`) VALUES (%s,%s);"
+                query = "TRUNCATE TABLE `project`.`country`"
+                queryinsert = "INSERT INTO `country`(`countryName`,`countryCode`) VALUES (%s,%s);"
 
                 cursor.execute(query)
+
                 for item in info_list:
                     country = item["country"]
                     countrycode = item["countrycode"]
@@ -186,7 +180,188 @@ async def hacer_peticion(api_key: str = Security(get_api_key)):
                 cursor.close()
                 connection.close()
                 return "La BD ha sido actualizada"
-                
+
+            else:
+                # Maneja los errores si la solicitud no fue exitosa
+                return {"error": "No se pudo realizar la solicitud a la API externa"}
+
+    except mysql.connector.Error as e:
+        return {"error": f"Error de MySQL: {e}"}
+    except Exception as e:
+        return {"error": f"Error no manejado: {e}"}
+
+@app.get("/deapiaproductes")
+async def hacer_peticion(api_key: str = Security(get_api_key)):
+    # URL de la API externa a la que deseas hacer la solicitud
+    try:
+        url = "https://api.picanova.com/api/beta/products"
+
+        async with httpx.AsyncClient() as client:
+            auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
+            response = httpx.get(url, headers=auth_header)
+
+            if response.status_code == 200:
+                # La solicitud se realizó con éxito, puedes manejar los datos de la respuesta aquí.
+                data = response.json()
+                data_list = data["data"]
+                connection = mysql.connector.connect(**get_db_info())
+                # Crea un cursor para ejecutar consultas SQL
+                cursor = connection.cursor()
+                queryinsert = "INSERT INTO `products`(`idProduct`,`productName`) VALUES (%s,%s);" 
+
+                dictionary = {}
+
+                for item in data_list:
+                    idProducte = item["id"]
+                    nom = item["name"]
+                    nuevoselementos={idProducte:nom}
+                    dictionary.update(nuevoselementos)
+                    cursor.execute(queryinsert, (idProducte, nom))
+
+                connection.commit()
+                cursor.close()
+                connection.close()
+                return "La BD ha sido actualizada"
+
+            else:
+                # Maneja los errores si la solicitud no fue exitosa
+                return {"error": "No se pudo realizar la solicitud a la API externa"}
+
+    except mysql.connector.Error as e:
+        return {"error": f"Error de MySQL: {e}"}
+    except Exception as e:
+        return {"error": f"Error no manejado: {e}"}
+    
+@app.get("/deapiavariants")
+async def hacer_peticion(api_key: str = Security(get_api_key)):
+    # URL de la API externa a la que deseas hacer la solicitud
+    try:
+
+        url = "https://api.picanova.com/api/beta/products"
+
+        async with httpx.AsyncClient() as client:
+            auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
+            response = httpx.get(url, headers=auth_header)
+
+            if response.status_code == 200:
+                data = response.json()
+                data_list = data["data"]
+
+                for item in data_list:
+                    url2 = "https://api.picanova.com/api/beta/variants/"
+                    id = str(item["id"])
+                    url2 += id
+
+                    async with httpx.AsyncClient() as client:
+                        auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
+                        response = httpx.get(url2, headers=auth_header)
+
+                        if response.status_code == 200:
+                            data = response.json()
+                            data_list = data["data"]
+                            idV = data_list.get("variant_id")
+                            idP = data_list.get("id")
+                            name = data_list.get("name")
+                            connection = mysql.connector.connect(**get_db_info())
+                            cursor = connection.cursor()
+                            queryinsert = "INSERT INTO `productVariant`(`idVariant`, `idProduct`,`variantName`) VALUES (%s,%s,%s);"
+                            cursor.execute(queryinsert, (idV, idP, name))
+                            connection.commit()
+                            cursor.close()
+                            connection.close()
+
+                return "La BD ha sido actualizada"
+
+            else:
+                # Maneja los errores si la solicitud no fue exitosa
+                return {"error": "No se pudo realizar la solicitud a la API externa"}
+
+    except mysql.connector.Error as e:
+        return {"error": f"Error de MySQL: {e}"}
+    except Exception as e:
+        return {"error": f"Error no manejado: {e}"}
+
+@app.get("/deapiaopcions")
+async def hacer_peticion(api_key: str = Security(get_api_key)):
+    # URL de la API externa a la que deseas hacer la solicitud
+    try:
+
+        url = "https://api.picanova.com/api/beta/products"
+
+        async with httpx.AsyncClient() as client:
+            auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
+            response = httpx.get(url, headers=auth_header)
+
+            if response.status_code == 200:
+                data = response.json()
+                data_list = data["data"]
+
+                for item in data_list:
+                    url2 = "https://api.picanova.com/api/beta/variants/"
+                    id = str(item["id"])
+                    id2 = int(item["id"])
+                    url2 += id
+
+                    async with httpx.AsyncClient() as client:
+                        auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
+                        response_variants = httpx.get(url2, headers=auth_header)
+
+                        if response_variants.status_code == 200:
+                            variant_data = response_variants.json()["data"]
+                            options = variant_data.get("options", {})
+
+                            if isinstance(options, dict):
+                                for option_id, option_data in options.items():
+                                    option_id = int(option_id)
+                                    is_required = option_data.get("is_required", False)
+                                    connection = mysql.connector.connect(**get_db_info())
+                                    cursor = connection.cursor()
+                                    queryinsert = "INSERT INTO `options`(`idOption`, `idVariant`, `is_required`) VALUES (%s,%s,%s);"
+                                    cursor.execute(queryinsert, (option_id, id2, is_required))
+                                    connection.commit()
+                                    cursor.close()
+                                    connection.close()
+
+                return "La BD ha sido actualizada"
+
+            else:
+                # Maneja los errores si la solicitud no fue exitosa
+                return {"error": "No se pudo realizar la solicitud a la API externa"}
+
+    except mysql.connector.Error as e:
+        return {"error": f"Error de MySQL: {e}"}
+    except Exception as e:
+        return {"error": f"Error no manejado: {e}"}
+
+@app.get("/deapiavalues")
+async def hacer_peticion(api_key: str = Security(get_api_key)):
+    # URL de la API externa a la que deseas hacer la solicitud
+    try:
+
+        url = "https://api.picanova.com/api/beta/variants/2"
+
+        async with httpx.AsyncClient() as client:
+            auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
+            response = httpx.get(url, headers=auth_header)
+
+            if response.status_code == 200:
+                data = response.json()
+                data_list = data["data"]["options"]
+                for option_id, option_data in data_list.items():
+                    values = option_data.get("values", [])
+                    for value in values:
+                        idValue = value["id"]
+                        name = value["name"]
+                        connection = mysql.connector.connect(**get_db_info())
+                        cursor = connection.cursor()
+                        queryinsert = "INSERT INTO `values`(`idValue`, `idOption`, `name`) VALUES (%s,%s,%s);"
+                        cursor.execute(queryinsert, (idValue, option_id, name))
+                        connection.commit()
+                        cursor.close()
+                        connection.close()
+
+                return "La BD ha sido actualizada"
+
             else:
                 # Maneja los errores si la solicitud no fue exitosa
                 return {"error": "No se pudo realizar la solicitud a la API externa"}
