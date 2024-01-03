@@ -1,7 +1,7 @@
 <?php
-
+session_start();
 require_once 'head.html';
-include '../controladores/controladorusuaris.php'
+include '../controladores/controladorFormUsuaris.php';
 
 ?>
 <!DOCTYPE html>
@@ -28,9 +28,7 @@ include '../controladores/controladorusuaris.php'
 
             <!-- Formulario para agregar/editar usuarios -->
             <form method="post" action="#" style="margin-top:3%;">
-                <input type="hidden" id="accion" name="accion" value="">
-                <input type="hidden" id="idUsuario" name="idUsuario" value="">
-
+                
                 <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre:</label>
                 <input type="text" class="form-control" id="nombre" name="nombre">
@@ -86,7 +84,7 @@ include '../controladores/controladorusuaris.php'
 <table class="table" id="tableUsuaris">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    
                     <th>Traducción</th>
                     <th>Original</th>
                     <th>Idioma</th>
@@ -120,14 +118,14 @@ include '../controladores/controladorusuaris.php'
 <script>
     var table;
     $.ajax({
-                url: 'http://localhost/controladores/controladorusuaris.php',
+                url: 'http://localhost/controladores/controladorMostrarUsuaris.php',
                 method: 'GET',
                 dataType: 'json',
                 success: function(datos) {
                 table = $('#tableUsuaris').DataTable({
                 data: datos,
                 columns: [
-                    { data: "id" },
+                    
                     { data: "nombre" },
                     { data: "apellido" },
                     { data: "email" },
@@ -157,46 +155,46 @@ include '../controladores/controladorusuaris.php'
               var modalContent = `
                 <form method="post" action="#" style="margin-top:3%;">
                 <input type="hidden" id="accion" name="accion" value="">
-                <input type="hidden" id="idUsuario" name="idUsuario" value="${rowData.id}">
+                <input type="hidden" id="idUsuarioU" name="idUsuario" value="${rowData.id}">
 
                 <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre:</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" value="${rowData.nombre}">
+                <input type="text" class="form-control" id="nombreU" name="nombre" value="${rowData.nombre}">
                 <!-- Mensaje de error para el nombre -->
                 <div class="error-message" id="error-nombre"></div>
             </div>
 
             <div class="mb-3">
                 <label for="apellido" class="form-label">Apellido:</label>
-                <input type="text" class="form-control" id="apellido" name="apellido" value="${rowData.apellido}">
+                <input type="text" class="form-control" id="apellidoU" name="apellido" value="${rowData.apellido}">
                 <!-- Mensaje de error para el apellido -->
                 <div class="error-message" id="error-apellido"></div>
             </div>
 
             <div class="mb-3">
                 <label for="email" class="form-label">Email:</label>
-                <input type="email" class="form-control" id="email" name="email" value="${rowData.email}">
+                <input type="email" class="form-control" id="emailU" name="email" value="${rowData.email}">
                 <!-- Mensaje de error para el correo electrónico -->
                 <div class="error-message" id="error-email"></div>
             </div>
 
             <div class="mb-3">
                 <label for="contrasena" class="form-label">Contraseña:</label>
-                <input type="password" class="form-control" id="contrasena" name="contrasena" value="${rowData.contrasena}">
+                <input type="password" class="form-control" id="contrasenaU" name="contrasena" value="${rowData.contrasena}">
                 <!-- Mensaje de error para la contraseña -->
                 <div class="error-message" id="error-contrasena"></div>
             </div>
 
             <div class="mb-3">
                 <label for="username" class="form-label">Nombre de usuario:</label>
-                <input type="text" class="form-control" id="username" name="username" value="${rowData.username}">
+                <input type="text" class="form-control" id="usernameU" name="username" value="${rowData.username}">
                 <!-- Mensaje de error para el nombre de usuario -->
                 <div class="error-message" id="error-username"></div>
             </div>
 
             <div class="mb-3">
                 <label for="es_admin" class="form-label">¿Es administrador?</label>
-                <select class="form-select" id="es_admin" name="es_admin" value="${rowData.es_admin}">
+                <select class="form-select" id="es_admin" name="es_adminU" value="${rowData.es_admin}">
                     <option value="1">Sí</option>
                     <option value="0">No</option>
                 </select>

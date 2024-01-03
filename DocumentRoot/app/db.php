@@ -1,8 +1,8 @@
 <?php
 // Configuración de la base de datos
 $db_host = 'mariadb';
-$db_user = 'super';
-$db_pass = 'super';
+$db_user = 'root';
+$db_pass = 'admin';
 $db_name = 'testdatabase';
 
 
