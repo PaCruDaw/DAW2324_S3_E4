@@ -3,7 +3,7 @@
 $db_host = 'mariadb';
 $db_user = 'root';
 $db_pass = 'admin';
-$db_name = 'testdatabase';
+$db_name = 'project';
 
 
 try {

@@ -2,28 +2,48 @@
 include('../db.php');
 include('../modelos/modelUsuaris.php');
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if(isset($_POST['idUsuarioU'])){
-        
-    $idUsuario = $_POST['idUsuarioU'];
-    $nombre = $_POST['nombreU'];
-    $apellido = $_POST['apellidoU'];
-    $email = $_POST['emailU'];
-    $contrasena = $_POST['contrasenaU'];
-    $username = $_POST['usernameU'];
-    $es_admin = $_POST['es_adminU'];
-    $modelUsuaris->actualizarUsuario($nombre, $apellido, $email, $contrasena, $username, $es_admin, 1, $idusuario);
-    
-    }else{
+//$modelUsuaris->agregarUsuario(1,'pepe3','surname pepe3','user pepe3','pass pepe3','pepe3@pepe.pepe',1,'adress pepe3',1,1);
+$modelUsuaris->actualizarUsuario(5,1,'pepe update','surname pepe3 update','user pepe3 update','pass pepe3 update','pepe3update@pepe.pepe',1,'adress pepe3 update',1,1);
 
-    $nombre = $_POST['nombre'];
-    $apellido = $_POST['apellido'];
-    $email = $_POST['email'];
-    $contrasena = $_POST['contrasena'];
-    $username = $_POST['username'];
-    $es_admin = $_POST['es_admin'];
-    $modelUsuaris->agregarUsuario($nombre, $apellido, $email, $contrasena, $username, $es_admin, 1 );
-    }  
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+    $accion = $_POST['action'];
+     
+    switch ($accion) {
+        case "update":
+            $idClient = $_POST['idClientU'];
+            $idstatus = $_POST['idstatusU'];
+            $name = $_POST['nameU'];
+            $surname = $_POST['surnameU'];
+            $username = $_POST['usernameU'];
+            $password = $_POST['passwordU'];
+            $mail = $_POST['mailU'];
+            $phone = $_POST['phoneU'];
+            $address = $_POST['addressU'];
+            $postcode = $_POST['postcodeU'];
+            $idCountry = $_POST['idCountryU'];
+            $modelUsuaris->actualizarUsuario($idClient, $idstatus, $name, $surname, $username, $password, $mail, $phone, $address, $postcode, $idCountry );          
+            break;
+
+        case "add":
+            $idstatus = $_POST['idstatus'];
+            $name = $_POST['name'];
+            $surname = $_POST['surname'];
+            $username = $_POST['username'];
+            $password = $_POST['password'];
+            $mail = $_POST['mail'];
+            $phone = $_POST['phone'];
+            $address = $_POST['address'];
+            $postcode = $_POST['postcode'];
+            $idCountry = $_POST['idCountry'];
+            $modelUsuaris->agregarUsuario($idstatus, $name, $surname, $username, $password, $mail, $phone, $address, $postcode, $idCountry );          
+            break;
+
+        default:
+            // Acción predeterminada si no se encuentra ninguna acción válida
+            echo "Acción no válida";
+            break;
+    }
     
-}
+
+}  
 ?>

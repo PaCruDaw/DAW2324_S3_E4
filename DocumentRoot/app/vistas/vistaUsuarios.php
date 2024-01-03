@@ -26,52 +26,79 @@ include '../controladores/controladorFormUsuaris.php';
                     <h1>Agregar Usuarios</h1>
                 </div>
 
-            <!-- Formulario para agregar/editar usuarios -->
+            <!-- Formulario para agregar -->
             <form method="post" action="#" style="margin-top:3%;">
                 
-                <div class="mb-3">
+            <div class="mb-3">
+                <input type="hidden" id="action" name="action" value="set">
+                <label for="status" class="form-label">Estatus:</label>
+                <select class="form-select" id="idstatus" name="idstatus">
+                    <option value="1">Estatus 1</option>
+                    <option value="0">Estatus 2</option>
+                </select>
+                <div class="error-message" id="error-status"></div>
+            </div>
+            
+            <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre:</label>
-                <input type="text" class="form-control" id="nombre" name="nombre">
-                <!-- Mensaje de error para el nombre -->
+                <input type="text" class="form-control" id="name" name="name">
                 <div class="error-message" id="error-nombre"></div>
             </div>
 
             <div class="mb-3">
-                <label for="apellido" class="form-label">Apellido:</label>
-                <input type="text" class="form-control" id="apellido" name="apellido">
-                <!-- Mensaje de error para el apellido -->
+                <label for="surname" class="form-label">Apellido/s:</label>
+                <input type="text" class="form-control" id="surname" name="surname">
                 <div class="error-message" id="error-apellido"></div>
-            </div>
-
-            <div class="mb-3">
-                <label for="email" class="form-label">Email:</label>
-                <input type="email" class="form-control" id="email" name="email">
-                <!-- Mensaje de error para el correo electrónico -->
-                <div class="error-message" id="error-email"></div>
-            </div>
-
-            <div class="mb-3">
-                <label for="contrasena" class="form-label">Contraseña:</label>
-                <input type="password" class="form-control" id="contrasena" name="contrasena">
-                <!-- Mensaje de error para la contraseña -->
-                <div class="error-message" id="error-contrasena"></div>
             </div>
 
             <div class="mb-3">
                 <label for="username" class="form-label">Nombre de usuario:</label>
                 <input type="text" class="form-control" id="username" name="username">
-                <!-- Mensaje de error para el nombre de usuario -->
                 <div class="error-message" id="error-username"></div>
             </div>
 
             <div class="mb-3">
-                <label for="es_admin" class="form-label">¿Es administrador?</label>
-                <select class="form-select" id="es_admin" name="es_admin">
-                    <option value="1">Sí</option>
-                    <option value="0">No</option>
+                <label for="password" class="form-label">Contraseña:</label>
+                <input type="password" class="form-control" id="password" name="password">
+                <!-- Mensaje de error para la contraseña -->
+                <div class="error-message" id="error-contrasena"></div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="mail" class="form-label">Email:</label>
+                <input type="email" class="form-control" id="mail" name="mail">
+                <!-- Mensaje de error para el correo electrónico -->
+                <div class="error-message" id="error-mail"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="phone" class="form-label">Teléfono:</label>
+                <input type="text" class="form-control" id="phone" name="phone">
+                <!-- Mensaje de error para el nombre de usuario -->
+                <div class="error-message" id="error-phone"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="address" class="form-label">Dirección:</label>
+                <input type="text" class="form-control" id="address" name="address">
+                <!-- Mensaje de error para el nombre de usuario -->
+                <div class="error-message" id="error-address"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="postcode" class="form-label">Codigo postal:</label>
+                <input type="text" class="form-control" id="postcode" name="postcode">
+                <!-- Mensaje de error para el nombre de usuario -->
+                <div class="error-message" id="error-postcode"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="idCountry" class="form-label">Pais:</label>
+                <select class="form-select" id="idCountry" name="idCountry">
+                    <option value="1">País 1</option>
+                    <option value="0">País 2</option>
                 </select>
-                <!-- Mensaje de error para la selección de administrador -->
-                <div class="error-message" id="error-es_admin"></div>
+                <div class="error-message" id="error-idCountry"></div>
             </div>
 
             <button type="submit" class="btn btn-primary" name="accion" value="agregar">Guardar Usuario</button>
@@ -154,7 +181,7 @@ include '../controladores/controladorFormUsuaris.php';
 
               var modalContent = `
                 <form method="post" action="#" style="margin-top:3%;">
-                <input type="hidden" id="accion" name="accion" value="">
+                <input type="hidden" id="action" name="action" value="update">
                 <input type="hidden" id="idUsuarioU" name="idUsuario" value="${rowData.id}">
 
                 <div class="mb-3">
