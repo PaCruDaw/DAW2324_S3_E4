@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $surname = $_POST['surnameU'];
             $username = $_POST['usernameU'];
             $password = $_POST['passwordU'];
-            $mail = $_POST['mailU'];
+            $mail = $_POST['emailU'];
             $phone = $_POST['phoneU'];
             $address = $_POST['addressU'];
             $postcode = $_POST['postcodeU'];

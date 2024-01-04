@@ -8,7 +8,7 @@ class ModelUsuaris {
     }
 
     public function obtenerTodosLosUsuarios() {
-        $query = "SELECT * FROM users";
+        $query = "SELECT * FROM clients";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
 
