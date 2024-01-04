@@ -1,6 +1,9 @@
 from fastapi import FastAPI, HTTPException, Security
 from fastapi.security import APIKeyHeader
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI, Request
+from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
 import httpx
 import base64
 from httpx import Headers
@@ -21,6 +24,8 @@ api_key_header = APIKeyHeader(name="X-API-Key")
 origins = [
     "http://localhost" 
 ]
+
+templates = Jinja2Templates(directory="templates")
 
 app.add_middleware(
     CORSMiddleware,
@@ -370,3 +375,11 @@ async def hacer_peticion(api_key: str = Security(get_api_key)):
         return {"error": f"Error de MySQL: {e}"}
     except Exception as e:
         return {"error": f"Error no manejado: {e}"}
+    
+@app.get("/templates", response_class=HTMLResponse)
+async def read_root(request: Request):
+    # Ejemplo de datos que se pueden pasar al template
+    data = {"request": request, "mensaje": "Hola desde FastAPI con Jinja2"}
+    
+    # Renderiza el template utilizando Jinja2
+    return templates.TemplateResponse("index.html", {"request": request, **data})
