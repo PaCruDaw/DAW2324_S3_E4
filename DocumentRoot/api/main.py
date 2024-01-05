@@ -390,7 +390,7 @@ async def read_root(request: Request):
     urlpicanova = "https://api.picanova.com/api/beta/countries"
     urlopenai = "https://status.openai.com/api/v2/status.json"
     urlbigjpg = "https://bigjpg.com/"
-    urlcustomaize = "http://localhost:8000/test"
+    # urlcustomaize = "http://localhost:8000/test"
     
     async with httpx.AsyncClient() as client:
         auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
@@ -404,7 +404,11 @@ async def read_root(request: Request):
     async with httpx.AsyncClient() as client:
         response = httpx.get(urlbigjpg)
         servicios["BigJPG"]= check_status(response.status_code)
+        
+    # async with httpx.AsyncClient() as client:
+    #     response = httpx.get(urlcustomaize)
+    #     servicios["CustomAIze"]= check_status(response.status_code)
             
-    data = {"request": request, "mensaje": "Hola desde FastAPI con Jinja2", "servicios": servicios}
+    data = {"request": request, "servicios": servicios}
     
     return templates.TemplateResponse("index.html", {"request": request, **data})
