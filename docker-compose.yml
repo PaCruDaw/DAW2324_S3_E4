@@ -37,6 +37,7 @@ services:
          PMA_HOST: mariadb
          PMA_USER: root
          PMA_PASSWORD: admin
+         
    api:
       container_name: fastapi
       build:

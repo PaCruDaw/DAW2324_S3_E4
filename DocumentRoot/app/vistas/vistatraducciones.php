@@ -1,19 +1,15 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" initial-scale="1.0">
-    <script src="../js/validaciontraducciones.js" rel="script"></script>
-    <?php include('../includes/sidebar.php'); ?>
-    <title>Document</title>
-</head>
-<style>
+<?php
+session_start();
+require_once '../includes/head.php';
+?>
+
+    <style>
         body {
             background-color: #f8f9fa; /* Set your desired background color */
         }
     </style>
 <body>
-    <div class="traducciones" style="width:80%; margin-left:20%; display:flex; flex-direction:column;">
+    <div class="traducciones" style="width:80%; margin-left:15%; display:flex; flex-direction:column;">
         <h1>Lista de Traducciones</h1>
         
         <form method="POST" action="../controladores/controladortraducciones.php">
@@ -34,8 +30,9 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Traducción</th>
                     <th>Original</th>
+                    <th>Traducción</th>
+                    <th>Lugar</th>
                     <th>Idioma</th>
                     <th>Actualizar</th>
                 </tr>
@@ -70,3 +67,4 @@
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>
+<?php
