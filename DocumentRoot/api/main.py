@@ -68,8 +68,14 @@ def get_credentials():
 
     # Codificar las credenciales en base64
     credentials = base64.b64encode(f"{username}:{password}".encode()).decode()
-    return credentials    
+    return credentials 
 
+def check_status(status):
+    if(status == 200):
+        return "En funcionamiento"
+    else:
+        return "Fuera de servicio"
+             
 @app.get("/protected")
 def protected_route(api_key: str = Security(get_api_key)):
     # Process the request for authenticated usersresponse = httpx.get(url, headers=custom_headers)
@@ -379,7 +385,26 @@ async def hacer_peticion(api_key: str = Security(get_api_key)):
 @app.get("/templates", response_class=HTMLResponse)
 async def read_root(request: Request):
     # Ejemplo de datos que se pueden pasar al template
-    data = {"request": request, "mensaje": "Hola desde FastAPI con Jinja2"}
     
-    # Renderiza el template utilizando Jinja2
+    servicios= {}
+    urlpicanova = "https://api.picanova.com/api/beta/countries"
+    urlopenai = "https://status.openai.com/api/v2/status.json"
+    urlbigjpg = "https://bigjpg.com/"
+    urlcustomaize = "http://localhost:8000/test"
+    
+    async with httpx.AsyncClient() as client:
+        auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
+        response = httpx.get(urlpicanova, headers=auth_header)
+        servicios["Picanova"]= check_status(response.status_code)
+        
+    async with httpx.AsyncClient() as client:
+        response = httpx.get(urlopenai)
+        servicios["OpenAI"]= check_status(response.status_code)
+        
+    async with httpx.AsyncClient() as client:
+        response = httpx.get(urlbigjpg)
+        servicios["BigJPG"]= check_status(response.status_code)
+            
+    data = {"request": request, "mensaje": "Hola desde FastAPI con Jinja2", "servicios": servicios}
+    
     return templates.TemplateResponse("index.html", {"request": request, **data})
