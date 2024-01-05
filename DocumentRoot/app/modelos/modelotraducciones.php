@@ -1,19 +1,14 @@
 <?php
+require_once 'database.php';
+
 class Traducciones {
-    
-    public $idtraduccion;
-    public $idtextooriginal;
-    public $ididioma;
-    public $traduccion;
-    
+   
+    private $pdo;
 
-    public function __construct ($idtraduccion, $idtextooriginal, $ididioma, $traduccion) {
-
-        $this->idtraduccion = $idtraduccion;
-        $this->idtextooriginal = $idtextooriginal;
-        $this->ididioma = $ididioma;
-        $this->traduccion = $traduccion;
-    
+    public function __construct()
+    {
+        $connection = new Database();
+        $this->pdo = $connection->connect();
     }
 
     public function agregarTraduccion($idtextooriginal,$traduccion,$ididioma) {
@@ -25,19 +20,17 @@ class Traducciones {
             $stmt = $this->pdo->prepare($query);
         
             // Enlazar los parámetros
-            $stmt->bindParam(':idtextooriginal', $this->$idtextooriginal, PDO::PARAM_STR);
-            $stmt->bindParam(':traduccion', $this->$traduccion, PDO::PARAM_STR);
-            $stmt->bindParam(':ididioma', $this->$ididioma, PDO::PARAM_STR);
-            
+            $stmt->bindParam(':idtextooriginal', $idtextooriginal, PDO::PARAM_STR);
+            $stmt->bindParam(':traduccion', $traduccion, PDO::PARAM_STR);
+            $stmt->bindParam(':ididioma', $ididioma, PDO::PARAM_STR);
             $stmt->execute();
-
         } catch (PDOException $e) {
             // Manejar errores de conexión o consulta
             echo "Error: " . $e->getMessage();
         }
     }
 
-    public static function mostrarTraducciones() {
+    public function mostrarTraducciones() {
         try {
             $query = "SELECT * FROM viewTranslations";
             $stmt = $this->pdo->prepare($query);
@@ -49,24 +42,20 @@ class Traducciones {
         }
     }
 
-    public static function mostrarTraduccionesPorIdioma($idioma) {
+    public function mostrarTraduccionesPorIdioma($idioma) {
         try {
             $query = "SELECT * FROM viewTranslations
                      WHERE language = :idioma"; 
             $stmt = $this->pdo->prepare($query);
             $stmt->bindParam(':idioma', $idioma, PDO::PARAM_STR);
             $stmt->execute();
-            
             return $stmt->fetchAll();
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
-
-
     }
 
-    public function actualizarTraducciones() {
-        
+    public function actualizarTraducciones($traduccion,$idtraduccion) {
         try {
             $query = "UPDATE translations
                         SET `translation`= :traduccion 
@@ -75,7 +64,6 @@ class Traducciones {
             $stmt->bindParam(':traduccion',$traduccion, PDO::PARAM_STR);
             $stmt->bindParam(':idtraduccion', $idtraduccion, PDO::PARAM_STR);
             $stmt->execute();
-            
         } catch (PDOException $e) {
             // Manejar errores de conexión o consulta
             echo "Error: " . $e->getMessage();
