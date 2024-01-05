@@ -2,9 +2,9 @@
 class Database{
     public $pdo;
     private $db_host = 'mariadb';
-    private $db_user = 'super';
-    private $db_pass = 'super';
-    private $db_name = 'testdatabase';
+    private $db_user = 'root';
+    private $db_pass = 'admin';
+    private $db_name = 'project';
 
 
     public function connect() {

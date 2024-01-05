@@ -2,44 +2,57 @@
     include('../modelos/database.php');
     class Product {
         private $pdo;
-        private $id;
-        private $nombre_producto;
-        private $descripcion_producto;
-        private $precio;
-        private $margen_porcentaje;
-        private $table_name="producto";
+        private $idVariant;
+        private $idProduct;
+        private $size;
+        private $variantName;
+        private $format_width;
+        private $format_height;
+        private $marginPercentage;
+        private $showProduct;
     
         public function __construct() {
             $pdo= new Database();
             $this->pdo = $pdo->connect();
-            
         }
         
         //getters
-        public function getId() {
-            return $this->id;
+        public function getIdVariant() {
+            return $this->idVariant;
+        }
+
+        public function getIdProduct() {
+            return $this->idProduct;
         }
     
-        public function getNombreProducto() {
-            return $this->nombre_producto;
+        public function getVariantName() {
+            return $this->variantName;
+        }
+
+        public function getSize() {
+            return $this->size;
         }
     
-        public function getDescripcionProducto() {
-            return $this->descripcion_producto;
+        public function getFormatWidth() {
+            return $this->format_width;
+        }
+        
+        public function getFormatHeight() {
+            return $this->format_height;
         }
     
-        public function getPrecio() {
-            return $this->precio;
+        public function getMarginPercentage() {
+            return $this->marginPercentage;
         }
-    
-        public function getMargenPorcentaje() {
-            return $this->margen_porcentaje;
+
+        public function getShowProduct() {
+            return $this->showProduct;
         }
 
 
         public function getProducts() {
             try {
-                $query = "SELECT * FROM producto";
+                $query = "SELECT * FROM productVariant";
                 $stmt = $this->pdo->prepare($query);
                 $stmt->execute();
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -50,10 +63,10 @@
             }
         }
 
-        public function updateProduct($productoID){
+        public function updateProduct($idProduct){
             try {
-            $query = "INSERT INTO producto ( nombre_producto, decripcion_producto, precio, margen_porcentaje) 
-              VALUES (:id, :nombre_producto, :decripcion_producto, :precio, :margen_porcentaje)";
+            $query = "INSERT INTO productVariant ( marginPercentage, showProduct) 
+              VALUES (:idVariant, :marginPercentage, :showProduct)";
                 $stmt = $this->pdo->prepare($query);
                 $stmt->execute();
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -63,46 +76,6 @@
                 return false;
             }
 
-        }
-
-        // Método para eliminar un producto por su ID
-        public function deleteProduct($productoID) {
-            try {
-                $query = "DELETE FROM producto WHERE id = :productoID";
-                $stmt = $this->pdo->prepare($query);
-                $stmt->bindParam(':productoID', $productoID, PDO::PARAM_INT);
-                $stmt->execute();
-                return true; // Éxito al eliminar
-            } catch (PDOException $e) {
-                echo "Error: " . $e->getMessage();
-                return false; // Error al eliminar
-            }
-        }
-
-        public function insertProduct($nombre_producto, $descripcion_producto, $precio, $margen_porcentaje) {
-            try {
-                // Preparar la consulta SQL
-                $query = "INSERT INTO producto (nombre_producto, descripcion_producto, precio, margen_porcentaje) VALUES (:nombre, :descripcion, :precio, :margen)";
-    
-                // Preparar la sentencia
-                $stmt = $this->pdo->prepare($query);
-    
-                // Asignar valores a los parámetros
-                $stmt->bindParam(':nombre', $nombre_producto);
-                $stmt->bindParam(':decripcion_producto', $descripcion_producto);
-                $stmt->bindParam(':precio', $precio);
-                $stmt->bindParam(':margen_porcentaje', $margen_porcentaje);
-    
-                // Ejecutar la sentencia
-                $stmt->execute();
-    
-                // Devolver true si la inserción fue exitosa
-                return true;
-            } catch (PDOException $e) {
-                // Manejar errores de la base de datos
-                echo "Error: " . $e->getMessage();
-                return false;
-            }
         }
     }
     

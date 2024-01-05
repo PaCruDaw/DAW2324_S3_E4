@@ -9,15 +9,19 @@ $product = new Product();
 
 
 // Manejar la actualización de productos
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update']) && isset($_POST['id_producto'])) {
-    $id_producto = $_POST['id_producto'];
-    $nombre_producto = $_POST['nombre_producto'];
-    $descripcion_producto = $_POST['decripcion_producto'];
-    $precio = $_POST['precio'];
-    $margen_porcentaje = $_POST['margen_porcentaje'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update']) && isset($_POST['idProduct'])) {
+    $idVariant = $_POST['idVariant'];
+    $idProduct = $_POST['idProduct'];
+    $size = $_POST['size'];
+    $variantName = $_POST['variantName'];
+    $margen_porcentaje = $_POST['marginPercentage'];
+    $format_width = $_POST['format_width'];
+    $format_height = $_POST['format_height'];
+    $currency = $_POST['currency'];
+    $accion = $_POST['showProduct'];
 
     // Llamar al método de actualización del modelo
-    $result = $product->updateProduct($id_producto);
+    $result = $product->updateProduct($idProduct);
 
     if ($result) {
         // Producto actualizado exitosamente
