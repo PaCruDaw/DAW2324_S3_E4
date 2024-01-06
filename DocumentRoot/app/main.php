@@ -31,6 +31,8 @@ require_once "./includes/head.php";
             <div class="col-md-6">
                 <h2 class="mb-3">Ventas Anuales </h2>
                 <img class="img-fluid" src="/img/estadisticas1.jpg" alt="">
+                <h2 class="mb-3">Ventas Anuales eses </h2>
+                <canvas id="chart3"></canvas>
             </div>
             <div class="col-md-6">
                 <h2 class="mb-3">Ventas por países </h2>
