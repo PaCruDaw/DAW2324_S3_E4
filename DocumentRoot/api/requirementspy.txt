@@ -1,6 +1,6 @@
 fastapi==0.104.1
 uvicorn==0.23.2
-Requests==2.25.1
+Requests==2.31.0
 httpx==0.25.0
 mysql-connector-python==8.2.0
 celery[redis]
