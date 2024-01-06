@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estado de Servicios</title>
+    <style>
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: 20px;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .tick {
+            color: green;
+            font-size: 20px;
+        }
+
+        .cross {
+            color: red;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Estado de Servicios</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Servicio</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Itera sobre la información de los servicios desde el lado del servidor -->
+            {% for servicio, estado in servicios.items() %}
+                <tr>
+                    <td>{{ servicio }}</td>
+                    <td>
+                        {% if estado == "En funcionamiento" %}
+                            <span class="tick">✔</span>
+                        {% else %}
+                            <span class="cross">✘</span>
+                        {% endif %}
+                        {{ estado }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
