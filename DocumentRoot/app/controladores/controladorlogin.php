@@ -32,12 +32,10 @@ class Login{
                 setcookie('lang', 'ESP', time() + 86400, "/");
             } elseif ($userLang == "ca-CA") {
                 setcookie('lang', 'CAT', time() + 86400, "/");
-            } elseif ($userLang == "it-IT") {
-                setcookie('lang', 'ITA', time() + 86400, "/");
             } else {
                 setcookie('lang', 'ENG', time() + 86400, "/");
             }
-        }    
+        }
     }
 
     private function redirectUser() {

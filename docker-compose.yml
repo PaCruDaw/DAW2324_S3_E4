@@ -24,7 +24,9 @@ services:
          MYSQL_ROOT_HOST: "%"
          MYSQL_ROOT_PASSWORD: "admin"
          MYSQL_ALLOW_EMPTY_PASSWORD: "no"
-         MYSQL_DATABASE: 'testdatabase'
+         MYSQL_DATABASE: 'project'
+         MYSQL_USER: 'super'
+         MYSQL_PASSWORD: 'super'
 
    phpmyadmin:
       container_name: phpmyadmin

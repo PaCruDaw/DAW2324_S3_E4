@@ -45,4 +45,3 @@ require_once '../includes/head.php';
     <script src="../js/table_translate.js" rel="script"></script>
 </body>
 </html>
-<?php

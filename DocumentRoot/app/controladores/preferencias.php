@@ -1,6 +1,9 @@
 <?php
+session_start();
 include('../db.php');
-include('../modelos/modeloPreferencias.php');
+include('../modelos/PreferenceManager.php');
+
+$manager = new PreferenceManager($pdo);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $preferencia = isset($_POST['preferencia']) ? $_POST['preferencia'] : null;
@@ -25,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     move_uploaded_file($file['tmp_name'], $rutaArchivo);
                 
                     // Actualiza la base de datos con la nueva ruta
-                    if ($manager->updatePreferenciasValueByName('logoApp', $rutaArchivo)) {
+                    if ($manager->updatePreferenceValueByName('logoApp', $rutaArchivo)) {
                         header("Location: ../vistas/vistaPreferencias.php");
                         echo "Imagen subida y ruta guardada en la base de datos correctamente.";
                     } else {
@@ -49,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }        
         if (is_numeric($nuevoValor)) {
-            if ($manager->updatePreferenciasValueByName($preferencia, $nuevoValor)) {
+            if ($manager->updatePreferenceValueByName($preferencia, $nuevoValor)) {
                 header("Location: ../vistas/vistaPreferencias.php");
             } else {
                 echo "Error al actualizar el registro.";
@@ -57,6 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
-$result = $manager->getPreferencias();
+
+$result = $manager->getPreferences();
 ?>
 

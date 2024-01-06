@@ -7,11 +7,11 @@ $(document).ready(function() {
             table = $('#table_translate').DataTable({
                 data: data,
                 columns: [
-                    { data: "TraduccionIdiomaID" },
-                    { data: "TextoOriginal" },
-                    { data: "Traduccion" },
+                    { data: "idTranslation" },
+                    { data: "originalText" },
+                    { data: "translation" },
                     { data: "site" },
-                    { data: "Idioma" },
+                    { data: "language" },
                     {
                         data: null,
                         render: function(data, type, row) {
@@ -44,9 +44,9 @@ $(document).ready(function() {
     function format(data) {
         // Puedes personalizar este formulario según tus necesidades
         var formulario = '<form class="form-edicion" method = "post" action = "../controladores/controladortraducciones.php">';
-        formulario += '<input type="hidden" name = "traduccion_id" id="traduccion_id" value="' + data.TraduccionIdiomaID + '">';    
+        formulario += '<input type="hidden" name = "traduccion_id" id="traduccion_id" value="' + data.idTranslation + '">';    
         formulario += '<label for="traduccion">Traducción:</label>\t';
-        formulario += '<input type="text" name = "nueva_traduccion" id="nueva_traduccion" value="' + data.Traduccion + '">';
+        formulario += '<input type="text" name = "nueva_traduccion" id="nueva_traduccion" value="' + data.translation + '">';
         formulario += '<br>';
         formulario += '<button type="submit" class="btn btn-success btn-guardar">Guardar</button>';
         formulario += '</form>';
@@ -62,4 +62,3 @@ $(document).ready(function() {
         table.search(valorSeleccionado).draw();
     });
 });
-

@@ -21,28 +21,39 @@ session_start();
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>ID Producto</th>
+                    <th>Tamaño</th>
                     <th>Nombre del Producto</th>
-                    <th>Descripción</th>
-                    <th>Precio</th>
-                    <th>Margen Porcentaje</th>
-                    <th>Acciones</th>
+                    <th>Anchura (px)</th>
+                    <th>Altura (px)</th>
+                    <th>Moneda</th>
+                    <th>Accion</th>
+                    <th>Beneficio</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                include('../controladores/controladorProductos.php');
+                include('../modelos/modeloProducto.php');
+                $product = new Product();
+                $products = $product->getProducts();
+
                 if ($products) {
                     foreach ($products as $product) {
                         echo "<tr>";
-                        echo "<td>" . $product['id'] . "</td>";
-                        echo "<td>" . $product['nombre_producto'] . "</td>";
-                        echo "<td>" . $product['decripcion_producto'] . "</td>";
-                        echo "<td>" . $product['precio'] . "</td>";
-                        echo "<td>" . $product['margen_porcentaje'] . "</td>";
+                        echo "<td>" . $product['idVariant'] . "</td>";
+                        echo "<td>" . $product['idProduct'] . "</td>";
+                        echo "<td>" . $product['size'] . "</td>";
+                        echo "<td>" . $product['variantName'] . "</td>";
+                        echo "<td>" . $product['format_width'] . "</td>";
+                        echo "<td>" . $product['format_height'] . "</td>";
+                        echo "<td>" . $product['currency'] . "</td>";
+                        echo "<td>" . $product['showProduct'] . "</td>";
+                        echo "<td>" . $product['marginPercentage'] . "</td>";
 
                         echo "<td> 
-                            <form method='post' action='vistaProductos.php' class='form-inline'>
-                                <input type='hidden' name='id' value=" . $product['id'] .">
+                            <form method='post' action='./controladores/controladorProductos.php' class='form-inline'>
+                                <input type='hidden' name='action' value='update'>
+                                <input type='hidden' name='id' value=" . $product['idVariant'] .">
                                 <label for='nuevoMargen' class='sr-only'>Nuevo Margen:</label>
                                 <input type='number' name='nuevoMargen' id='nuevoMargen' class='form-control mr-2' required>
                                 <button type='submit' class='btn btn-primary'>Editar Margen</button>

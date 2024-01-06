@@ -11,7 +11,6 @@ from celery.schedules import crontab
 import schedule
 import time
 
-
 # variable per guardar servei fast api
 app = FastAPI()
 
@@ -31,27 +30,25 @@ app.add_middleware(
     allow_headers=["*"],  # Puedes restringir a encabezados específicos si es necesario
 )
 
-
 def get_db_info():
     with open("config.json", "r") as config_file:
             config_data = json.load(config_file)
             db_config = config_data["database_config"]
             return db_config
-        
+
 def get_key_api():
     with open("config.json", "r") as keys_file:
             config_data = json.load(keys_file)
             api_key = config_data["parametres_seguretat"]["apy_keys"]
             return api_key
-        
+
 def get_info_picanova():
     with open("config.json", "r") as info_picanova:
             config_data = json.load(info_picanova)
             user_picanova = config_data["parametres_seguretat"]["info_picanova"]["user"]
             pass_picanova = config_data["parametres_seguretat"]["info_picanova"]["pass"]
             return [user_picanova,pass_picanova]
-        
-        
+
 def get_api_key(api_key_header: str = Security(api_key_header)) -> str:
     if api_key_header in get_key_api():
         return api_key_header
@@ -66,13 +63,12 @@ def get_credentials():
 
     # Codificar las credenciales en base64
     credentials = base64.b64encode(f"{username}:{password}".encode()).decode()
-    return credentials
-    
+    return credentials    
+
 @app.get("/protected")
 def protected_route(api_key: str = Security(get_api_key)):
     # Process the request for authenticated usersresponse = httpx.get(url, headers=custom_headers)
     return {"message": "Access granted!"}
-    
 
 @app.get("/peticionotraapi")
 async def hacer_peticion(api_key: str = Security(get_api_key)):
@@ -81,72 +77,69 @@ async def hacer_peticion(api_key: str = Security(get_api_key)):
 
     async with httpx.AsyncClient() as client:
         auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
-        response = httpx.get(url, headers=auth_header)        
+        response = httpx.get(url, headers=auth_header)
 
         if response.status_code == 200:
             # La solicitud se realizó con éxito, puedes manejar los datos de la respuesta aquí.
             data = response.json()
-            # names = []
-            # for item in data:
-            #     names.append(item["data"])
             names = [item["name"] for item in data["data"]]
             return(names)
-        
+
         else:
             # Maneja los errores si la solicitud no fue exitosa
             return {"error": "No se pudo realizar la solicitud a la API externa"}
-        
+
 @app.get("/consultar_bd")
 async def consultar_bd(api_key: str = Security(get_api_key)):
-        
+
     try:
         # Conecta a la base de datos
         connection = mysql.connector.connect(**get_db_info())
-        
+
         # Crea un cursor para ejecutar consultas SQL
         cursor = connection.cursor(dictionary=True)
-        
+
         # Ejecuta una consulta
-        query = "SELECT * FROM usuario"
+        query = "SELECT * FROM clients"
         cursor.execute(query)
-        
+
         # Obtiene los resultados
         results = cursor.fetchall()
-        
+
         # Cierra el cursor y la conexión
         cursor.close()
         connection.close()
-        
+
         return results
     except Exception as e:
         return {"error": str(e)}
-   
+
 @app.get("/dbventes")
 async def consultar_bd(api_key: str = Security(get_api_key)):
-        
+
     try:
         # Conecta a la base de datos
         connection = mysql.connector.connect(**get_db_info())
-        
+
         # Crea un cursor para ejecutar consultas SQL
         cursor = connection.cursor(dictionary=True)
-        
+
         # Ejecuta una consulta
         query = "SELECT * FROM `vistaPedidosGrafica`"
         cursor.execute(query)
-        
+
         # Obtiene los resultados
         results = cursor.fetchall()
-        
+
         # Cierra el cursor y la conexión
         cursor.close()
         connection.close()
-        
+
         return results
     except Exception as e:
         return {"error": str(e)} 
 
-        
+
 @app.get("/test")
 def read_test():
     return {"La API funciona"}
@@ -159,46 +152,39 @@ async def hacer_peticion(api_key: str = Security(get_api_key)):
 
         async with httpx.AsyncClient() as client:
             auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
-            response = httpx.get(url, headers=auth_header)        
+            response = httpx.get(url, headers=auth_header)
 
             if response.status_code == 200:
                 # La solicitud se realizó con éxito, puedes manejar los datos de la respuesta aquí.
                 data = response.json()
-                # names = []
-                # for item in data:
-                #     names.append(item["data"])
                 data_list = data["data"]
 
                 # Ahora, crearemos una lista de diccionarios con ambas claves
                 info_list = [{"country": item["name"], "countrycode": item.get("country_code", None)} for item in data_list]
-                
+
                 connection = mysql.connector.connect(**get_db_info())
                 # Crea un cursor para ejecutar consultas SQL
                 cursor = connection.cursor()
-                
-                            
-                query = "TRUNCATE TABLE `testdatabase2`.`pais`"
-                queryinsert = "INSERT INTO `pais`(`nombre_pais`,`codigo_pais`) VALUES (%s,%s);"
-                
+
+                query = "TRUNCATE TABLE `project`.`country`"
+                queryinsert = "INSERT INTO `country`(`countryName`,`countryCode`) VALUES (%s,%s);"
+
                 cursor.execute(query)
-                
-                
+
                 for item in info_list:
                     country = item["country"]
                     countrycode = item["countrycode"]
                     cursor.execute(queryinsert, (country, countrycode))
-                
-                
-               
+
                 connection.commit()
                 cursor.close()
                 connection.close()
                 return "La BD ha sido actualizada"
-                
+
             else:
                 # Maneja los errores si la solicitud no fue exitosa
                 return {"error": "No se pudo realizar la solicitud a la API externa"}
-    
+
     except mysql.connector.Error as e:
         return {"error": f"Error de MySQL: {e}"}
     except Exception as e:
@@ -212,83 +198,175 @@ async def hacer_peticion(api_key: str = Security(get_api_key)):
 
         async with httpx.AsyncClient() as client:
             auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
-            response = httpx.get(url, headers=auth_header)        
+            response = httpx.get(url, headers=auth_header)
 
             if response.status_code == 200:
                 # La solicitud se realizó con éxito, puedes manejar los datos de la respuesta aquí.
                 data = response.json()
                 data_list = data["data"]
-                dictionary = {}
                 connection = mysql.connector.connect(**get_db_info())
+                # Crea un cursor para ejecutar consultas SQL
                 cursor = connection.cursor()
+                queryinsert = "INSERT INTO `products`(`idProduct`,`productName`) VALUES (%s,%s);" 
+
+                dictionary = {}
 
                 for item in data_list:
-                    id = item["id"]
-                    name = item["name"]
-                    nuevoselementos = {id}
+                    idProducte = item["id"]
+                    nom = item["name"]
+                    nuevoselementos={idProducte:nom}
                     dictionary.update(nuevoselementos)
-                    queryinsert = "UPDATE `producte` SET `idProducte`= %s,`nom`= %s WHERE idProducte = %s"
-                    cursor.execute(queryinsert,(id,name,id))
-                    
-                    return dictionary
-                for id in dictionary.items():
-                    id = id["id"]
-                    
-                              
+                    cursor.execute(queryinsert, (idProducte, nom))
+
+                connection.commit()
+                cursor.close()
+                connection.close()
+                return "La BD ha sido actualizada"
+
+            else:
+                # Maneja los errores si la solicitud no fue exitosa
+                return {"error": "No se pudo realizar la solicitud a la API externa"}
+
     except mysql.connector.Error as e:
         return {"error": f"Error de MySQL: {e}"}
     except Exception as e:
         return {"error": f"Error no manejado: {e}"}
     
-
-
-def tarea_medianoche():
+@app.get("/deapiavariants")
+async def hacer_peticion(api_key: str = Security(get_api_key)):
+    # URL de la API externa a la que deseas hacer la solicitud
     try:
-        url = "https://api.picanova.com/api/beta/countries"
 
-        with httpx.Client() as client:
+        url = "https://api.picanova.com/api/beta/products"
+
+        async with httpx.AsyncClient() as client:
             auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
-            response = client.get(url, headers=auth_header)
+            response = httpx.get(url, headers=auth_header)
 
             if response.status_code == 200:
                 data = response.json()
                 data_list = data["data"]
 
-                info_list = [
-                    {"country": item["name"], "countrycode": item.get("country_code", None)}
-                    for item in data_list
-                ]
+                for item in data_list:
+                    url2 = "https://api.picanova.com/api/beta/variants/"
+                    id = str(item["id"])
+                    url2 += id
 
-                connection = mysql.connector.connect(**get_db_info())
-                cursor = connection.cursor()
+                    async with httpx.AsyncClient() as client:
+                        auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
+                        response = httpx.get(url2, headers=auth_header)
 
-                query = "TRUNCATE TABLE `testdatabase2`.`pais`"
-                queryinsert = "INSERT INTO `pais`(`nombre_pais`,`codigo_pais`) VALUES (%s,%s);"
+                        if response.status_code == 200:
+                            data = response.json()
+                            data_list = data["data"]
+                            idV = data_list.get("variant_id")
+                            idP = data_list.get("id")
+                            name = data_list.get("name")
+                            connection = mysql.connector.connect(**get_db_info())
+                            cursor = connection.cursor()
+                            queryinsert = "INSERT INTO `productVariant`(`idVariant`, `idProduct`,`variantName`) VALUES (%s,%s,%s);"
+                            cursor.execute(queryinsert, (idV, idP, name))
+                            connection.commit()
+                            cursor.close()
+                            connection.close()
 
-                cursor.execute(query)
-
-                for item in info_list:
-                    country = item["country"]
-                    countrycode = item["countrycode"]
-                    cursor.execute(queryinsert, (country, countrycode))
-
-                connection.commit()
-                cursor.close()
-                connection.close()
-                print("La BD ha sido actualizada")
+                return "La BD ha sido actualizada"
 
             else:
-                print("No se pudo realizar la solicitud a la API externa")
+                # Maneja los errores si la solicitud no fue exitosa
+                return {"error": "No se pudo realizar la solicitud a la API externa"}
 
     except mysql.connector.Error as e:
-        print(f"Error de MySQL: {e}")
+        return {"error": f"Error de MySQL: {e}"}
     except Exception as e:
-        print(f"Error no manejado: {e}")
+        return {"error": f"Error no manejado: {e}"}
 
-# Agrega la tarea_medianoche a schedule
-schedule.every(1).minute.do(tarea_medianoche)
+@app.get("/deapiaopcions")
+async def hacer_peticion(api_key: str = Security(get_api_key)):
+    # URL de la API externa a la que deseas hacer la solicitud
+    try:
 
-if __name__ == "__main__":
-    while True:
-        schedule.run_pending()
-        time.sleep(60)
+        url = "https://api.picanova.com/api/beta/products"
+
+        async with httpx.AsyncClient() as client:
+            auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
+            response = httpx.get(url, headers=auth_header)
+
+            if response.status_code == 200:
+                data = response.json()
+                data_list = data["data"]
+
+                for item in data_list:
+                    url2 = "https://api.picanova.com/api/beta/variants/"
+                    id = str(item["id"])
+                    id2 = int(item["id"])
+                    url2 += id
+
+                    async with httpx.AsyncClient() as client:
+                        auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
+                        response_variants = httpx.get(url2, headers=auth_header)
+
+                        if response_variants.status_code == 200:
+                            variant_data = response_variants.json()["data"]
+                            options = variant_data.get("options", {})
+
+                            if isinstance(options, dict):
+                                for option_id, option_data in options.items():
+                                    option_id = int(option_id)
+                                    is_required = option_data.get("is_required", False)
+                                    connection = mysql.connector.connect(**get_db_info())
+                                    cursor = connection.cursor()
+                                    queryinsert = "INSERT INTO `options`(`idOption`, `idVariant`, `is_required`) VALUES (%s,%s,%s);"
+                                    cursor.execute(queryinsert, (option_id, id2, is_required))
+                                    connection.commit()
+                                    cursor.close()
+                                    connection.close()
+
+                return "La BD ha sido actualizada"
+
+            else:
+                # Maneja los errores si la solicitud no fue exitosa
+                return {"error": "No se pudo realizar la solicitud a la API externa"}
+
+    except mysql.connector.Error as e:
+        return {"error": f"Error de MySQL: {e}"}
+    except Exception as e:
+        return {"error": f"Error no manejado: {e}"}
+
+@app.get("/deapiavalues")
+async def hacer_peticion(api_key: str = Security(get_api_key)):
+    # URL de la API externa a la que deseas hacer la solicitud
+    try:
+
+        url = "https://api.picanova.com/api/beta/variants/2"
+
+        async with httpx.AsyncClient() as client:
+            auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
+            response = httpx.get(url, headers=auth_header)
+
+            if response.status_code == 200:
+                data = response.json()
+                data_list = data["data"]["options"]
+                for option_id, option_data in data_list.items():
+                    values = option_data.get("values", [])
+                    for value in values:
+                        idValue = value["id"]
+                        name = value["name"]
+                        connection = mysql.connector.connect(**get_db_info())
+                        cursor = connection.cursor()
+                        queryinsert = "INSERT INTO `values`(`idValue`, `idOption`, `name`) VALUES (%s,%s,%s);"
+                        cursor.execute(queryinsert, (idValue, option_id, name))
+                        connection.commit()
+                        cursor.close()
+                        connection.close()
+
+                return "La BD ha sido actualizada"
+
+            else:
+                # Maneja los errores si la solicitud no fue exitosa
+                return {"error": "No se pudo realizar la solicitud a la API externa"}
+
+    except mysql.connector.Error as e:
+        return {"error": f"Error de MySQL: {e}"}
+    except Exception as e:
+        return {"error": f"Error no manejado: {e}"}

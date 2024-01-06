@@ -28,7 +28,7 @@ class TranslateTextPage {
             self::initTranslator();
         }
         $trans = self::$translate->translateTextPage ($text, $site, $lang);
-        return $trans[0]['Traduccion'];
+        return $trans[0]['translation'];
     }
 }
 //init static

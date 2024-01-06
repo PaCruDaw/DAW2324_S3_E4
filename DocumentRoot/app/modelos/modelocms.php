@@ -1,19 +1,44 @@
 <?php
-require_once "../modelos/database.php";
-
 class Cms {
-    private $pdo;
- 
-    public function __construct()
-    {
-        $connection = new Database();
-        $this->pdo = $connection->connect();
+    
+    public $id;
+    public $politica;
+    public $valor_politica;
+
+    
+
+    public function __construct ($id, $politica ,$valor_politica) {
+
+        $this->id = $id;
+        $this->politica = $politica;
+        $this->valor_politica = $valor_politica;
+        
+    
     }
 
-    public function mostrarCMS() {
+    public static function crearConexion() {
+        $db_host = 'mariadb';
+        $db_user = 'super';
+        $db_pass = 'super';
+        $db_name = 'testdatabase2';
+    
+        try {
+            $pdo = new PDO("mysql:host=$db_host;dbname=$db_name", $db_user, $db_pass);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return $pdo;
+        } catch (PDOException $e) {
+            echo "Error de conexión a la base de datos: " . $e->getMessage();
+        }
+    }
+    
+
+    public static function mostrarCMS() {
+        
         try {
             $query = "SELECT * FROM `vistaCms`";
-            $stmt = $this->pdo->prepare($query);
+            $pdo = self::crearConexion(); // Usamos self en lugar de $this para llamar a un método estático
+            $stmt = $pdo->prepare($query);
+    
             $stmt->execute();
             return $stmt->fetchAll();
 
@@ -21,6 +46,8 @@ class Cms {
             // Manejar errores de conexión o consulta
             echo "Error: " . $e->getMessage();
         }
+
+
     }
 
     // public static function mostrarCmsPorIdioma() {
@@ -41,34 +68,53 @@ class Cms {
 
     // }
 
-    public function actualizarCms($id, $valor_politica) {
-        try {        
+    public function actualizarCms() {
+        
+        try {
+            
             $query = "UPDATE `cms` 
             SET valor_politica = :valorpolitica
             WHERE id = :idcms ";
-            $stmt = $this->pdo->prepare($query);
-            $stmt->bindParam(':idcms', $id, PDO::PARAM_STR);
-            $stmt->bindParam(':valorpolitica', $valor_politica, PDO::PARAM_STR);                
-            $stmt->execute();        
+            $pdo = self::crearConexion();
+    
+            $stmt = $pdo->prepare($query);
+            $stmt->bindParam(':idcms', $this->id, PDO::PARAM_STR);                
+            $stmt->bindParam(':valorpolitica', $this->valor_politica, PDO::PARAM_STR);                
+            $stmt->execute();
+            
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
+
+
     }
     
     
-    public function mostrarCmsPorGrupo($idioma) {    
-        try {            
-            $query = "SELECT * FROM vistaTraducciones";        
+    public static function mostrarCmsPorGrupo($idioma) {
+        
+        try {
+            
+            $query = "SELECT * FROM vistaTraducciones";
+            $pdo = self::crearConexion();
+        
             $query .= " WHERE Idioma = :idioma"; 
-            $stmt = $this->pdo->prepare($query);
-            $stmt->bindParam(':idioma', $idioma, PDO::PARAM_STR);                
-            $stmt->execute();           
+            $stmt = $pdo->prepare($query);
+            $stmt->bindParam(':idioma', $this->idioma, PDO::PARAM_STR);                
+            
+
+            $stmt->execute();
+            
             return $stmt->fetchAll();
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
-    }
-}
 
-$modelCms = new Cms();
+
+    }
+
+    
+    
+
+    }
+
 ?>
