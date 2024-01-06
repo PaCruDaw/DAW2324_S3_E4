@@ -37,7 +37,7 @@ include("./modelos/LoginManager.php");
         
         <div class="row mb-4">
             <div class="col-md-6">
-                <h2 class="mb-3">Ventas Anuales </h2>
+                <h2 class="mb-3">Ventas Anuales eses </h2>
                 <canvas id="chart3"></canvas>
             </div>
             <div class="col-md-6">
