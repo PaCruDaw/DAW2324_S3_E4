@@ -75,7 +75,7 @@ new Chart(chartBarres, {
     },
     {
         label: 'Ventes',
-        data: ventes, // Usamos las ventas obtenidas
+        data: ventes, // Usamos las ventas obtenidastesttest
         borderWidth: 1,
         backgroundColor: '#9BD0F5'
     }]
@@ -101,7 +101,7 @@ new Chart(chartLineal, {
         backgroundColor: '#9BD0F5'
     },
     {
-        label: 'Ventes',
+        label: 'Venteses',
         data: ventes, // Usamos las ventas obtenidas
         borderWidth: 1,
         backgroundColor: '#9BD0F5'
