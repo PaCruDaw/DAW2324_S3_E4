@@ -26,13 +26,11 @@ include '../controladores/controladorFormCms.php';
             <thead>
                 
                 <tr>
-                    <th>Id Cms</th>
                     <th>Id Política</th>
                     <th>Contingut</th>
                     <th>Editar</th>
 
                 </tr>
-            
             </thead>
             <tbody>
                 

@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
             table = $('#tableCms').DataTable({
             data: datos,
             columns: [
-                    { data: "idCms" },
+                    
                     { data: "idPolicy" },
                     { data: "policyValue" },
                     {
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function() {
             });
 
             // Manejar clic en el botón para editar en línea
-            $('#table_cms tbody').on('click', '.btn-editar', function() {
+            $('#tableCms tbody').on('click', '.btn-editar', function() {
                 var tr = $(this).closest('tr');
                 var row = table.row(tr);
 
@@ -43,10 +43,10 @@ document.addEventListener("DOMContentLoaded", function() {
     // Función para formatear la fila de edición
     function format(data) {
         // Puedes personalizar este formulario según tus necesidades
-        var formulario = '<form class="form-edicion" method = "post" action = "../controladores/controladortraducciones.php">';
-        formulario += '<input type="hidden" name = "traduccion_id" id="traduccion_id" value="' + data.idTranslation + '">';    
-        formulario += '<label for="traduccion">Traducción:</label>\t';
-        formulario += '<input type="text" name = "nueva_traduccion" id="nueva_traduccion" value="' + data.translation + '">';
+        var formulario = '<form class="form-edicion" method = "post" action = "#">';
+        formulario += '<input type="hidden" name = "idCms" id="idCms" value="' + data.idCms + '">';    
+        formulario += '<label for="traduccion">Valor:</label>\t';
+        formulario += '<input type="text" name = "policyValue" id="policyValue" value="' + data.policyValue + '">';
         formulario += '<br>';
         formulario += '<button type="submit" class="btn btn-success btn-guardar">Guardar</button>';
         formulario += '</form>';
