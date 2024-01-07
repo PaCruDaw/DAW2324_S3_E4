@@ -47,3 +47,12 @@ services:
          - '8000:8000'
       volumes:
          - ./DocumentRoot/api:/app
+      depends_on:
+         - npm-install
+
+   npm-install:
+      image: node:14
+      command: ["npm", "install"]
+      working_dir: /app
+      volumes:
+         - ./DocumentRoot/api:/app

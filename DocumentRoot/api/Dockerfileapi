@@ -4,7 +4,8 @@ WORKDIR /app
 
 COPY requirementspy.txt /app/requirementspy.txt 
 
-RUN pip install -r /app/requirementspy.txt 
+RUN pip install -r /app/requirementspy.txt  && \
+    npm install 
 
 EXPOSE 8000
 
