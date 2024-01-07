@@ -8,7 +8,7 @@
         }
     
         public function mostrarCms() {
-            $query = "SELECT * FROM cms";
+            $query = "SELECT * FROM viewCMS";
             $stmt = $this->pdo->prepare($query);
             $stmt->execute();
     

@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
             data: datos,
             columns: [
                     
-                    { data: "idPolicy" },
+                    { data: "policy" },
                     { data: "policyValue" },
                     {
                         data: null,
