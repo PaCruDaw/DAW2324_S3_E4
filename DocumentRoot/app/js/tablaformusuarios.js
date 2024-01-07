@@ -10,7 +10,7 @@ $.ajax({
             data: datos,
             columns: [
                 
-                { data: "idCS" },
+                { data: "idClient" },
                 { data: "name" },
                 { data: "surnames" },
                 { data: "username" },
@@ -20,6 +20,9 @@ $.ajax({
                 { data: "address" },
                 { data: "postcode" },
                 { data: "idCountry" },
+                { data: "membershipDate" },
+                { data: "clientStatus" },
+                
                 {
                   data: null,
                   render: function(data, type, row) {
@@ -43,16 +46,6 @@ $.ajax({
             <div class="mb-3">
                 <input type="hidden" id="idClientU" name="idClientU" value="${rowData.idClient}">
                 <input type="hidden" id="action" name="action" value="update">
-                <label for="status" class="form-label">Estatus:</label>
-                <select class="form-select" id="idstatusU" name="idstatusU" value="${rowData.idCS}">
-                    <option value="1">Estatus 1</option>
-                    <option value="2">Estatus 2</option>
-                    <option value="3">Estatus 3</option>
-                </select>
-                <div class="error-message" id="error-idstatusU"></div>
-            </div>
-            
-            <div class="mb-3">
                 <label for="nameU" class="form-label">Nombre:</label>
                 <input type="text" class="form-control" id="nameU" name="nameU" value="${rowData.name}">
                 <div class="error-message" id="error-nameU"></div>
@@ -60,7 +53,7 @@ $.ajax({
 
             <div class="mb-3">
                 <label for="surnameU" class="form-label">Apellido/s:</label>
-                <input type="text" class="form-control" id="surnameU" name="surnameU" value="${rowData.surname}">
+                <input type="text" class="form-control" id="surnameU" name="surnameU" value="${rowData.surnames}">
                 <div class="error-message" id="error-surnameU"></div>
             </div>
 
@@ -109,10 +102,22 @@ $.ajax({
                 <label for="idCountryU" class="form-label">Pais:</label>
                 <select class="form-select" id="idCountryU" name="idCountryU" value="${rowData.idCountry}">
                     <option value="1">País 1</option>
-                    <option value="2">País 2</option>
-                    <option value="3">País 3</option>
+                    // <option value="2">País 2</option>
+                    // <option value="3">País 3</option>
                 </select>
                 <div class="error-message" id="error-idCountryU"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="clientStatusU" class="form-label">Estatus:</label>
+                <select class="form-select" id="clientStatusU" name="clientStatusU" value="${rowData.clientStatus}">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                    <option value="Banned">Banned</option>
+                    <option value="Deleted">Deleted</option>
+
+                </select>
+                <div class="error-message" id="error-clientStatusU"></div>
             </div>
 
             <button type="submit" class="btn btn-primary" name="accion" value="actualizar">Guardar Usuario</button>

@@ -32,16 +32,6 @@ include '../controladores/controladorFormUsuaris.php';
                 
             <div class="mb-3">
                 <input type="hidden" id="action" name="action" value="add">
-                <label for="status" class="form-label">Estatus:</label>
-                <select class="form-select" id="idstatus" name="idstatus">
-                    <option value="1">Estatus 1</option>
-                    <option value="2">Estatus 2</option>
-                    <option value="3">Estatus 3</option>
-                </select>
-                <div class="error-message" id="error-status"></div>
-            </div>
-            
-            <div class="mb-3">
                 <label for="name" class="form-label">Nombre:</label>
                 <input type="text" class="form-control" id="name" name="name">
                 <div class="error-message" id="error-name"></div>
@@ -97,12 +87,25 @@ include '../controladores/controladorFormUsuaris.php';
             <div class="mb-3">
                 <label for="idCountry" class="form-label">Pais:</label>
                 <select class="form-select" id="idCountry" name="idCountry">
-                    <option value="1">País 1</option>
-                    <option value="2">País 2</option>
-                    <option value="3">País 3</option>
+                    <option value=1>País 1</option>
+                    <!-- <option value="2">País 2</option>
+                    <option value="3">País 3</option> -->
                 </select>
                 <div class="error-message" id="error-idCountry"></div>
             </div>
+
+            <div class="mb-3">
+                <label for="clientStatus" class="form-label">Status:</label>
+                <select class="form-select" id="clientStatus" name="clientStatus">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+                <option value="Banned">Banned</option>
+                <option value="Deleted">Deleted</option>
+                </select>
+                <div class="error-message" id="error-clientStatus"></div>
+            </div>
+
+            
 
             <button type="submit" class="btn btn-primary" name="accion" value="agregar">Guardar Usuario</button>
         </form>
@@ -114,8 +117,7 @@ include '../controladores/controladorFormUsuaris.php';
 <table class="table" id="tableUsuaris">
             <thead>
                 <tr>
-                    
-                    <th>Estatus cliente</th>
+                    <th>Id</th>
                     <th>Nombre</th>
                     <th>Apellidos/s</th>
                     <th>Nombre Usuario</th>
@@ -125,7 +127,11 @@ include '../controladores/controladorFormUsuaris.php';
                     <th>Direcció</th>
                     <th>Código Postal</th>
                     <th>País</th>
+                    <th>Fecha creación</th>
+                    <th>Estatus cliente</th>
                     <th>Editar</th>
+
+                    
                 </tr>
             </thead>
             <tbody>

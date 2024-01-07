@@ -45,7 +45,7 @@ class ModelUsuaris {
 
     public function actualizarUsuario($idClient, $name, $surnames, $username, $password, $mail, $phone, $address, $postcode, $idCountry, $clientStatus) {
         $query = "UPDATE `clients` SET `name`= :name,`surnames`= :surnames, `username`= :username,
-        `password`= :password ,`mail`= :mail,`phone`= :phone,`address`= :address,`postcode`= :postcode ,`idCountry`= :idCountry, `clientStatus`= :clientStatus,
+        `password`= :password ,`mail`= :mail,`phone`= :phone,`address`= :address,`postcode`= :postcode ,`idCountry`= :idCountry, `clientStatus`= :clientStatus
         WHERE idClient = :idClient";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
