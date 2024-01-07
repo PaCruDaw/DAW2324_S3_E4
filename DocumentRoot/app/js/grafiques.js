@@ -101,7 +101,7 @@ new Chart(chartLineal, {
         backgroundColor: '#9BD0F5'
     },
     {
-        label: 'Venteses',
+        label: 'Ventes',
         data: ventes, // Usamos las ventas obtenidas
         borderWidth: 1,
         backgroundColor: '#9BD0F5'

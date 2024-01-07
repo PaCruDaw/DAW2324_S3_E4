@@ -16,7 +16,7 @@ class ModelUsuaris {
     }
 
     public function obtenerUsuarioPorId($idClient) {
-        $query = "SELECT * FROM client WHERE idClient = :idClient";
+        $query = "SELECT * FROM clients WHERE idClient = :idClient";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
         $stmt->execute();
@@ -24,11 +24,10 @@ class ModelUsuaris {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function agregarUsuario($idstatus, $name, $surnames, $username, $password, $mail, $phone, $address, $postcode, $idCountry) {
-        $query = "INSERT INTO `clients`( `idCS`, `name`, `surnames`, `username`, `password`, `mail`, `phone`,`address`,`postcode`,`idCountry`) 
-        VALUES (:idCS,:name,:surnames,:username,:password,:mail,:phone,:address,:postcode,:idCountry)";
+    public function agregarUsuario($name, $surnames, $username, $password, $mail, $phone, $address, $postcode, $idCountry, $clientStatus) {
+        $query = "INSERT INTO `clients`(`name`, `surnames`, `username`, `password`, `mail`, `phone`,`address`,`postcode`,`idCountry`, `clientStatus`) 
+        VALUES (:name,:surnames,:username,:password,:mail,:phone,:address,:postcode,:idCountry,:clientStatus)";
     $stmt = $this->pdo->prepare($query);
-    $stmt->bindParam(':idCS', $idstatus, PDO::PARAM_INT);
     $stmt->bindParam(':name', $name, PDO::PARAM_STR);
     $stmt->bindParam(':surnames', $surnames, PDO::PARAM_STR);
     $stmt->bindParam(':username', $username, PDO::PARAM_STR);
@@ -37,18 +36,19 @@ class ModelUsuaris {
     $stmt->bindParam(':phone', $phone, PDO::PARAM_INT); 
     $stmt->bindParam(':address', $address, PDO::PARAM_STR); 
     $stmt->bindParam(':postcode', $postcode, PDO::PARAM_INT); 
-    $stmt->bindParam(':idCountry', $idCountry, PDO::PARAM_INT);  
+    $stmt->bindParam(':idCountry', $idCountry, PDO::PARAM_INT); 
+    $stmt->bindParam(':clientStatus', $clientStatus, PDO::PARAM_STR);
+
     $stmt->execute();
 
     }
 
-    public function actualizarUsuario($idClient, $idstatus, $name, $surnames, $username, $password, $mail, $phone, $address, $postcode, $idCountry) {
-        $query = "UPDATE `clients` SET `idCS`= :idCS,`name`= :name,`surnames`= :surnames, `username`= :username,
-        `password`= :password ,`mail`= :mail,`phone`= :phone,`address`= :address,`postcode`= :postcode ,`idCountry`= :idCountry 
+    public function actualizarUsuario($idClient, $name, $surnames, $username, $password, $mail, $phone, $address, $postcode, $idCountry, $clientStatus) {
+        $query = "UPDATE `clients` SET `name`= :name,`surnames`= :surnames, `username`= :username,
+        `password`= :password ,`mail`= :mail,`phone`= :phone,`address`= :address,`postcode`= :postcode ,`idCountry`= :idCountry, `clientStatus`= :clientStatus,
         WHERE idClient = :idClient";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
-        $stmt->bindParam(':idCS', $idstatus, PDO::PARAM_INT);
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
         $stmt->bindParam(':surnames', $surnames, PDO::PARAM_STR);
         $stmt->bindParam(':username', $username, PDO::PARAM_STR);
@@ -57,7 +57,8 @@ class ModelUsuaris {
         $stmt->bindParam(':phone', $phone, PDO::PARAM_INT); 
         $stmt->bindParam(':address', $address, PDO::PARAM_STR); 
         $stmt->bindParam(':postcode', $postcode, PDO::PARAM_INT); 
-        $stmt->bindParam(':idCountry', $idCountry, PDO::PARAM_INT); 
+        $stmt->bindParam(':idCountry', $idCountry, PDO::PARAM_INT);
+        $stmt->bindParam(':clientStatus', $clientStatus, PDO::PARAM_STR); 
         $stmt->execute();
     }
 
