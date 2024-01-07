@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'head.html';
+require_once '../includes/head.php';
 include '../controladores/controladorFormUsuaris.php';
 
 ?>
