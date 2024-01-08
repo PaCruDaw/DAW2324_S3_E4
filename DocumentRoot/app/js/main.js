@@ -23,6 +23,8 @@ $('#accept-cookies').click(function () {
                 setCookie('lang', 'ENG', 365);
             }
         }
+    } else {
+        setCookie('lang', 'ENG', 365);
     }
 
     // Ocultar el aviso de cookies

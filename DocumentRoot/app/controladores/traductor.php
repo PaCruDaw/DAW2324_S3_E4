@@ -12,7 +12,22 @@ if (isset($_GET['lang'])) {
     echo json_encode($response);
 }
 
-$lang = $_COOKIE['lang'];
+if (isset($_COOKIE['lang'])) {
+    $lang = $_COOKIE['lang'];
+} else {
+    $userLanguages = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+    $configLangUser = explode(',', $userLanguages);
+    $userLang = $configLangUser[0];
+    if ($userLang == "es-ES") {
+        $lang = "ESP";
+    } elseif ($userLang == "ca-CA") {
+        $lang = "CAT";
+    } else {
+        $lang = "ENG";
+    }
+}
+
+
 //////////////////////////////////////////////
 //static class for translate
 class TranslateTextPage {
