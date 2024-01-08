@@ -2,9 +2,10 @@
 session_start();
 require_once "./modelos/LoginManager.php";
 require_once "./includes/head.php";
+
 ?>
 
-<body>  
+<body>
 
 <div class="content" style="margin-left: 20%;">
     <div class="grid-container">
@@ -38,6 +39,15 @@ require_once "./includes/head.php";
             </div>
     </div>
 </div>
+<div id="cookie-notice">
+    <p>Este sitio web utiliza cookies para garantizar que obtenga la mejor experiencia en nuestra página.</p>
+    <button id="accept-cookies">Aceptar</button>
+</div>
+
+    <link rel="stylesheet" href="./estilos/main.css">
+
+    <script src="./js/main.js"></script>
+
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
