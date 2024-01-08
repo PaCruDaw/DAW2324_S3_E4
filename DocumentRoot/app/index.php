@@ -25,7 +25,7 @@
       <div id="boxLoginForm">
       <div class="contenedor">
         <div class="cabecera">
-      <form id="formulario" action="./controladores/controladorlogin.php" method="post" class="loginForm">
+      <form id="formulario" action="./controladores/usuarios.php" method="post" class="loginForm">
           <h1 class="h3 mb-3 fw-normal">LOGIN</h1>
           <!--Formulario que se ve si el usuario quiere recuperar la contraseña-->
           <div id="recoveryTittle" style="display: none;">
@@ -39,8 +39,8 @@
             }
         ?>
         <div class="form-control">
-          <label for="email">Email</label>
-          <input id="email" name="email" type="email">
+          <label for="username">Email</label>
+          <input id="username" name="username" type = "text" >
           <p></p>
         </div>
         <div class="form-control">
