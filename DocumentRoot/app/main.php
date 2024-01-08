@@ -8,11 +8,13 @@ require_once "./includes/head.php";
 <body>
 
 <div class="content" style="margin-left: 20%;">
+
     <div class="grid-container">
         <div class="container text-center mt-4">
             <h1>¡Bienvenido a Artee!</h1>
             <h2>Estas son las estadísticas de <?php echo date('F')?></h2>
         </div>
+
 
         <div class="container mt-4">
         <div class="row mb-4">
@@ -27,7 +29,7 @@ require_once "./includes/head.php";
                 <canvas id="chart2"></canvas>
             </div>
         </div>
-        
+ 
         <div class="row mb-4">
             <div class="col-md-6">
                 <h2 class="mb-3">Ventas Anuales eses </h2>
@@ -39,6 +41,7 @@ require_once "./includes/head.php";
             </div>
     </div>
 </div>
+
 <div id="cookie-notice">
     <p>Este sitio web utiliza cookies para garantizar que obtenga la mejor experiencia en nuestra página.</p>
     <button id="accept-cookies">Aceptar</button>
