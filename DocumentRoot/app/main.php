@@ -74,6 +74,7 @@ require_once "./includes/head.php";
 
     <link rel="stylesheet" href="./estilos/main.css">
 
+    <script src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js"></script>
     <script src="./js/main.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
