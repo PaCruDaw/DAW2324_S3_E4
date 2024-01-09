@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Access Denied</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-image: url('ruta_de_la_imagen.jpg');
+      background-size: cover;
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      animation: bounce 1s ease-in-out infinite;
+    }
+
+    .access-denied {
+      font-size: 2em;
+      color: #00e6ce; 
+      font-weight: bold;
+      animation: shake 0.5s ease-in-out infinite;
+    }
+
+    @keyframes shake {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      25%, 75% {
+        transform: translateY(-10px);
+      }
+      50% {
+        transform: translateY(10px);
+      }
+    }
+
+    .fun-message {
+      font-size: 1.2em;
+      color: #FFFFFF;
+      margin-top: 10px;
+      animation: bounce 1s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="access-denied">Access Denied</div>
+    <div class="fun-message">Oops! Parece que no tienes permisos para acceder a esta página.</div>
+    <div class="redirect-message">Pulsa cualquier tecla para ir a login</div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $(document).on('keydown', function () {
+        window.location.href = 'ruta_de_login.html';
+      });
+    });
+  </script>
+</body>
+</html>
