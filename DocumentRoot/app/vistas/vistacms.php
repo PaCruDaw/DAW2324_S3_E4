@@ -14,7 +14,7 @@ include '../controladores/controladorFormCms.php';
 
 <style>
     body {
-        background-color: #f8f9fa; /* Set your desired background color */
+        background-color: #f8f9fa;
     }
 </style>
 <body>
