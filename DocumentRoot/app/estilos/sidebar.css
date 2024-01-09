@@ -52,6 +52,42 @@
     height: 100%;
 }
 
+.top-left {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    /* background-color: lightgray; */
+    border: 2px solid;
+    border-right-color: black;
+    border-bottom-color: black;    
+}
+
+.top-right {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    /* background-color: lightblue; */
+    border: 2px solid;
+    border-left-color: black;
+    border-bottom-color: black;    
+}
+
+.bottom-left {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    /* background-color: lightgreen; */
+    border: 2px solid;
+    border-right-color: black;
+    border-top-color: black;    
+}
+
+.bottom-right {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    /* background-color: lightcoral; */
+    border: 2px solid;
+    border-left-color: black;
+    border-top-color: black;    
+}
+
 
 /* Estilos para pantallas grandes (mayor o igual a 768px) */
 @media (min-width: 768px) {
