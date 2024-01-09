@@ -34,7 +34,7 @@
             <li><a href="../vistas/vistaUsuarios.php"><i class="fas fa-cog"></i><?php echo TranslateTextPage::pageTranslate('Usuarios', 'sidebar', $lang);?></a></li>
         </ul>
         <section class="logout">
-            <a href="../index.php"><i class="fas fa-cog"></i><?php echo TranslateTextPage::pageTranslate('Cerrar sesión', 'sidebar', $lang);?></a>
+            <a href="../controladores/logout.php"><i class="fas fa-cog"></i><?php echo TranslateTextPage::pageTranslate('Cerrar sesión', 'sidebar', $lang);?></a>
         </section>
     </div>
     <script src="../js/sidebar.js" rel="script"></script>
