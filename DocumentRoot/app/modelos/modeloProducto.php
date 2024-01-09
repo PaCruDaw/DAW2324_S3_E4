@@ -8,19 +8,6 @@
             $this->pdo = $pdo->connect();
         }
 
-        public function getIdProduct(){
-            try {
-                $query = "SELECT idProduct FROM productVariant";
-                $stmt = $this->pdo->prepare($query);
-                $stmt->execute();
-                return $stmt->fetchAll(PDO::FETCH_ASSOC);
-            } catch (PDOException $e) {
-                // Manejar errores de conexión o consulta
-                echo "Error: " . $e->getMessage();
-                return false;
-            }
-        }
-
         public function getProducts() {
             try {
                 $query = "SELECT * FROM productVariant";
@@ -51,18 +38,21 @@
 
         public function updateAction($idVariant,$showProduct){
             try {
-                $query2 = "SELECT * FROM productVariant";
-                $stmt = $this->pdo->prepare($query2);
-                $stmt->execute();
-                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if($idVariant = null and $showProduct = null){
+                    $query2 = "SELECT * FROM productVariant";
+                    $stmt = $this->pdo->prepare($query2);
+                    $stmt->execute();
+                    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+                } else {
 
-                $query = "UPDATE productVariant SET showProduct = :action WHERE idVariant = :idVariant"; 
-                $stmt = $this->pdo->prepare($query);
-                $stmt->bindParam(':showProduct', $showProduct, PDO::PARAM_INT);
-                $stmt->bindParam(':idVariant', $idVariant, PDO::PARAM_INT);
+                    $query = "UPDATE productVariant SET showProduct = :action WHERE idVariant = :idVariant"; 
+                    $stmt = $this->pdo->prepare($query);
+                    $stmt->bindParam(':showProduct', $showProduct, PDO::PARAM_INT);
+                    $stmt->bindParam(':idVariant', $idVariant, PDO::PARAM_INT);
 
-                $stmt->execute();
-                return true;
+                    $stmt->execute();
+                    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+                }
             } catch (PDOException $e) {
                 // Manejar errores de conexión o consulta
                 echo "Error: " . $e->getMessage();
@@ -70,4 +60,5 @@
             }
         }
     }
+    $product = new Product();
 ?>

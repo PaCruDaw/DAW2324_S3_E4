@@ -1,5 +1,4 @@
 $(document).ready(function () {
-            // Configurar DataTable
     $.getJSON('../controladores/controladorProductos.php', function (data){
         console.log(data)
         $('#productsTable').DataTable({
@@ -24,25 +23,25 @@ $(document).ready(function () {
             });
             });
 
-            $('#productsTable tbody').on('change', '.showProductCheckbox', function () {
-                var idVariant = $(this).data('id');
-                var showProduct = this.checked ? 1 : 0;
+            // $('#productsTable tbody').on('change', '.showProductCheckbox', function () {
+            //     var idVariant = $(this).data('id');
+            //     var showProduct = this.checked ? 1 : 0;
 
-                $.ajax({
-                    url: 'getData.php',
-                    method: 'POST',
-                    data: { idVariant: idVariant, showProduct: showProduct },
-                    dataType: 'json',
-                    success: function (response) {
-                        if (response.success) {
-                            console.log('Estado actualizado exitosamente');
-                        } else {
-                            console.error('Error al actualizar el estado');
-                        }
-                    },
-                    error: function (error) {
-                        console.error('Error en la solicitud AJAX: ', error);
-                    }
-                });
-            });
+            //     $.ajax({
+            //         url: '../controladores/controladorProductos.php',
+            //         method: 'POST',
+            //         data: { idVariant: idVariant, showProduct: showProduct },
+            //         dataType: 'json',
+            //         success: function (response) {
+            //             if (response.success) {
+            //                 console.log('Estado actualizado exitosamente');
+            //             } else {
+            //                 console.error('Error al actualizar el estado');
+            //             }
+            //         },
+            //         error: function (error) {
+            //             console.error('Error en la solicitud AJAX: ', error);
+            //         }
+            //     });
+            // });
         });
