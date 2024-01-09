@@ -382,7 +382,7 @@ async def hacer_peticion(api_key: str = Security(get_api_key)):
     except Exception as e:
         return {"error": f"Error no manejado: {e}"}
     
-@app.get("/templates", response_class=HTMLResponse)
+@app.get("/estats", response_class=HTMLResponse)
 async def read_root(request: Request):
     # Ejemplo de datos que se pueden pasar al template
     
