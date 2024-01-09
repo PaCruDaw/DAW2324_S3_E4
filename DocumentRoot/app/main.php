@@ -68,6 +68,10 @@ require_once "./includes/head.php";
       </table>
     </div>
   </div>
+  <div id="cookie-notice">
+    <p>Este sitio web utiliza cookies para garantizar que obtenga la mejor experiencia en nuestra página.</p>
+    <button id="accept-cookies">Aceptar</button>
+</div>
 
     <link rel="stylesheet" href="./estilos/main.css">
 
