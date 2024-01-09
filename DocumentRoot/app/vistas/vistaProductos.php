@@ -1,11 +1,8 @@
 <?php 
 session_start();
-<<<<<<< HEAD
 if (isset($_SESSION['username'])) {
 
-=======
 require_once("../includes/head.php");
->>>>>>> main
 ?>
 <!DOCTYPE html>
 <html lang="en">

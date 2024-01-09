@@ -1,14 +1,11 @@
 <?php
 session_start();
-<<<<<<< HEAD
 
 if (isset($_SESSION['username'])) {
 
 include('../controladores/preferencias.php');
-=======
 require_once("../includes/head.php");
 require_once("../controladores/preferencias.php");
->>>>>>> main
 ?>
 <!DOCTYPE html>
 <html lang="es">
