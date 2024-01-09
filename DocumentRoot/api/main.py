@@ -11,7 +11,9 @@ import mysql.connector
 import json
 from celery import Celery
 from celery.schedules import crontab
-import schedule
+import datetime as dt
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.interval import IntervalTrigger
 import time
 
 # variable per guardar servei fast api
@@ -34,6 +36,14 @@ app.add_middleware(
     allow_methods=["*"],  # Puedes restringir a métodos específicos (e.g., ["GET", "POST"])
     allow_headers=["*"],  # Puedes restringir a encabezados específicos si es necesario
 )
+
+scheduler = BackgroundScheduler()
+
+
+
+
+
+# Funciones sin endpoint
 
 def get_db_info():
     with open("config.json", "r") as config_file:
@@ -75,6 +85,59 @@ def check_status(status):
         return "En funcionamiento"
     else:
         return "Fuera de servicio"
+
+@app.get("/paisos")    
+def updatepaisos():
+    try:
+        url = "https://api.picanova.com/api/beta/countries"
+
+        with httpx.Client() as client:
+            auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
+            response = httpx.get(url, headers=auth_header)
+
+            if response.status_code == 200:
+                # La solicitud se realizó con éxito, puedes manejar los datos de la respuesta aquí.
+                data = response.json()
+                data_list = data["data"]
+                # Ahora, crearemos una lista de diccionarios con ambas claves
+                info_list = [{"country": item["name"],"country_id": item["country_id"], "countrycode": item["country_code"]} for item in data_list]
+
+                connection = mysql.connector.connect(**get_db_info())
+                # Crea un cursor para ejecutar consultas SQL
+                cursor = connection.cursor()
+
+                # query = "TRUNCATE TABLE `project`.`country`"
+                queryinsert = "INSERT INTO `country`(`idCountry`, `countryName`, `countryCode`) VALUES (%s, %s, %s) ON DUPLICATE KEY UPDATE `countryName` = VALUES(`countryName`),`countryCode` = VALUES(`countryCode`);"
+
+                # cursor.execute(query)
+
+                for item in info_list:
+                    idCountry = item["country_id"]
+                    country = item["country"]
+                    countrycode = item["countrycode"]
+                    cursor.execute(queryinsert, (idCountry, country, countrycode))
+
+                connection.commit()
+                cursor.close()
+                connection.close()
+                return "La BD ha sido actualizada"
+
+            else:
+                # Maneja los errores si la solicitud no fue exitosa
+                return {"error": "No se pudo realizar la solicitud a la API externa"}
+
+    except mysql.connector.Error as e:
+        return {"error": f"Error de MySQL: {e}"}
+    except Exception as e:
+        return {"error": f"Error no manejado: {e}"}
+
+    
+scheduler.add_job(updatepaisos, trigger=IntervalTrigger(seconds=10))  # Ejecuta la función todos los días a las 3 AM
+
+scheduler.start()
+
+
+# Funciones con endpoint
              
 @app.get("/protected")
 def protected_route(api_key: str = Security(get_api_key)):
@@ -231,51 +294,6 @@ async def consultar_bd(api_key: str = Security(get_api_key)):
 def read_test():
     return {"La API funciona"}
 
-@app.get("/deapiadb")
-async def hacer_peticion(api_key: str = Security(get_api_key)):
-    # URL de la API externa a la que deseas hacer la solicitud
-    try:
-        url = "https://api.picanova.com/api/beta/countries"
-
-        async with httpx.AsyncClient() as client:
-            auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
-            response = httpx.get(url, headers=auth_header)
-
-            if response.status_code == 200:
-                # La solicitud se realizó con éxito, puedes manejar los datos de la respuesta aquí.
-                data = response.json()
-                data_list = data["data"]
-
-                # Ahora, crearemos una lista de diccionarios con ambas claves
-                info_list = [{"country": item["name"], "countrycode": item.get("country_code", None)} for item in data_list]
-
-                connection = mysql.connector.connect(**get_db_info())
-                # Crea un cursor para ejecutar consultas SQL
-                cursor = connection.cursor()
-
-                query = "TRUNCATE TABLE `project`.`country`"
-                queryinsert = "INSERT INTO `country`(`countryName`,`countryCode`) VALUES (%s,%s);"
-
-                cursor.execute(query)
-
-                for item in info_list:
-                    country = item["country"]
-                    countrycode = item["countrycode"]
-                    cursor.execute(queryinsert, (country, countrycode))
-
-                connection.commit()
-                cursor.close()
-                connection.close()
-                return "La BD ha sido actualizada"
-
-            else:
-                # Maneja los errores si la solicitud no fue exitosa
-                return {"error": "No se pudo realizar la solicitud a la API externa"}
-
-    except mysql.connector.Error as e:
-        return {"error": f"Error de MySQL: {e}"}
-    except Exception as e:
-        return {"error": f"Error no manejado: {e}"}
 
 @app.get("/deapiaproductes")
 async def hacer_peticion(api_key: str = Security(get_api_key)):
