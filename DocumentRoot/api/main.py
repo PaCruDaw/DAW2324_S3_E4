@@ -1,6 +1,9 @@
 from fastapi import FastAPI, HTTPException, Security
 from fastapi.security import APIKeyHeader
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI, Request
+from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
 import httpx
 import base64
 from httpx import Headers
@@ -21,6 +24,8 @@ api_key_header = APIKeyHeader(name="X-API-Key")
 origins = [
     "http://localhost" 
 ]
+
+templates = Jinja2Templates(directory="templates")
 
 app.add_middleware(
     CORSMiddleware,
@@ -63,8 +68,14 @@ def get_credentials():
 
     # Codificar las credenciales en base64
     credentials = base64.b64encode(f"{username}:{password}".encode()).decode()
-    return credentials    
+    return credentials 
 
+def check_status(status):
+    if(status == 200):
+        return "En funcionamiento"
+    else:
+        return "Fuera de servicio"
+             
 @app.get("/protected")
 def protected_route(api_key: str = Security(get_api_key)):
     # Process the request for authenticated usersresponse = httpx.get(url, headers=custom_headers)
@@ -447,7 +458,7 @@ async def hacer_peticion(api_key: str = Security(get_api_key)):
     except Exception as e:
         return {"error": f"Error no manejado: {e}"}
     
-@app.get("/estats", response_class=HTMLResponse)
+@app.get("/templates", response_class=HTMLResponse)
 async def read_root(request: Request):
     # Ejemplo de datos que se pueden pasar al template
     
