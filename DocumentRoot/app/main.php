@@ -1,5 +1,7 @@
 <?php
 session_start();
+if (isset($_SESSION['username'])) {
+
 require_once "./modelos/LoginManager.php";
 require_once "./includes/head.php";
 
@@ -67,11 +69,6 @@ require_once "./includes/head.php";
     </div>
   </div>
 
-<div id="cookie-notice">
-    <p>Este sitio web utiliza cookies para garantizar que obtenga la mejor experiencia en nuestra página.</p>
-    <button id="accept-cookies">Aceptar</button>
-</div>
-
     <link rel="stylesheet" href="./estilos/main.css">
 
     <script src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js"></script>
@@ -80,4 +77,14 @@ require_once "./includes/head.php";
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/js/grafiquesmain.js"></script>
 </body>
-</html> 
+</html>
+
+
+<?php
+} else {
+?>
+    <META HTTP-EQUIV="REFRESH" CONTENT="0;URL=accessDenied.html">
+<?php
+}
+
+?>

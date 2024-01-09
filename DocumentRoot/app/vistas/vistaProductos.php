@@ -1,5 +1,7 @@
 <?php 
 session_start();
+if (isset($_SESSION['username'])) {
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -74,3 +76,13 @@ session_start();
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 </body>
 </html>
+
+
+<?php
+} else {
+?>
+    <META HTTP-EQUIV="REFRESH" CONTENT="0;URL=accessDenied.html">
+<?php
+}
+
+?>

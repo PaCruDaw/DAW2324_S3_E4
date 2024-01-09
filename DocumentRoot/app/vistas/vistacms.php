@@ -1,5 +1,8 @@
 <?php
 session_start();
+
+if (isset($_SESSION['username'])) {
+
 require_once '../includes/head.php';
 include '../controladores/controladorFormCms.php';
 ?>
@@ -41,3 +44,12 @@ include '../controladores/controladorFormCms.php';
 
 </body>
 </html>
+
+<?php
+} else {
+?>
+    <META HTTP-EQUIV="REFRESH" CONTENT="0;URL=accessDenied.html">
+<?php
+}
+
+?>

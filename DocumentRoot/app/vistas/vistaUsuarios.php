@@ -1,7 +1,10 @@
 <?php
 session_start();
+
 require_once '../includes/head.php';
 include '../controladores/controladorFormUsuaris.php';
+
+if (isset($_SESSION['username'])) {
 
 ?>
 <!DOCTYPE html>
@@ -156,6 +159,15 @@ include '../controladores/controladorFormUsuaris.php';
 
 </body>
 </html>
+
+<?php
+} else {
+?>
+    <META HTTP-EQUIV="REFRESH" CONTENT="0;URL=accessDenied.html">
+<?php
+}
+
+?>
 
 
 

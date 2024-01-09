@@ -7,6 +7,7 @@
                 label: 'Analytics',
                 description: '',
                 cookies: [],
+                necessaryCookies: ['PHPSESSID','pma_lang','pmaUser-1','Usuari_connexio','lang'],
                 onAccept : function(){},
                 onRevoke: function(){}
             },{
@@ -14,6 +15,7 @@
                 label: 'Marketing',
                 description: '',
                 cookies: [],
+                necessaryCookies: ['PHPSESSID','pma_lang','pmaUser-1','Usuari_connexio','lang'],
                 onAccept : function(){},
                 onRevoke: function(){}
             },{
@@ -21,6 +23,7 @@
                 label: 'Preferences',
                 description: '',
                 cookies: [],
+                necessaryCookies: ['PHPSESSID','pma_lang','pmaUser-1','Usuari_connexio','lang'],
                 onAccept : function(){},
                 onRevoke: function(){}
             }

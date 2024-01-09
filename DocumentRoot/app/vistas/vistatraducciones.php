@@ -1,8 +1,11 @@
 <?php
 session_start();
-require_once '../includes/head.php';
-?>
 
+require_once '../includes/head.php';
+
+if (isset($_SESSION['username'])) {
+
+?>
     <style>
         body {
             background-color: #f8f9fa; /* Set your desired background color */
@@ -45,3 +48,12 @@ require_once '../includes/head.php';
     <script src="../js/table_translate.js" rel="script"></script>
 </body>
 </html>
+
+<?php
+} else {
+?>
+    <META HTTP-EQUIV="REFRESH" CONTENT="0;URL=accessDenied.html">
+<?php
+}
+
+?>

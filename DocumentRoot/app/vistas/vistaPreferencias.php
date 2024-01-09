@@ -1,4 +1,8 @@
 <?php
+session_start();
+
+if (isset($_SESSION['username'])) {
+
 include('../controladores/preferencias.php');
 ?>
 <!DOCTYPE html>
@@ -82,3 +86,12 @@ include('../controladores/preferencias.php');
     </div>
 </body>
 </html>
+
+<?php
+} else {
+?>
+    <META HTTP-EQUIV="REFRESH" CONTENT="0;URL=accessDenied.html">
+<?php
+}
+
+?>
