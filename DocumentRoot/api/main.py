@@ -138,6 +138,57 @@ async def consultar_bd(api_key: str = Security(get_api_key)):
         return results
     except Exception as e:
         return {"error": str(e)}
+    
+@app.get("/orders_month")
+async def consultar_bd(api_key: str = Security(get_api_key)):
+
+    try:
+        # Conecta a la base de datos
+        connection = mysql.connector.connect(**get_db_info())
+
+        # Crea un cursor para ejecutar consultas SQL
+        cursor = connection.cursor(dictionary=True)
+
+        # Ejecuta una consulta
+        query = "SELECT * FROM infoOrdersChart"
+        cursor.execute(query)
+
+        # Obtiene los resultados
+        results = cursor.fetchall()
+
+        # Cierra el cursor y la conexión
+        cursor.close()
+        connection.close()
+
+        return results
+    except Exception as e:
+        return {"error": str(e)}
+
+@app.get("/resgiter_month")
+async def consultar_bd(api_key: str = Security(get_api_key)):
+
+    try:
+        # Conecta a la base de datos
+        connection = mysql.connector.connect(**get_db_info())
+
+        # Crea un cursor para ejecutar consultas SQL
+        cursor = connection.cursor(dictionary=True)
+
+        # Ejecuta una consulta
+        query = "SELECT * FROM infoClientsChart"
+        cursor.execute(query)
+
+        # Obtiene los resultados
+        results = cursor.fetchall()
+
+        # Cierra el cursor y la conexión
+        cursor.close()
+        connection.close()
+
+        return results
+    except Exception as e:
+        return {"error": str(e)}
+
 
 @app.get("/dbventes")
 async def consultar_bd(api_key: str = Security(get_api_key)):
@@ -395,3 +446,34 @@ async def hacer_peticion(api_key: str = Security(get_api_key)):
         return {"error": f"Error de MySQL: {e}"}
     except Exception as e:
         return {"error": f"Error no manejado: {e}"}
+    
+@app.get("/estats", response_class=HTMLResponse)
+async def read_root(request: Request):
+    # Ejemplo de datos que se pueden pasar al template
+    
+    servicios= {}
+    urlpicanova = "https://api.picanova.com/api/beta/countries"
+    urlopenai = "https://status.openai.com/api/v2/status.json"
+    urlbigjpg = "https://bigjpg.com/"
+    # urlcustomaize = "http://localhost:8000/test"
+    
+    async with httpx.AsyncClient() as client:
+        auth_header = Headers({"Authorization": f"Basic {get_credentials()}"})
+        response = httpx.get(urlpicanova, headers=auth_header)
+        servicios["Picanova"]= check_status(response.status_code)
+        
+    async with httpx.AsyncClient() as client:
+        response = httpx.get(urlopenai)
+        servicios["OpenAI"]= check_status(response.status_code)
+        
+    async with httpx.AsyncClient() as client:
+        response = httpx.get(urlbigjpg)
+        servicios["BigJPG"]= check_status(response.status_code)
+        
+    # async with httpx.AsyncClient() as client:
+    #     response = httpx.get(urlcustomaize)
+    #     servicios["CustomAIze"]= check_status(response.status_code)
+            
+    data = {"request": request, "servicios": servicios}
+    
+    return templates.TemplateResponse("index.html", {"request": request, **data})

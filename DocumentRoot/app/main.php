@@ -7,38 +7,66 @@ require_once "./includes/head.php";
 
 <body>
 
-<div class="content" style="margin-left: 20%;">
-    <div class="grid-container">
-        <div class="container text-center mt-4">
-            <h1>¡Bienvenido a Artee!</h1>
-            <h2>Estas son las estadísticas de <?php echo date('F')?></h2>
-        </div>
 
-        <div class="container mt-4">
-        <div class="row mb-4">
-            <div class="col-md-6">
-                
+    <div class="container mt-5" >
+    <div class="d-flex justify-content-center">
+      <table class="table-responsive table-bordered ">
+        <thead>
+          <tr>
+            <th colspan="2" class="text-center">
+                <h1>¡Bienvenido a Artee!</h1>
+                <h2>Estas son las estadísticas de <?php echo date('F')?></h2>
+
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
                 <h2 class="mb-3">Productos Populares</h2>
                 <canvas id="chart1"></canvas>
-               
-            </div>
-            <div class="col-md-6">
-                <h2>Ventas mensuales</h2>
-                <canvas id="chart2"></canvas>
-            </div>
-        </div>
-        
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <h2 class="mb-3">Ventas Anuales eses </h2>
-                <canvas id="chart3"></canvas>
-            </div>
-            <div class="col-md-6">
+            </td>
+            <td>
+                <table class="table" id="tablemain1">
+                <thead>
+                    
+                    <tr>
+                        <th>Id Política</th>
+                        <th>Contingut</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    
+
+                </tbody>
+                </table>
+            </td>
+          </tr>
+          <tr>
+            <td>
+                <table class="table" id="tablemain2">
+                <thead>
+                    <tr>
+                        <th>Id Política</th>
+                        <th>Contingut</th>
+
+                    </tr>
+                </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </td>
+            <td>
                 <h2 class="mb-3">Ventas por países </h2>
                 <canvas id="chart4"></canvas>
-            </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-</div>
+  </div>
+
 <div id="cookie-notice">
     <p>Este sitio web utiliza cookies para garantizar que obtenga la mejor experiencia en nuestra página.</p>
     <button id="accept-cookies">Aceptar</button>
@@ -46,11 +74,10 @@ require_once "./includes/head.php";
 
     <link rel="stylesheet" href="./estilos/main.css">
 
+    <script src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js"></script>
     <script src="./js/main.js"></script>
 
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="/js/grafiques.js"></script>
+    <script src="/js/grafiquesmain.js"></script>
 </body>
 </html> 
