@@ -26,7 +26,7 @@
         <ul>
         <li><a href="../main.php"><i class="fas fa-home"></i><?php echo TranslateTextPage::pageTranslate('Inicio', 'sidebar', $lang);?></a></li>
             <li><a href="../vistas/vistatraducciones.php"><i class="fas fa-chart-bar"></i><?php echo TranslateTextPage::pageTranslate('Traducciones', 'sidebar', $lang);?></a></li>
-            <li><a href="../controladores/controladorcms.php"><i class="fas fa-users"></i> <?php echo TranslateTextPage::pageTranslate('CMS', 'sidebar', $lang);?></a></li>
+            <li><a href="../vistas/vistacms.php"><i class="fas fa-users"></i> <?php echo TranslateTextPage::pageTranslate('CMS', 'sidebar', $lang);?></a></li>
             <li><a href="../vistas/vistaEstadisticas.php"><i class="fas fa-cog"></i><?php echo TranslateTextPage::pageTranslate('Estadisticas', 'sidebar', $lang);?></a></li>
             <li><a href="#"><i class="fas fa-cog"></i><?php echo TranslateTextPage::pageTranslate('Paises', 'sidebar', $lang);?></a></li>
             <li><a href="../vistas/vistaProductos.php"><i class="fas fa-cog"></i><?php echo TranslateTextPage::pageTranslate('Productos/Margen', 'sidebar', $lang);?></a></li>
