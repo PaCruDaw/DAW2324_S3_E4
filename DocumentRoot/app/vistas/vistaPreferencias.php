@@ -1,9 +1,14 @@
 <?php
 session_start();
+<<<<<<< HEAD
 
 if (isset($_SESSION['username'])) {
 
 include('../controladores/preferencias.php');
+=======
+require_once("../includes/head.php");
+require_once("../controladores/preferencias.php");
+>>>>>>> main
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -42,8 +47,6 @@ include('../controladores/preferencias.php');
     </script>
 </head>
 <body>
-    <?php include('../includes/sidebar.php'); ?>
-
     <div class="content" style="width:80%; margin-left:20%; display:flex; flex-direction:column;">
         <div class="titulo">
             <h1>Actualizar Valores</h1>
