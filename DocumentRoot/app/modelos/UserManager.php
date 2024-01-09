@@ -17,10 +17,10 @@ class Users {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function checkCredentials($name, $password) {
-        $query = "SELECT * FROM users WHERE name = :name and password = :password";
+    public function checkCredentials($user, $password) {
+        $query = "SELECT * FROM users WHERE user = :user AND password = :password";
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':user', $user, PDO::PARAM_STR);
         $stmt->bindParam(':password', $password, PDO::PARAM_STR);
 
         $stmt->execute();
@@ -34,6 +34,7 @@ class Users {
         }
     }
 }
+
 $controlUsers = new Users();
 
 ?>
