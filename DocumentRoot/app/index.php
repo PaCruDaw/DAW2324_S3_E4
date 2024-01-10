@@ -17,7 +17,7 @@
 <body class="text-center">  
 <header>
   <div class="imageBox"> 
-    <img src="./img/logoArtee.png" alt="Logo Artee" class="rounded-circle mb4"  width="100" height="100">
+    <img src="./img/Captura_desde_2023-12-05_21-11-56-removebg-preview.png" alt="Logo Artee" class="rounded-circle mb4"  width="100" height="100">
   </div>  
 </header>
 <main class="form-signin">
@@ -74,7 +74,7 @@
         <a href="index.php"><p>Volver al Login</p></a>
       </div>
 </main>
-  <p class="mt-5 mb-3 text-muted">ARTEE 2023</p> 
+  <p class="mt-5 mb-3 text-muted">CUSTOMAIZE 2024</p> 
   <script>
     $(document).ready(function() {
         $("#lost-pass").click(function(e) {

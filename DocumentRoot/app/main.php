@@ -16,7 +16,7 @@ require_once "./includes/head.php";
         <thead>
           <tr>
             <th colspan="2" class="text-center">
-                <h1>¡Bienvenido a Artee!</h1>
+                <h1>¡Bienvenido a CustomAIze!</h1>
                 <h2>Estas son las estadísticas de <?php echo date('F')?></h2>
 
             </th>

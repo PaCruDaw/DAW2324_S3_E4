@@ -17,10 +17,10 @@
     </div>
 </div>
     <div class="sidebar">
-        <h1>Artee</h1>
+        <h1>CustomAIze</h1>
         <div class="info-menu-lateral">
         <div class="imageBox"> 
-            <img src="../img/logoArtee.png" class="rounded-circle mb4"  width="100" height="100">
+            <img src="../img/Captura_desde_2023-12-05_21-11-56-removebg-preview.png" class="rounded-circle mb4"  width="100" height="100">
             </div>
         </div>
         <ul>
