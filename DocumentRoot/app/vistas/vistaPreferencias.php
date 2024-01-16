@@ -62,16 +62,16 @@ require_once("../controladores/preferencias.php");
                     <?php
                     foreach ($result as $row) {
                         echo "<tr>";
-                        echo "<td>" . htmlspecialchars($row['preferencia']) . "</td>";
-                        echo '<td>' . htmlspecialchars($row['valor']) . '</td>';
+                        echo "<td>" . htmlspecialchars($row['config']) . "</td>";
+                        echo '<td>' . htmlspecialchars($row['value']) . '</td>';
                         echo '<td>
                                 <form name="preferenciaForm" action="../controladores/preferencias.php" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
-                                    <input type="hidden" name="preferencia" value="' . htmlspecialchars($row['preferencia']) . '">';
+                                    <input type="hidden" name="preferencia" value="' . htmlspecialchars($row['config']) . '">';
 
-                        if ($row['preferencia'] == 'logoApp') {
+                        if ($row['config'] == 'logoApp') {
                             echo '<input class="form-control" type="file" name="foto" accept="image/jpeg, image/jpg">';
                         } else {
-                            echo '<input class="form-control" type="text" name="nuevo_valor" placeholder="Nuevo Valor" value="' . htmlspecialchars($row['valor']) . '">';
+                            echo '<input class="form-control" type="text" name="nuevo_valor" placeholder="Nuevo Valor" value="' . htmlspecialchars($row['value']) . '">';
                         }
 
                         echo '<input class="btn btn-primary mt-2" type="submit" value="Actualizar">

@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // or redirect back to the form with an error message
             exit();
         }        
-        if (is_numeric($nuevoValor)) {
+        if ($nuevoValor) {
             if ($manager->updatePreferenceValueByName($preferencia, $nuevoValor)) {
                 header("Location: ../vistas/vistaPreferencias.php");
             } else {
